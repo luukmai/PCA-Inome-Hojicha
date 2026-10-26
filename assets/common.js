@@ -7,6 +7,17 @@ for(let a=0;a<=nu;a++)for(let b=0;b<nv;b++){const th=Math.PI*a/nu,ph=2*Math.PI*b
 for(let a=0;a<nu;a++)for(let b=0;b<nv;b++){const p=a*nv+b,p1=a*nv+(b+1)%nv,r=(a+1)*nv+b,r1=(a+1)*nv+(b+1)%nv;I.push(p,p1);J.push(r,r);K.push(p1,r1)}
 return{type:'mesh3d',x:X,y:Y,z:Z,i:I,j:J,k:K,color,opacity:.13,hoverinfo:'skip',showlegend:false,flatshading:true,lighting:{ambient:1,diffuse:0}}}
 
+function setupAnalysisLayout(){
+ const card=document.querySelector('.card');if(!card||document.querySelector('.analysis-layout'))return;
+ const layout=document.createElement('div');layout.className='analysis-layout';
+ const side=document.createElement('aside');side.className='control-panel';side.id='controlPanel';
+ const main=document.createElement('section');main.className='plot-panel';
+ const controls=['pt','vw','tg','fs','fr'];
+ controls.forEach(id=>{const el=document.getElementById(id);if(el){const group=document.createElement('div');group.className='control-group';const labels={pt:'ชุดวิเคราะห์',vw:'มุมมองข้อมูล',tg:'แกนและการแสดงผล',fs:'กรองชนิดชา',fr:'กรอง Rep / รอบ'};const title=document.createElement('div');title.className='control-title';title.textContent=labels[id]||'';group.appendChild(title);group.appendChild(el);side.appendChild(group)}});
+ const plot=document.getElementById('pl'),note=document.getElementById('nt'),stats=document.getElementById('st'),method=document.getElementById('mt');
+ if(plot)main.appendChild(plot);if(note)main.appendChild(note);if(stats)main.appendChild(stats);if(method)main.appendChild(method);
+ layout.appendChild(side);layout.appendChild(main);card.appendChild(layout);
+}
 const PD=window.PAGEDATA,GR=PD.groups,RC={'1':'#0072B2','2':'#D55E00','3':'#009E73'};let pi=0,vi=0,ell=false,byRep=false,plotMode='3d',pair='xy';const hs=new Set(),hr=new Set(),hc=new Set();
 const $=id=>document.getElementById(id);
 function dark(){return matchMedia('(prefers-color-scheme: dark)').matches}
@@ -49,4 +60,4 @@ function draw(){const view=ui(),pts=view.pts.filter(p=>!hs.has(p.s)&&!hr.has(p.r
 const coord=pair==='xy'?['x','y']:pair==='xz'?['x','z']:['y','z'];const tr=names.map(n=>{const q=pts.filter(p=>p.s==n),g=GR[n],op=/open|x|cross/.test(g.symbol);return{type:plotMode==='3d'?'scatter3d':'scatter',mode:'markers',name:g.name,legendgroup:n,x:q.map(p=>p[plotMode==='3d'?'x':coord[0]]),y:q.map(p=>p[plotMode==='3d'?'y':coord[1]]),...(plotMode==='3d'?{z:q.map(p=>p.z)}:{}),text:q.map(p=>g.name+' · Rep'+p.rep+' · รอบ '+p.c),hoverinfo:'text',marker:{size:g.symbol=='x'?4:(op?9:8),color:byRep?q.map(p=>RC[p.rep]):g.color,symbol:g.symbol,line:{color:byRep?q.map(p=>RC[p.rep]):(op?g.color:'#000'),width:op?3:1}}}});
 if(ell)names.forEach(n=>{const m=ellMesh(pts.filter(p=>p.s==n),GR[n].color);if(m){m.legendgroup=n;tr.push(m)}});
 const a=view.axes,hasProportionAxis=a.some(t=>t.includes('สัดส่วน Asahi ที่ทาย'));const ax=t=>({title:t,range:t.includes('สัดส่วน Asahi ที่ทาย')?[-0.25,1.25]:[-7,7],color:fg,gridcolor:grid,zerolinecolor:grid,backgroundcolor:'rgba(0,0,0,0)'});const layout={margin:{l:45,r:10,t:10,b:55},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',font:{color:fg},legend:{orientation:'h',y:-.18,font:{size:11},itemsizing:'constant'}};if(plotMode==='3d'){layout.scene={xaxis:ax(a[0]),yaxis:ax(a[1]),zaxis:ax(a[2]),aspectmode:hasProportionAxis?'data':'cube',camera:{eye:{x:1.6,y:1.6,z:.9}}}}else{layout.xaxis=ax(a[coord[0]==='x'?0:coord[0]==='y'?1:2]);layout.yaxis=ax(a[coord[1]==='x'?0:coord[1]==='y'?1:2]);layout.yaxis.scaleanchor='x';layout.yaxis.scaleratio=1;}Plotly.react('pl',tr,layout,{responsive:true,displayModeBar:false})}
-draw();
+setupAnalysisLayout();draw();
