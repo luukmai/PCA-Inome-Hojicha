@@ -17,3 +17,17 @@ table{border-collapse:collapse;font-size:.88rem;width:100%}td,th{padding:4px 8px
 /* PCA plot interaction controls */
 #pl{width:100%;min-height:520px;height:70vh;max-height:850px}#tg button{font-weight:600}#tg button.on{background:var(--ac);color:white;border-color:var(--ac)}
 @media(max-width:600px){#pl{height:65vh;min-height:420px}}
+
+/* Side-by-side analysis layout */
+.analysis-layout{display:grid;grid-template-columns:minmax(220px,290px) minmax(0,1fr);gap:18px;align-items:start;margin-top:12px}
+.control-panel{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;padding:12px;border:1px solid var(--bd);border-radius:14px;background:var(--card)}
+.control-group{padding:0 0 12px;margin:0 0 12px;border-bottom:1px solid var(--bd)}
+.control-group:last-child{border-bottom:0;margin-bottom:0}
+.control-title{font-size:.82rem;font-weight:800;color:var(--mu);margin:0 0 7px}
+.control-panel .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.control-panel .tabs button{font-size:.82rem;padding:7px 9px;max-width:100%}
+.plot-panel{min-width:0}
+.plot-panel #pl{width:100%;height:min(72vh,820px);min-height:480px}
+.plot-panel #nt,.plot-panel #st{margin-top:12px}
+@media(max-width:850px){.analysis-layout{grid-template-columns:1fr}.control-panel{position:static;max-height:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.control-group{min-width:0}.plot-panel #pl{height:65vh;min-height:400px}}
+@media(max-width:520px){.control-panel{grid-template-columns:1fr}.plot-panel #pl{height:60vh;min-height:360px}}
