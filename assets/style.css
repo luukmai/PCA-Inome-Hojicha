@@ -13,3 +13,7 @@ table{border-collapse:collapse;font-size:.88rem;width:100%}td,th{padding:4px 8px
 .sensor-caveat{font-size:.83rem;color:var(--mu);border-left:3px solid #c88727;padding:4px 9px;margin:4px 0 10px}
 #pl{min-height:440px}
 @media(max-width:600px){#pl{height:68vh;min-height:360px}.sensor-summary{display:block}}
+
+/* PCA plot interaction controls */
+#pl{width:100%;min-height:520px;height:70vh;max-height:850px}#tg button{font-weight:600}#tg button.on{background:var(--ac);color:white;border-color:var(--ac)}
+@media(max-width:600px){#pl{height:65vh;min-height:420px}}
