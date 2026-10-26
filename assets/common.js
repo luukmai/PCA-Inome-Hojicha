@@ -11,6 +11,32 @@ const PD=window.PAGEDATA,GR=PD.groups,RC={'1':'#0072B2','2':'#D55E00','3':'#009E
 const $=id=>document.getElementById(id);
 function dark(){return matchMedia('(prefers-color-scheme: dark)').matches}
 function btn(box,label,on,fn,col){const b=document.createElement('button');b.textContent=(col?'● ':'')+label;b.className=on?'on':'';if(col&&on)b.style.cssText='background:'+col+';border-color:'+col;b.onclick=fn;box.appendChild(b)}
+function sensorCount(part,view){
+  const fromView=(view.label||'').match(/(\d+)\s*เซนเซอร์/);
+  if(fromView)return Math.max(1,Math.min(12,Number(fromView[1])));
+  const text=(part.label+' '+(part.desc||'')).replace(/\s+/g,' ');
+  let m=text.match(/เลือกเซนเซอร์\s*(\d+)\s*ตัว/);
+  if(m)return Math.max(1,Math.min(12,Number(m[1])));
+  m=text.match(/F-ratio\s*(\d+)\s*เซนเซอร์/);
+  if(m)return Math.max(1,Math.min(12,Number(m[1])));
+  m=text.match(/เซนเซอร์\s*(?:เหลือ\s*)?(\d+)\s*ตัว/);
+  if(m)return Math.max(1,Math.min(12,Number(m[1])));
+  return 12;
+}
+function renderScaleAndSensorNote(part,view){
+  const used=sensorCount(part,view),saved=Math.round((12-used)/12*100);
+  const el=$('nt');el.innerHTML='';
+  const scale=document.createElement('div');scale.className='axis-note';
+  scale.textContent='สเกลมาตรฐาน: กราฟคะแนน PCA/แกนแยกใช้ช่วง −7 ถึง +7 เหมือนกันทุกหน้าและทุก Part; กราฟสัดส่วน Asahi ใช้ −0.25 ถึง 1.25 เพื่อไม่ตัดค่าทำนายที่อยู่นอก 0–1';
+  const sensor=document.createElement('div');sensor.className='sensor-summary';
+  sensor.textContent=used===12?'เซนเซอร์ที่ใช้ในมุมมองนี้: 12/12 ช่อง (ฐานอ้างอิง)':'เซนเซอร์ที่ใช้ในมุมมองนี้: '+used+'/12 ช่อง · ลดจำนวนช่องที่วิเคราะห์ '+saved+'%';
+  const desc=document.createElement('div');desc.className='part-description';desc.textContent=part.desc||'';
+  const caveat=document.createElement('div');caveat.className='sensor-caveat';
+  caveat.textContent='หมายเหตุ: เปอร์เซ็นต์นี้คือการลดจำนวนช่องเซนเซอร์ที่โมเดลใช้ ไม่ใช่เปอร์เซ็นต์ต้นทุนรวมของเครื่อง และยังไม่ยืนยันว่าตัดเซนเซอร์จริงได้ทันที ต้องทดสอบซ้ำด้วยชุดเซนเซอร์ที่ลดลงจริง; รายชื่อที่โมเดลเลือกและผลทดสอบอยู่ใน “วิธีคิดค่า”';
+  el.append(scale,sensor,desc,caveat);
+  const plot=$('pl');if(plot&&plot.parentNode)plot.parentNode.insertBefore(el,plot);
+}
+
 function ui(){const part=PD.parts[pi],view=part.views[vi];
 $('ti').textContent=PD.title;$('in').textContent=PD.intro;$('cv').textContent=PD.caveat;
 $('pt').innerHTML='';PD.parts.forEach((p,i)=>btn($('pt'),p.label,i==pi,()=>{pi=i;vi=0;ell=i>0;draw()}));
@@ -18,10 +44,11 @@ $('vw').innerHTML='';if(part.views.length>1)part.views.forEach((v,i)=>btn($('vw'
 $('tg').innerHTML='';btn($('tg'),'ทรงรี 95%',ell,()=>{ell=!ell;draw()});btn($('tg'),'สีตาม Rep',byRep,()=>{byRep=!byRep;draw()});
 const names=[...new Set(view.pts.map(p=>p.s))];$('fs').innerHTML='';names.forEach(n=>btn($('fs'),n,!hs.has(n),()=>{hs.has(n)?hs.delete(n):hs.add(n);draw()},GR[n].color));
 $('fr').innerHTML='';['1','2','3'].forEach(x=>btn($('fr'),'Rep'+x,!hr.has(x),()=>{hr.has(x)?hr.delete(x):hr.add(x);draw()}));PD.cycles.forEach(x=>btn($('fr'),'รอบ '+x,!hc.has(x),()=>{hc.has(x)?hc.delete(x):hc.add(x);draw()}));btn($('fr'),'แสดงทั้งหมด',false,()=>{hs.clear();hr.clear();hc.clear();draw()});
-$('nt').textContent=part.desc;$('st').innerHTML='<table><tr><th>ผลทดสอบ (กับข้อมูลที่ไม่เคยเห็นตอนฝึก)</th><th>ค่า</th><th>อ้างอิง</th></tr>'+part.stats.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>').join('')+'</table>';return view}
+renderScaleAndSensorNote(part,view);$('st').innerHTML='<table><tr><th>ผลทดสอบ (กับข้อมูลที่ไม่เคยเห็นตอนฝึก)</th><th>ค่า</th><th>อ้างอิง</th></tr>'+part.stats.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>').join('')+'</table>';return view}
 function draw(){const view=ui(),pts=view.pts.filter(p=>!hs.has(p.s)&&!hr.has(p.rep)&&!hc.has(p.c)),names=[...new Set(pts.map(p=>p.s))],fg=dark()?'#e9f0e4':'#22301f',grid=dark()?'#2e3b2b':'#dcd8c6';
 const tr=names.map(n=>{const q=pts.filter(p=>p.s==n),g=GR[n],op=/open|x|cross/.test(g.symbol);return{type:'scatter3d',mode:'markers',name:g.name,legendgroup:n,x:q.map(p=>p.x),y:q.map(p=>p.y),z:q.map(p=>p.z),text:q.map(p=>g.name+' · Rep'+p.rep+' · รอบ '+p.c),hoverinfo:'text',marker:{size:g.symbol=='x'?4:(op?7:6),color:byRep?q.map(p=>RC[p.rep]):g.color,symbol:g.symbol,line:{color:byRep?q.map(p=>RC[p.rep]):(op?g.color:'#000'),width:op?3:1}}}});
 if(ell)names.forEach(n=>{const m=ellMesh(pts.filter(p=>p.s==n),GR[n].color);if(m){m.legendgroup=n;tr.push(m)}});
-const ax=t=>({title:t,color:fg,gridcolor:grid,zerolinecolor:grid,backgroundcolor:'rgba(0,0,0,0)'}),a=view.axes;
-Plotly.react('pl',tr,{margin:{l:0,r:0,t:0,b:0},paper_bgcolor:'rgba(0,0,0,0)',font:{color:fg},legend:{orientation:'h',y:-.05,font:{size:11},itemsizing:'constant'},scene:{xaxis:ax(a[0]),yaxis:ax(a[1]),zaxis:ax(a[2]),camera:{eye:{x:1.6,y:1.6,z:.9}}}},{responsive:true,displayModeBar:false})}
+const a=view.axes,hasProportionAxis=a.some(t=>t.includes('สัดส่วน Asahi ที่ทาย'));
+const ax=t=>({title:t,range:t.includes('สัดส่วน Asahi ที่ทาย')?[-0.25,1.25]:[-7,7],color:fg,gridcolor:grid,zerolinecolor:grid,backgroundcolor:'rgba(0,0,0,0)'});
+Plotly.react('pl',tr,{margin:{l:0,r:0,t:0,b:0},paper_bgcolor:'rgba(0,0,0,0)',font:{color:fg},legend:{orientation:'h',y:-.05,font:{size:11},itemsizing:'constant'},scene:{xaxis:ax(a[0]),yaxis:ax(a[1]),zaxis:ax(a[2]),aspectmode:hasProportionAxis?'data':'cube',camera:{eye:{x:1.6,y:1.6,z:.9}}}},{responsive:true,displayModeBar:false})}
 draw();
