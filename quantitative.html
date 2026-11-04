@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eNose Tea · Quantitative Comparison</title><link rel="stylesheet" href="assets/style.css">
+<style>
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:10px 0 14px}
+.kpi{border:1px solid var(--bd);border-radius:12px;padding:12px;background:var(--card)}
+.kpi strong{display:block;font-size:1.35rem;color:var(--ac)}
+.small{font-size:.82rem;color:var(--mu)}
+.barline{display:grid;grid-template-columns:minmax(125px,1.2fr) minmax(80px,3fr) 62px;gap:8px;align-items:center;margin:7px 0;font-size:.86rem}
+.track{height:12px;background:var(--bd);border-radius:99px;overflow:hidden}
+.fill{height:100%;background:var(--ac);border-radius:99px}
+.fill.alt{background:#b77b39}
+.twocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+table{font-variant-numeric:tabular-nums}
+h2{font-size:1.12rem;margin:0 0 8px;color:var(--ac)}
+h3{font-size:1rem;margin:12px 0 6px}
+.pill{display:inline-block;border:1px solid var(--bd);border-radius:99px;padding:2px 9px;font-size:.78rem;margin:2px}
+.callout{border-left:3px solid var(--ac);padding:7px 11px;background:color-mix(in srgb,var(--ac) 7%,var(--card));border-radius:4px;margin:9px 0}
+.warnbox{border-left:3px solid #c88727;padding:7px 11px;background:color-mix(in srgb,#c88727 8%,var(--card));border-radius:4px;margin:9px 0}
+@media(max-width:520px){.barline{grid-template-columns:105px 1fr 54px;font-size:.8rem}}
+</style></head><body><main>
+<nav><a href="index.html">หน้าแรก</a><a href="page1.html">หน้า 1 · ชา 10 ชนิด</a><a href="page2.html">หน้า 2 · เบลนด์</a><a href="page3.html">หน้า 3 · แท้/ปลอม</a><a href="page4.html">หน้า 4 · ลด Sensor/Cycle</a><a href="quantitative.html" class="on">Quantitative</a></nav>
+<h1>Quantitative Comparison · Hojicha vs Hojicha-F</h1>
+<p>เปรียบเทียบผลจาก 3 เทคนิค ได้แก่ Total Phenolic Content (TPC), HS-SPME-GC-MS และ electronic nose (eNose) เพื่อดูความแตกต่างขององค์ประกอบทางเคมีและ aroma fingerprint</p>
+<div class="card"><b>Samples & data sources</b><p><span class="pill">Hojicha</span> <span class="pill">Hojicha-F</span></p><p class="small">TPC: ค่าที่อ่านจากภาพผลการวิเคราะห์วันที่ 29 Oct 2026 · GC-MS: workbook sheets “hojicha” และ “hojicha-F” · eNose: workbook “eNose_Tea_3Replicates”, sample E และ EF, Rep1–Rep3</p></div>
+
+<div class="card"><h2>1 · Total Phenolic Content (TPC)</h2>
+<div class="kpis">
+<div class="kpi"><span class="small">Hojicha</span><strong>2,446.67</strong><span class="small">µg/mL GAE</span></div>
+<div class="kpi"><span class="small">Hojicha-F</span><strong>1,763.12</strong><span class="small">µg/mL GAE</span></div>
+<div class="kpi"><span class="small">Difference</span><strong>+38.8%</strong><span class="small">Hojicha relative to Hojicha-F</span></div>
+</div>
+<div class="barline"><span>Hojicha</span><div class="track"><div class="fill" style="width:100%"></div></div><b>2446.67</b></div>
+<div class="barline"><span>Hojicha-F</span><div class="track"><div class="fill alt" style="width:72.1%"></div></div><b>1763.12</b></div>
+<p class="small">Values are the calculated concentrations shown in the supplied Excel screenshots. They are not yet expressed per gram of tea (mg GAE/g); sample mass, extraction volume and dilution calculation must be confirmed before reporting as sample-normalized TPC.</p>
+</div>
+
+<div class="card"><h2>2 · GC-MS: Chemical-group composition</h2>
+<p>Powder samples · grouped relative peak area normalized to the retained grouped %Area total within each sample (100%).</p>
+<table><thead><tr><th>Chemical group</th><th>Hojicha (%)</th><th>Hojicha-F (%)</th></tr></thead><tbody>
+<tr><td>Roasted N-heterocycles</td><td>56.19</td><td>46.75</td></tr>
+<tr><td>Furans &amp; Pyranones</td><td>11.16</td><td>6.44</td></tr>
+<tr><td>Aldehydes &amp; Ketones</td><td>3.24</td><td>19.29</td></tr>
+<tr><td>Terpenes &amp; Terpenoids</td><td>4.66</td><td>2.44</td></tr>
+<tr><td>Norisoprenoids</td><td>4.52</td><td>7.78</td></tr>
+<tr><td>Other compounds</td><td>20.22</td><td>17.30</td></tr>
+</tbody></table>
+<h3>Relative composition profile</h3>
+<div class="twocol"><div><b>Hojicha</b>
+<div class="barline"><span>Roasted N-heterocycles</span><div class="track"><div class="fill" style="width:56.19%"></div></div><b>56.19%</b></div><div class="barline"><span>Furans & Pyranones</span><div class="track"><div class="fill" style="width:11.16%"></div></div><b>11.16%</b></div><div class="barline"><span>Aldehydes & Ketones</span><div class="track"><div class="fill" style="width:3.24%"></div></div><b>3.24%</b></div><div class="barline"><span>Terpenes</span><div class="track"><div class="fill" style="width:4.66%"></div></div><b>4.66%</b></div><div class="barline"><span>Norisoprenoids</span><div class="track"><div class="fill" style="width:4.52%"></div></div><b>4.52%</b></div><div class="barline"><span>Other</span><div class="track"><div class="fill" style="width:20.22%"></div></div><b>20.22%</b></div>
+</div><div><b>Hojicha-F</b>
+<div class="barline"><span>Roasted N-heterocycles</span><div class="track"><div class="fill alt" style="width:46.75%"></div></div><b>46.75%</b></div><div class="barline"><span>Furans & Pyranones</span><div class="track"><div class="fill alt" style="width:6.44%"></div></div><b>6.44%</b></div><div class="barline"><span>Aldehydes & Ketones</span><div class="track"><div class="fill alt" style="width:19.29%"></div></div><b>19.29%</b></div><div class="barline"><span>Terpenes</span><div class="track"><div class="fill alt" style="width:2.44%"></div></div><b>2.44%</b></div><div class="barline"><span>Norisoprenoids</span><div class="track"><div class="fill alt" style="width:7.78%"></div></div><b>7.78%</b></div><div class="barline"><span>Other</span><div class="track"><div class="fill alt" style="width:17.3%"></div></div><b>17.3%</b></div>
+</div></div>
+<p class="callout"><b>Key difference:</b> Hojicha มีสัดส่วน Roasted N-heterocycles และ Furans/Pyranones สูงกว่า ขณะที่ Hojicha-F มี Aldehydes &amp; Ketones และ Norisoprenoids สูงกว่าในข้อมูลชุดนี้</p>
+<h3>Brew-water profile (normalized grouped %Area)</h3>
+<table><thead><tr><th>Chemical group</th><th>Hojicha water (%)</th><th>Hojicha-F water (%)</th></tr></thead><tbody>
+<tr><td>Roasted N-heterocycles</td><td>17.84</td><td>12.21</td></tr>
+<tr><td>Furans &amp; Pyranones</td><td>0.00</td><td>0.00</td></tr>
+<tr><td>Aldehydes &amp; Ketones</td><td>0.00</td><td>10.31</td></tr>
+<tr><td>Terpenes &amp; Terpenoids</td><td>30.31</td><td>11.88</td></tr>
+<tr><td>Norisoprenoids</td><td>22.97</td><td>25.77</td></tr>
+<tr><td>Other compounds</td><td>28.88</td><td>39.83</td></tr>
+</tbody></table>
+<p class="small">GC-MS values are relative %Area, not absolute concentrations. Group composition is calculated within each sample; therefore it describes profile composition and should not be interpreted as mg/g or direct concentration.</p>
+</div>
+
+<div class="card"><h2>3 · eNose: Sensor-response fingerprint</h2>
+<p>Original Hojicha (E) vs Original Hojicha Fake (EF). Data were filtered to Sampling mode and Cycle 2–7; the 12 channels used in the previous PCA workflow were summarized for each replicate, then reported as mean ± SD across 3 replicates.</p>
+<table><thead><tr><th>Sensor</th><th>Hojicha mean ± SD</th><th>Hojicha-F mean ± SD</th></tr></thead><tbody>
+<tr><td>G1</td><td>-8.52 ± 24.29</td><td>4.26 ± 11.31</td></tr>
+<tr><td>G2</td><td>63.51 ± 7.29</td><td>30.93 ± 50.48</td></tr>
+<tr><td>G3</td><td>87.66 ± 6.24</td><td>51.64 ± 75.31</td></tr>
+<tr><td>G5</td><td>191.85 ± 21.92</td><td>86.05 ± 109.38</td></tr>
+<tr><td>G6</td><td>103.55 ± 3.39</td><td>58.16 ± 74.65</td></tr>
+<tr><td>G7</td><td>98.15 ± 0.57</td><td>76.46 ± 99.47</td></tr>
+<tr><td>G8</td><td>9.10 ± 0.91</td><td>11.18 ± 15.08</td></tr>
+<tr><td>G10</td><td>109.24 ± 15.63</td><td>47.35 ± 92.28</td></tr>
+<tr><td>G11</td><td>28.96 ± 31.07</td><td>28.37 ± 108.14</td></tr>
+<tr><td>G12</td><td>8.66 ± 13.39</td><td>12.43 ± 6.35</td></tr>
+<tr><td>G13</td><td>126.51 ± 16.19</td><td>46.40 ± 111.24</td></tr>
+<tr><td>G14</td><td>86.89 ± 11.11</td><td>40.25 ± 71.07</td></tr>
+</tbody></table>
+<div class="warnbox"><b>QC note:</b> Hojicha-F มี SD สูงในหลายช่อง โดยเฉพาะ G2, G3, G5, G6, G7, G10, G11, G13 และ G14 แสดงว่าค่าระหว่าง Replicate แปรปรวนมาก ควรตรวจ Rep3 และกราฟ raw signal ก่อนใช้ค่าเฉลี่ยเพื่อสรุปความแตกต่างของกลิ่น</div>
+<p class="small">eNose values are sensor-response values from the source workbook; the workbook does not specify a physical unit for these columns. The table is descriptive, not an absolute chemical concentration measurement.</p>
+</div>
+
+<div class="card"><h2>4 · Integrated interpretation</h2>
+<ul>
+<li><b>TPC:</b> Hojicha มีค่าความเข้มข้น GAE จากภาพสูงกว่า Hojicha-F (ประมาณ 38.8%).</li>
+<li><b>GC-MS powder:</b> Hojicha มีสัดส่วน Roasted N-heterocycles และ Furans/Pyranones สูงกว่า ขณะที่ Hojicha-F มี Aldehydes &amp; Ketones สูงกว่า.</li>
+<li><b>eNose:</b> ค่าเฉลี่ยของหลาย sensor สูงกว่าใน Hojicha แต่ Hojicha-F มีความแปรปรวนระหว่าง replicate สูง จึงยังไม่ควรตีความว่าความเข้มกลิ่นของ Hojicha สูงกว่าโดยตรง.</li>
+</ul>
+<p class="callout"><b>Overall:</b> ข้อมูลทั้งสามเทคนิคชี้ว่าตัวอย่าง Hojicha และ Hojicha-F มีความแตกต่างกันทั้งด้าน TPC, chemical profile และ sensor fingerprint อย่างไรก็ตาม ยังไม่สามารถสรุปความสัมพันธ์เชิงสาเหตุระหว่าง TPC กับสารระเหยหรือ eNose ได้จากตัวอย่างชุดนี้</p>
+</div>
+<div class="card"><h2>5 · Methods &amp; limitations</h2>
+<ul>
+<li>TPC: ใช้ค่าคำนวณจากภาพผล Excel; ต้องยืนยัน dilution factor, sample mass และ extraction volume ก่อนแปลงเป็น mg GAE/g.</li>
+<li>GC-MS: ใช้ peak table ที่ผ่านเกณฑ์ match quality และการคัด background ตามที่ระบุใน workbook; รายงานเป็น relative %Area.</li>
+<li>eNose: ใช้ Sampling mode, Cycle 2–7, 12 sensors (G1, G2, G3, G5, G6, G7, G8, G10, G11, G12, G13, G14), n=3 replicates/sample; คำนวณ mean ± SD จากค่าเฉลี่ยของแต่ละ replicate.</li>
+<li>การจับคู่ตัวอย่างระหว่างเทคนิคอิงชื่อ Hojicha/Hojicha-F (GC-MS: P-Ho/P-Ho-F; eNose: E/EF). โปรดยืนยันว่าเป็นล็อตตัวอย่างเดียวกันก่อนใช้เป็น paired comparison อย่างเป็นทางการ.</li>
+</ul>
+<p class="warnbox">จำนวน replicate ยังน้อยและ eNose Hojicha-F มีความแปรปรวนสูง ผลนี้จึงเป็น preliminary quantitative comparison ไม่ใช่การทดสอบนัยสำคัญทางสถิติหรือการยืนยันผลกับตัวอย่างอิสระ</p>
+</div>
+<footer><p>eNose Tea Analysis · Quantitative Comparison · Hojicha / Hojicha-F</p></footer>
+</main></body></html>
