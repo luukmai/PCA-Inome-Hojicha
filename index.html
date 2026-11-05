@@ -84,7 +84,7 @@ function draw(side){
  });
  const names=axes.map(a=>({title:a.toUpperCase()+" ("+w.variance[["pc1","pc2","pc3"].indexOf(a)].toFixed(2)+"%)"}));
  // Use one fixed, symmetric range per PC for both panels, all sample subsets and both display modes.
- const allScores=[...w.replicates,...w.means];
+ const allScores=Object.values(DATA).flatMap(windowData=>[...windowData.replicates,...windowData.means]);
  const pcRange=a=>{const vals=allScores.map(p=>p[a]).filter(Number.isFinite);const m=Math.max(...vals.map(v=>Math.abs(v)),1);const lim=Math.ceil(m*1.08*10)/10;return [-lim,lim];};
  const ranges=axes.map(pcRange);
  const layout={paper_bgcolor:"#fffdf7",plot_bgcolor:"#fffdf7",font:{family:"system-ui",color:"#344330"},margin:{l:8,r:8,t:22,b:8},legend:{orientation:"h",y:-.2,font:{size:10}},hoverlabel:{bgcolor:"#fffdf7"}};
