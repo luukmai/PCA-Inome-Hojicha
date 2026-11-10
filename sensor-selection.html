@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eNose Tea | Sensor Selection</title>
+<script src="./plotly.min.js"></script>
+<style>
+:root{--bg:#f5f7f4;--card:#fff;--ink:#1e2c27;--muted:#687770;--line:#e4eae5;--green:#256b50;--mint:#e8f2ec;--gold:#d69b36}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:linear-gradient(120deg,#173e31,#2c7155);color:white;padding:34px max(22px,calc((100% - 1160px)/2)) 30px}
+.eyebrow{font-size:12px;letter-spacing:.13em;text-transform:uppercase;opacity:.75}h1{font-size:clamp(27px,4vw,40px);line-height:1.15;margin:8px 0}header p{max-width:760px;color:#e2eee7;margin:10px 0 0}
+main{max-width:1160px;margin:24px auto;padding:0 20px 60px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:-2px}
+.card,.stat{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 4px 18px #173e3108}
+.stat small{color:var(--muted)}.stat strong{display:block;font-size:27px;margin-top:4px;color:var(--green)}
+section{margin-top:22px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:0 0 12px}h2{font-size:20px;margin:0}.sub{color:var(--muted);font-size:13px;margin-top:3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.chart{height:340px;width:100%}
+.callout{background:var(--mint);border:1px solid #d6e7dc;border-radius:14px;padding:17px 19px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.pill{background:#f0f5f1;border:1px solid #dce8df;border-radius:99px;padding:6px 12px;font-weight:650;color:#245b43}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}th{font-size:12px;color:var(--muted);background:#f8faf8;position:sticky;top:0}tbody tr:hover{background:#f8fbf8}.tablewrap{overflow:auto;max-height:470px;border:1px solid var(--line);border-radius:12px}
+.rank{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#e8f2ec;color:#256b50;font-weight:700}
+.tag{font-size:11px;background:#f7efdc;color:#805a13;border-radius:99px;padding:3px 8px}
+.note{color:var(--muted);font-size:13px}.footer{color:var(--muted);font-size:12px;margin-top:22px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.chart{height:300px}header{padding:27px 20px}}
+</style></head><body>
+<header><div class="eyebrow">Electronic Nose · Pure Tea Dataset</div><h1>Sensor Selection Dashboard</h1><p>คัดกรองเซนเซอร์จากชาบริสุทธิ์ 10 ชนิด เพื่อหาเซนเซอร์ที่มีประโยชน์ต่อการจำแนกชา ก่อนนำ workflow ไปพัฒนาการทำนายสัดส่วนชา Blend</p></header>
+<main>
+<div class="stats">
+<div class="stat"><small>ชนิดชา</small><strong>10</strong></div><div class="stat"><small>Replicates</small><strong>30</strong></div><div class="stat"><small>Active sensors</small><strong>12</strong></div><div class="stat"><small>Candidate set</small><strong>5 sensors</strong></div>
+</div>
+<section><div class="section-head"><div><h2>ผลคัดกรองเบื้องต้น</h2><div class="sub">อันดับจาก F-ratio และ exploratory PLS-VIP (one-hot classification)</div></div></div>
+<div class="callout"><b>ข้อเสนอสำหรับรอบทดลองถัดไป</b><div class="pills"><span class="pill">G5</span><span class="pill">G14</span><span class="pill">G8</span><span class="pill">G13</span><span class="pill">G12</span></div>
+ชุดนี้เป็น balanced candidate ที่ผสมเซนเซอร์เด่นจาก F-ratio และ VIP ไม่ใช่ชุดสุดท้ายสำหรับ Blend — ต้องทดสอบด้วย cross-validation และดู prediction error ของเปอร์เซ็นต์ Blend ก่อนล็อกจำนวนเซนเซอร์</div></section>
+<section class="grid2">
+<div class="card"><h2>F-ratio ranking</h2><div class="sub">ค่ายิ่งสูง = เซนเซอร์แยกความแตกต่างระหว่างกลุ่มชาได้มากขึ้นในชุดข้อมูลนี้</div><div id="fchart" class="chart"></div></div>
+<div class="card"><h2>PLS-VIP ranking</h2><div class="sub">โมเดลจำแนกชา 10 กลุ่มด้วย one-hot Y; ใช้เป็น exploratory score เท่านั้น</div><div id="vchart" class="chart"></div></div>
+</section>
+<section><div class="section-head"><div><h2>ตารางอันดับเซนเซอร์</h2><div class="sub">เรียงตาม F-ratio จากมากไปน้อย · กดหัวตารางเพื่ออ่านค่า</div></div></div>
+<div class="card tablewrap"><table><thead><tr><th>อันดับ</th><th>Sensor</th><th>F-ratio</th><th>F rank</th><th>PLS-VIP</th><th>VIP rank</th><th>Mean |r| กับ sensor อื่น</th></tr></thead><tbody id="rankrows"></tbody></table></div></section>
+<section class="grid2">
+<div class="card"><h2>วิธีอ่านผล</h2><p><b>F-ratio</b> ดูความแตกต่างของค่าเฉลี่ยระหว่างชา 10 กลุ่ม เมื่อเทียบกับความแปรปรวนภายในกลุ่ม</p><p><b>PLS-VIP</b> สรุปความสำคัญของ sensor ต่อโมเดลจำแนกชาแบบหลายคลาส ค่า VIP มากกว่า 1 มักถูกใช้เป็นเกณฑ์เบื้องต้น แต่ไม่ใช่กฎตายตัว</p><p><b>Mean |r|</b> เป็นตัวช่วยดูความซ้ำซ้อนกับเซนเซอร์อื่น ค่าใกล้ 1 หมายถึงมีความสัมพันธ์เชิงเส้นสูงโดยเฉลี่ย</p></div>
+<div class="card"><h2>ข้อควรระวัง</h2><ul><li>มีเพียง 3 replicates ต่อชา ผลจึงยังเป็น exploratory</li><li>F-ratio / VIP สำหรับการจำแนกชา ไม่ได้ยืนยันว่าจะทำนาย %Blend ได้ดี</li><li>ข้อมูลวัดคนละวันอาจมี batch/day effect ปนอยู่</li><li>ก่อนเลือก sensor จริง ต้องประเมินด้วย grouped cross-validation และใช้ RMSE/MAE ของ Blend</li></ul></div>
+</section>
+<section><div class="section-head"><div><h2>แผนวิเคราะห์ต่อ</h2><div class="sub">ลำดับที่ควรทำเพื่อไม่เลือกเซนเซอร์จากกราฟ PCA อย่างเดียว</div></div></div>
+<div class="card"><ol><li>เทียบ feature extraction: ค่าเฉลี่ยของ sampling, time-domain features และ FFT (เมื่อ sampling interval สม่ำเสมอ)</li><li>เทียบ preprocessing: Raw, Signed-log และ Yeo–Johnson ตามด้วย Z-score</li><li>เทียบจำนวนเซนเซอร์ 12 / 8 / 5 / 3 และจำนวน cycle ที่ใช้</li><li>ประเมินการจำแนกชาโดย cross-validation ที่แยก replicate ออกจากกัน</li><li>ล็อก workflow แล้วจึงสร้าง PLS regression สำหรับ Blend เพื่อทำนายสัดส่วน (%)</li></ol></div></section>
+<div class="footer">Data basis: pure tea replicate-level features, 10 tea labels × 3 replicates; 12 active channels (G1,G2,G3,G5,G6,G7,G8,G10,G11,G12,G13,G14). G4, G9 and G15 excluded as flat/invalid channels. Scores are preliminary screening results.</div>
+</main>
+<script>
+const rows=[
+['G5',3.034,1,.901,4,.724],['G14',2.274,2,.855,6,.742],['G13',1.895,3,.788,7,.726],['G6',1.692,4,.782,8,.770],['G8',1.544,5,1.674,1,.619],['G1',1.451,6,.855,5,.328],['G2',1.385,7,.729,11,.763],['G10',1.371,8,.698,12,.727],['G3',1.339,9,.742,10,.782],['G7',1.189,10,.750,9,.770],['G12',1.141,11,1.367,2,.175],['G11',.664,12,1.300,3,.605]];
+document.getElementById('rankrows').innerHTML=rows.map((r,i)=>'<tr><td><span class="rank">'+(i+1)+'</span></td><td><b>'+r[0]+'</b></td><td>'+r[1].toFixed(3)+'</td><td>'+r[2]+'</td><td>'+r[3].toFixed(3)+'</td><td>'+r[4]+'</td><td>'+r[5].toFixed(3)+'</td></tr>').join('');
+const layout={margin:{l:48,r:15,t:10,b:45},paper_bgcolor:'white',plot_bgcolor:'white',font:{family:'Inter, sans-serif',color:'#405149'},xaxis:{gridcolor:'#edf1ed'},yaxis:{gridcolor:'#edf1ed'},showlegend:false};
+Plotly.newPlot('fchart',[{type:'bar',x:rows.map(r=>r[0]),y:rows.map(r=>r[1]),marker:{color:rows.map((r,i)=>i<5?'#2c7155':'#b8c9be')},text:rows.map(r=>r[1].toFixed(2)),textposition:'outside'}],{...layout,yaxis:{...layout.yaxis,title:'F-ratio',range:[0,3.5]}},{responsive:true,displayModeBar:false});
+const v=rows.slice().sort((a,b)=>b[3]-a[3]);
+Plotly.newPlot('vchart',[{type:'bar',x:v.map(r=>r[0]),y:v.map(r=>r[3]),marker:{color:v.map(r=>r[3]>=1?'#2c7155':'#b8c9be')},text:v.map(r=>r[3].toFixed(2)),textposition:'outside'}],{...layout,yaxis:{...layout.yaxis,title:'VIP',range:[0,2]}},{responsive:true,displayModeBar:false});
+</script></body></html>
