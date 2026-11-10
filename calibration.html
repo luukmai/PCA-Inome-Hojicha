@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eNose Blend Calibration | Tea Research</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root{--bg:#f4f1ea;--paper:#fffdf7;--ink:#263322;--muted:#687463;--line:#ddd8c8;--green:#477b3f;--gold:#c59a4a;--rose:#b87970}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 "Noto Sans Thai",system-ui,sans-serif}
+.wrap{max-width:1120px;margin:auto;padding:20px 16px 50px}
+header{padding:26px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(125deg,#e8f0e2,#fbf8ef 65%,#f2e8d6);margin-bottom:12px}
+.eyebrow{font-size:.75rem;letter-spacing:.15em;color:var(--green);font-weight:800}h1{font-size:clamp(1.8rem,4vw,2.7rem);margin:7px 0;color:#294128;line-height:1.2}header p{color:#596853;margin:0;max-width:850px}
+nav{display:flex;gap:7px;flex-wrap:wrap;padding:10px 0 14px}nav a{border:1px solid var(--line);border-radius:30px;background:var(--paper);color:var(--green);padding:8px 14px;text-decoration:none;font-size:.85rem}
+nav a.current{background:var(--green);color:white}.pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}.pill{border:1px solid #cbd8c2;background:#ffffff9c;border-radius:30px;padding:4px 11px;font-size:.78rem}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:16px;margin:12px 0;min-width:0}
+h2{font-size:1.35rem;color:#355b32;margin:6px 0 8px}h3{font-size:1rem;color:#3a5134;margin:0 0 7px}p{color:var(--muted);margin:6px 0}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}.metric{background:#f7f6ee;border:1px solid var(--line);border-radius:12px;padding:12px}.metric strong{display:block;font-size:1.55rem;color:var(--green)}.metric span{font-size:.78rem;color:var(--muted)}
+.plot{width:100%;height:440px}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note{padding:10px 12px;border-left:3px solid var(--gold);background:#faf5e9;border-radius:7px;color:#665b43;font-size:.86rem;margin:10px 0}.warn{border-left-color:var(--rose);background:#fbf0ed}
+table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left}th{background:#f3f5ed;color:#496444}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:11px}
+footer{margin-top:25px;border-top:1px solid var(--line);padding:16px 4px;color:var(--muted);font-size:.8rem}
+@media(max-width:760px){.two{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.plot{height:390px}.wrap{padding:10px}.card{padding:13px}}
+</style></head><body><main class="wrap">
+<header><div class="eyebrow">TEA AROMA RESEARCH · eNOSE QUANTITATIVE ANALYSIS</div><h1>Blend Calibration Model</h1><p>Preliminary multi-sensor PLS regression using the existing Asahi (C) : Ujitawara (H) blend dataset. The objective is to estimate blend composition from a combined eNose sensor fingerprint, rather than only visualize sample separation.</p><div class="pills"><span class="pill">8 baseline sensors</span><span class="pill">8 blend replicates</span><span class="pill">3 blend levels</span><span class="pill">PLS regression · 3 components</span></div></header>
+<nav><a href="index.html">← Research overview</a><a href="pca.html">PCA comparison</a><a class="current" href="calibration.html">Blend calibration</a></nav>
+<section class="card"><h2>01 · Model performance</h2><p>Leave-One-Out Cross-Validation (LOOCV): one replicate is held out at a time, and the model is fitted using the remaining seven observations. The response variable is Ujitawara proportion (% H).</p>
+<div class="metrics"><div class="metric"><strong>13.63</strong><span>MAE · percentage points</span></div><div class="metric"><strong>15.85</strong><span>RMSE · percentage points</span></div><div class="metric"><strong>0.341</strong><span>Cross-validated R²</span></div><div class="metric"><strong>3</strong><span>PLS components</span></div></div>
+<div id="predPlot" class="plot"></div><div class="note warn"><b>Interpretation:</b> Predictions remain scattered from the ideal 1:1 line. This pilot model is not yet reliable for reporting unknown blend percentages. Only eight observations and three blend levels are available.</div></section>
+<section class="card"><h2>02 · Replicate-level prediction</h2><p>Each point is one held-out replicate. Actual H percentage is compared with its LOOCV predicted value.</p><div class="tablewrap"><table><thead><tr><th>Blend C:H</th><th>Replicate</th><th>Actual H (%)</th><th>Predicted H (%)</th><th>Error (pp)</th></tr></thead><tbody>
+<tr><td>75:25</td><td>R1</td><td>25</td><td>16.06</td><td>-8.94</td></tr><tr><td>75:25</td><td>R2</td><td>25</td><td>40.96</td><td>+15.96</td></tr>
+<tr><td>50:50</td><td>R1</td><td>50</td><td>71.28</td><td>+21.28</td></tr><tr><td>50:50</td><td>R2</td><td>50</td><td>39.04</td><td>-10.96</td></tr><tr><td>50:50</td><td>R3</td><td>50</td><td>43.68</td><td>-6.32</td></tr>
+<tr><td>25:75</td><td>R1</td><td>75</td><td>44.97</td><td>-30.03</td></tr><tr><td>25:75</td><td>R2</td><td>75</td><td>78.45</td><td>+3.45</td></tr><tr><td>25:75</td><td>R3</td><td>75</td><td>62.86</td><td>-12.14</td></tr>
+</tbody></table></div></section>
+<section class="card"><h2>03 · Sensor response profile</h2><p>Mean response across the eight selected sensors, grouped by blend ratio. These raw response profiles are descriptive; PLS uses the combined standardized sensor pattern.</p><div id="sensorPlot" class="plot"></div></section>
+<section class="card"><h2>04 · Model configuration</h2><div class="tablewrap"><table><tbody>
+<tr><th>Input (X)</th><td>G2, G3, G5, G6, G10, G11, G13, G14</td></tr>
+<tr><th>Output (Y)</th><td>Ujitawara proportion (% H): 25%, 50%, 75%</td></tr>
+<tr><th>Signal feature</th><td>Mean response in the final 30 seconds of each sampling cycle; average across Cycle 1–7</td></tr>
+<tr><th>Pre-processing</th><td>Sensor-wise standardization within each training fold</td></tr>
+<tr><th>Regression</th><td>PLSRegression, 3 latent components</td></tr>
+<tr><th>Validation</th><td>Leave-One-Out Cross-Validation at replicate level</td></tr>
+</tbody></table></div><div class="note">The final-30-second window is the operational feature definition used for this exploratory run. Confirm that it matches the finalized laboratory protocol before treating it as the standard method.</div></section>
+<section class="card"><h2>05 · What this pilot tells us</h2><ul><li>Multiple eNose sensors can be combined into a regression model that outputs blend proportion.</li><li>The current C:H dataset is too small and has too few calibration levels for robust quantitative prediction.</li><li>The A:F experiment should be calibrated separately using known A:F ratios, including pure A and pure F endpoints if feasible.</li><li>Unknown samples should be evaluated only after independent validation with blends of known composition.</li></ul><div class="note warn">Do not apply this C:H model to A:F. Different tea identities require a new calibration model. Avoid mixing samples measured on different days without controlling or modelling day-to-day instrument variation.</div></section>
+<footer>eNose Tea Research · Preliminary calibration analysis · Source: eNose tea blend workbook, measured 20 Oct 2026.</footer>
+</main><script>
+const pred=[{ratio:"75:25",rep:"R1",actual:25,pred:16.06},{ratio:"75:25",rep:"R2",actual:25,pred:40.96},{ratio:"50:50",rep:"R1",actual:50,pred:71.28},{ratio:"50:50",rep:"R2",actual:50,pred:39.04},{ratio:"50:50",rep:"R3",actual:50,pred:43.68},{ratio:"25:75",rep:"R1",actual:75,pred:44.97},{ratio:"25:75",rep:"R2",actual:75,pred:78.45},{ratio:"25:75",rep:"R3",actual:75,pred:62.86}];
+const palette={"75:25":"#477b3f","50:50":"#c59a4a","25:75":"#6b8cae"};
+const traces=["75:25","50:50","25:75"].map(r=>{const p=pred.filter(x=>x.ratio===r);return {type:"scatter",mode:"markers+text",name:"C:H "+r,x:p.map(x=>x.actual),y:p.map(x=>x.pred),text:p.map(x=>x.rep),textposition:"top center",marker:{size:12,color:palette[r],line:{color:"#fff",width:1}},customdata:p.map(x=>[x.rep,x.ratio]),hovertemplate:"<b>C:H %{customdata[1]}</b><br>%{customdata[0]}<br>Actual H: %{x}%<br>Predicted H: %{y:.2f}%<extra></extra>"}});
+traces.push({type:"scatter",mode:"lines",name:"Ideal prediction",x:[0,100],y:[0,100],line:{dash:"dash",color:"#777",width:2},hoverinfo:"skip"});
+Plotly.newPlot("predPlot",traces,{paper_bgcolor:"#fffdf7",plot_bgcolor:"#fffdf7",font:{color:"#344330"},margin:{l:65,r:20,t:25,b:60},xaxis:{title:"Actual Ujitawara proportion (%)",range:[0,100],gridcolor:"#e5e2d8"},yaxis:{title:"LOOCV predicted Ujitawara proportion (%)",range:[0,100],gridcolor:"#e5e2d8"},legend:{orientation:"h",y:1.15}},{responsive:true,displaylogo:false});
+const sensors=["G2","G3","G5","G6","G10","G11","G13","G14"];
+const prof={"C:H 75:25":[8.7742,13.4290,24.3582,15.9914,12.0089,16.1668,23.6915,16.5850],"C:H 50:50":[16.7697,20.9767,34.1758,20.6236,22.2571,20.0644,38.2571,24.4676],"C:H 25:75":[12.1909,20.6005,34.1670,15.6694,23.1837,10.4316,38.5196,24.7234]};
+Plotly.newPlot("sensorPlot",Object.entries(prof).map(([name,y])=>({type:"scatter",mode:"lines+markers",name,x:sensors,y,line:{width:2},marker:{size:8}})),{paper_bgcolor:"#fffdf7",plot_bgcolor:"#fffdf7",font:{color:"#344330"},margin:{l:60,r:20,t:20,b:55},xaxis:{title:"Sensor",gridcolor:"#e5e2d8"},yaxis:{title:"Mean response (raw units)",gridcolor:"#e5e2d8"},legend:{orientation:"h",y:1.15}},{responsive:true,displaylogo:false});
+</script></body></html>
