@@ -49,7 +49,7 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
   <a class="card linkcard span4" href="#" data-go="blends"><div class="linktop"><div class="iconbox">◌</div><span class="arrow">↗</span></div><h3>Blend studies</h3><p>รวมผล Asahi × Ujitawara และ Karigane × Yuhi แยกตามสัดส่วน</p><span class="tag">2 blend datasets</span></a>
   <a class="card linkcard span4" href="#" data-go="chem"><div class="linktop"><div class="iconbox">⌁</div><span class="arrow">↗</span></div><h3>GC-MS & TPC</h3><p>ข้อมูลสารระเหย การจัดกลุ่ม aroma และผล total phenolic content</p><span class="tag">Chemical profiling</span></a>
   <a class="card linkcard span4" href="#" data-go="methods"><div class="linktop"><div class="iconbox">≋</div><span class="arrow">↗</span></div><h3>Methods & QC</h3><p>เงื่อนไขวัด eNose การแก้ baseline การคัดเซนเซอร์ และข้อจำกัด</p><span class="tag">Protocol & validation</span></a>
-  <a class="card linkcard span4" href="#" data-go="data"><div class="linktop"><div class="iconbox">⇧</div><span class="arrow">↗</span></div><h3>Update data</h3><p>ทดลองนำเข้าไฟล์ CSV / Excel ตรวจหัวตาราง และสร้าง PCA จากข้อมูลของตัวเอง</p><span class="tag gold">Try it out</span></a>
+  <a class="card linkcard span4" href="#" data-go="data"><div class="linktop"><div class="iconbox">⇧</div><span class="arrow">↗</span></div><h3>Update data</h3><p>นำเข้าไฟล์ CSV / Excel ตรวจหัวตาราง แก้ข้อมูล และสร้าง PCA จากข้อมูลของตัวเอง</p><span class="tag gold">Try it out</span></a>
   <a class="card linkcard span4" href="pca.html"><div class="linktop"><div class="iconbox">⤢</div><span class="arrow">↗</span></div><h3>Compare PCA views</h3><p>เปิดเครื่องมือเปรียบเทียบ PCA สองชุดแบบ side-by-side</p><span class="tag">Advanced view</span></a>
  </div>
  <div class="sectionhead"><div><h2>How the analysis is organized</h2><p class="sub">แยก dataset ตามการทดลอง เพื่อไม่เอา PCA คนละชุดมาเทียบกันโดยตรง</p></div></div>
@@ -90,14 +90,14 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 <section id="data" class="page">
  <div class="sectionhead"><div><h2>Data update workspace</h2><p class="sub">ทดลองเปลี่ยนข้อมูลด้วยตัวเองได้ในหน้านี้ — ไฟล์จะถูกอ่านใน browser และไม่ถูกส่งขึ้น server</p></div><span class="tag gold">Local preview</span></div>
  <div class="grid">
-  <div class="card span5"><h3>01 · Import your data</h3><p class="muted">รองรับ .xlsx, .xls และ .csv แบบตาราง wide format: 1 แถว = 1 replicate / sample</p><div class="uploadbox"><p><b>เลือกไฟล์ข้อมูล</b></p><input id="fileInput" type="file" accept=".xlsx,.xls,.csv"><p class="datahelp">แนะนำให้มีคอลัมน์ Group, Sample, Replicate และ sensor เช่น G2, G3, G5…</p></div><div id="importStatus" class="notice">ยังไม่มีไฟล์ใหม่ · สามารถเริ่มจากตัวอย่างด้านขวาได้</div></div>
-  <div class="card span7"><h3>02 · Preview / edit table</h3><p class="muted">วาง CSV หรือแก้ตัวเลขในช่องนี้ แล้วกด Preview data เพื่ออัปเดตตาราง</p><textarea id="csvEditor" spellcheck="false">Group,Sample,Replicate,G2,G3,G5,G6,G10,G11,G13,G14
-Karigane 10:90,A10:F90,1,0.21,0.33,0.51,0.48,0.25,0.42,0.31,0.29
-Karigane 10:90,A10:F90,2,0.19,0.35,0.49,0.46,0.27,0.40,0.33,0.28
-Karigane 30:70,A30:F70,1,0.18,0.31,0.47,0.43,0.24,0.39,0.30,0.27
-Karigane 30:70,A30:F70,2,0.20,0.30,0.46,0.45,0.23,0.41,0.29,0.26
-Karigane 50:50,A50:F50,1,0.22,0.34,0.52,0.49,0.29,0.43,0.34,0.31
-Karigane 50:50,A50:F50,2,0.21,0.33,0.50,0.47,0.28,0.42,0.33,0.30
+  <div class="card span5"><h3>01 · Import your data</h3><p class="muted">รองรับ .xlsx, .xls และ .csv แบบตาราง wide format: 1 แถว = 1 replicate / sample</p><div class="uploadbox"><p><b>เลือกไฟล์ข้อมูล</b></p><input id="fileInput" type="file" accept=".xlsx,.xls,.csv"><p class="datahelp">แนะนำให้มีคอลัมน์ Group, Sample, Replicate และ sensor เช่น G2, G3, G5…</p></div><div id="importStatus" class="notice">ข้อมูลตัวอย่าง Demo A / Demo B เท่านั้น · ไม่ใช่ผลทดลองจริง · ลองแก้ไขหรืออัปโหลดไฟล์ของคุณได้</div></div>
+  <div class="card span7"><h3>02 · Preview / edit table</h3><p class="muted">ข้อมูลตัวอย่างสำหรับทดลองเท่านั้น · วาง CSV หรือแก้ตัวเลข แล้วกด Preview data</p><textarea id="csvEditor" spellcheck="false">Group,Sample,Replicate,G2,G3,G5,G6,G10,G11,G13,G14
+Demo A,Demo-A,1,0.21,0.33,0.51,0.48,0.25,0.42,0.31,0.29
+Demo A,Demo-A,2,0.19,0.35,0.49,0.46,0.27,0.40,0.33,0.28
+Demo A,Demo-A,3,0.22,0.34,0.52,0.49,0.29,0.43,0.34,0.31
+Demo B,Demo-B,1,0.18,0.31,0.47,0.43,0.24,0.39,0.30,0.27
+Demo B,Demo-B,2,0.20,0.30,0.46,0.45,0.23,0.41,0.29,0.26
+Demo B,Demo-B,3,0.17,0.32,0.48,0.44,0.25,0.40,0.30,0.28
 </textarea><div class="toolbar"><button class="btn" id="previewBtn">Preview data</button><button class="btn" id="sampleBtn">Load example</button><button class="btn" id="downloadBtn">Export CSV</button></div></div>
   <div class="card span12"><h3>03 · Choose columns and calculate PCA</h3><p class="muted">เลือกคอลัมน์กลุ่มและ sensor features ก่อนสร้าง PCA — ระบบจะ standardize แต่ละ sensor ด้วย Z-score แล้วคำนวณ PCA จากแถวที่นำเข้า</p><div class="fieldrow"><div class="field"><label>Group / colour by</label><select id="groupCol"></select></div><div class="field"><label>Label / hover</label><select id="labelCol"></select></div><div class="field"><label>Replicate / marker text</label><select id="repCol"></select></div></div><div class="field"><label>Sensor columns (เลือกหลายตัวด้วย Ctrl / Cmd)</label><select id="sensorCols" multiple size="5" style="min-width:240px;max-width:100%;border:1px solid var(--line);border-radius:9px;padding:8px"></select></div><div class="toolbar"><button class="btn primary" id="runPcaBtn">Calculate PCA</button><span class="muted" id="pcaStatus">ยังไม่ได้คำนวณ</span></div><div id="dataPlot" class="plot"></div><div id="dataTable" class="tablewrap"></div><div class="notice">PCA ที่คำนวณในหน้านี้เป็นผลใหม่จากข้อมูลที่อัปโหลด ไม่ได้แก้ไข dataset ที่เผยแพร่ในหน้า Pure tea หรือ Blend จนกว่าจะนำไฟล์ต้นฉบับที่ผ่าน QC มาอัปเดต</div></div>
  </div>
