@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>eNose · PCA Workspace</title>
+<style>
+:root{--bg:#f3f6f2;--paper:#fff;--ink:#26352d;--muted:#728078;--line:#e1e8e1;--green:#315f49}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,"Noto Sans Thai",sans-serif}
+main{max-width:1500px;margin:auto;padding:24px 18px 40px}.hero,.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:14px}
+.eyebrow{font-size:11px;letter-spacing:.14em;color:var(--green);font-weight:800}h1{margin:5px 0;color:#294b38;font-size:clamp(25px,4vw,36px)}p{color:var(--muted);margin:4px 0 12px}
+label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:6px}select{width:min(100%,440px);padding:12px 14px;border:1px solid #cfdacf;border-radius:12px;background:#fff;color:var(--ink);font:inherit}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.tag{border-radius:30px;background:#edf4ee;color:#42694d;padding:5px 11px;font-size:12px}
+.frame{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}iframe{width:100%;height:calc(100vh - 260px);min-height:850px;border:0;display:block}
+@media(max-width:650px){main{padding:12px}iframe{height:1100px;min-height:1100px}}
+</style></head><body><main>
+<header class="hero"><div class="eyebrow">ENOSE · PCA RESEARCH WORKSPACE</div><h1>PCA comparison workspace</h1><p>เลือกชุดการทดลองที่ต้องการดูจาก Dropdown โดยแต่ละชุดยังคงใช้ข้อมูลและโมเดล PCA ของตัวเอง ไม่ได้นำข้อมูลมารวมคำนวณข้ามชุด</p>
+<label for="dataset">SELECT DATASET</label><select id="dataset">
+<option value="pca.html">Pure Tea · 10 types</option>
+<option value="blend-ch-pca.html">Blend CH · Asahi × Ujitawara</option>
+<option value="karigane-yuhi-blend-pca.html">Blend AF · Karigane Hojicha × Yuhi</option>
+</select><div class="meta"><span class="tag">Separate datasets</span><span class="tag">Independent PCA models</span><span class="tag">3D visualization</span></div></header>
+<section class="frame"><iframe id="viewer" src="pca.html" title="Selected PCA analysis"></iframe></section>
+</main><script>
+const selector=document.getElementById('dataset'),viewer=document.getElementById('viewer');
+selector.addEventListener('change',()=>{viewer.src=selector.value});
+</script></body></html>
