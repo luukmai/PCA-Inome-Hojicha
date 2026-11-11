@@ -20,7 +20,19 @@ button{cursor:pointer;font:inherit}.stepnav button.active{background:var(--green
 </style></head><body><main class="wrap">
 <header><div class="eyebrow">Tea aroma research · pure tea analysis</div><h1>Pure Tea PCA · Step-by-step workflow</h1>
 <p>วิเคราะห์ชา 10 ชนิดจากข้อมูล eNose จริง โดยใช้ Cycle 2–6, หัก Resting ใน cycle เดียวกัน, ทดลองจำนวน Sensor และคำนวณ Z-score ก่อนทำ PCA แบบ 3 มิติ</p>
-<div class="pills"><span class="pill">10 tea groups</span><span class="pill">30 replicates</span><span class="pill">Cycle 2–6</span><span class="pill">12 / 8 / 5 / 3 sensors</span><span class="pill">3D PCA</span></div></header>
+<div class="pills"><span class="pill">10 tea groups</span><span class="pill">30 replicates</span><span class="pill">Cycle 2–6</span><span class="pill">12 / 8 / 5 / 3 sensors</span><span class="pill">3D PCA</span></div></header><nav class="dataset-switch" aria-label="เลือกชุดข้อมูล PCA">
+<style>
+.dataset-switch{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;margin:12px 0 16px;background:#fff;border:1px solid #dfe7df;border-radius:14px}
+.dataset-switch label{font-size:12px;font-weight:800;letter-spacing:.06em;color:#597164}
+.dataset-switch select{min-width:min(100%,330px);padding:10px 14px;border:1px solid #d3dfd4;border-radius:10px;background:#f8fbf8;color:#294b38;font:inherit}
+.dataset-switch .hint{font-size:12px;color:#7b8980}
+</style>
+<label for="pca-dataset">PCA DATASET</label>
+<select id="pca-dataset" onchange="if(this.value)location.href=this.value">
+<option value="pca.html" selected>Pure Tea · 10 types</option>
+<option value="blend-ch-pca.html" >Blend CH · Asahi × Ujitawara</option>
+<option value="karigane-yuhi-blend-pca.html" >Blend AF · Karigane Hojicha × Yuhi</option>
+</select><span class="hint">แต่ละชุดใช้ข้อมูลและ PCA ของตัวเอง</span></nav>
 <div class="nav"><a href="index.html">← Research overview</a><a href="pca.html">PCA comparison</a></div>
 <section class="card"><h2>Analysis pipeline</h2><p class="muted">เลือกแต่ละขั้นเพื่อดูว่าข้อมูลมาจากไหน คำนวณอย่างไร และมีผลต่อการวิเคราะห์อย่างไร</p>
 <div class="steps">
