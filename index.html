@@ -50,7 +50,7 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
   <a class="card linkcard span4" href="#" data-go="chem"><div class="linktop"><div class="iconbox">⌁</div><span class="arrow">↗</span></div><h3>GC-MS & TPC</h3><p>ข้อมูลสารระเหย การจัดกลุ่ม aroma และผล total phenolic content</p><span class="tag">Chemical profiling</span></a>
   <a class="card linkcard span4" href="#" data-go="methods"><div class="linktop"><div class="iconbox">≋</div><span class="arrow">↗</span></div><h3>Methods & QC</h3><p>เงื่อนไขวัด eNose การแก้ baseline การคัดเซนเซอร์ และข้อจำกัด</p><span class="tag">Protocol & validation</span></a>
   <a class="card linkcard span4" href="#" data-go="data"><div class="linktop"><div class="iconbox">⇧</div><span class="arrow">↗</span></div><h3>Update data</h3><p>นำเข้าไฟล์ CSV / Excel ตรวจหัวตาราง แก้ข้อมูล และสร้าง PCA จากข้อมูลของตัวเอง</p><span class="tag gold">Try it out</span></a>
-  <a class="card linkcard span4" href="pca.html"><div class="linktop"><div class="iconbox">⤢</div><span class="arrow">↗</span></div><h3>Compare PCA views</h3><p>เปิดเครื่องมือเปรียบเทียบ PCA สองชุดแบบ side-by-side</p><span class="tag">Advanced view</span></a>
+  <a class="card linkcard span4" href="pca.html"><div class="linktop"><div class="iconbox">⤢</div><span class="arrow">↗</span></div><h3>Compare PCA views</h3><p>PCA workflow ชา 10 ชนิด · Cycle 2–6 · Resting correction · Z-score · 3D</p><span class="tag">Advanced view</span></a>
  </div>
  <div class="sectionhead"><div><h2>How the analysis is organized</h2><p class="sub">แยก dataset ตามการทดลอง เพื่อไม่เอา PCA คนละชุดมาเทียบกันโดยตรง</p></div></div>
  <div class="card"><div class="steps"><div class="step"><b>01 · Sample design</b><span>ชาเดี่ยว / suspect / blend ratio</span></div><div class="step"><b>02 · Measurement</b><span>eNose · GC-MS · TPC</span></div><div class="step"><b>03 · Data processing</b><span>Baseline correction · FFT · scaling · PCA</span></div><div class="step"><b>04 · Interpretation</b><span>Fingerprint patterns and QC</span></div></div></div>
@@ -58,7 +58,7 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 <section id="pure" class="page">
  <div class="sectionhead"><div><h2>Pure tea · PCA analysis</h2><p class="sub">ผลการกระจายตัวของชา 10 ชนิดจาก eNose — เลือกดูกราฟเต็มหน้าได้</p></div><span class="tag">Pure tea dataset</span></div>
  <div class="grid">
-  <a class="card linkcard span6" href="pca.html"><div class="linktop"><div class="iconbox">3D</div><span class="arrow">↗</span></div><h3>PCA comparison workspace</h3><p>เลือกชุดตัวอย่าง, cycle window, replicate/mean และ 2D/3D ได้สองฝั่ง</p><span class="tag">Interactive · 2 views</span></a>
+  <a class="card linkcard span6" href="pca.html"><div class="linktop"><div class="iconbox">3D</div><span class="arrow">↗</span></div><h3>PCA comparison workspace</h3><p>ดูขั้นตอนคำนวณตั้งแต่ Sampling/Resting ถึง PCA พร้อมเลือก 12, 8, 5 หรือ 3 Sensors</p><span class="tag">Interactive · 2 views</span></a>
   <a class="card linkcard span6" href="pure-tea-10types-pca3d.html"><div class="linktop"><div class="iconbox">◉</div><span class="arrow">↗</span></div><h3>10 tea types · 3D PCA</h3><p>ดู 30 replicate points หรือ 10 ค่าเฉลี่ย จากชุด candidate 5 sensors</p><span class="tag">5-sensor analysis</span></a>
  </div>
  <div class="notice"><strong>หมายเหตุ:</strong> PCA แต่ละหน้าอาจใช้ feature set, cycle window และ preprocessing ต่างกัน จึงไม่ควรนำตำแหน่ง PC score จากคนละหน้าไปเทียบกันแบบตรง ๆ</div>
