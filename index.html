@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>eNose Tea Lab | Research Dashboard</title>
-<script src="./assets/plotly.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 :root{--bg:#f5f6f2;--paper:#fff;--ink:#26352d;--muted:#728077;--line:#e3e9e2;--green:#315f49;--green2:#477d60;--soft:#edf4ee;--gold:#b78a4a;--shadow:0 12px 34px rgba(36,65,48,.07)}
@@ -87,7 +87,7 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
  </div>
 </section>
 <section id="data" class="page">
- <div class="sectionhead"><div><h2>Data update workspace</h2><p class="sub">ทดลองเปลี่ยนข้อมูลด้วยตัวเองได้ในหน้านี้ — ไฟล์จะถูกอ่านใน browser และไม่ถูกส่งขึ้น server</p></div><span class="tag gold">Local preview</span></div>
+ <div class="sectionhead"><div><h2>Data update workspace</h2><p class="sub">ทดลองเปลี่ยนข้อมูลด้วยตัวเองได้ในหน้านี้ — ไฟล์จะถูกอ่านใน browser และไม่ถูกส่งขึ้น server</p></div><a class="btn primary" href="./upload.html">เปิดหน้าอัปโหลดโดยตรง ↗</a></div>
  <div class="grid">
   <div class="card span5"><h3>01 · Import your data</h3><p class="muted">รองรับ .xlsx, .xls และ .csv แบบตาราง wide format: 1 แถว = 1 replicate / sample</p><div class="uploadbox"><p><b>เลือกไฟล์ข้อมูล</b></p><input id="fileInput" type="file" accept=".xlsx,.xls,.csv"><p class="datahelp">รองรับไฟล์ Raw eNose export (.xlsx/.csv) ที่มีคอลัมน์ Cycle Loop, Mode_clean, Sample_Group, Replicate และ G1–G15 — ระบบจะหา sheet ที่เป็น Raw ให้อัตโนมัติ แล้วคำนวณค่าเฉลี่ย Sampling − Resting ราย Cycle ให้เอง หรือใช้ตารางสรุปที่มี 1 แถวต่อ sample-replicate และคอลัมน์ sensor ก็ได้</p>
 <div class="fieldrow" style="margin-top:10px"><div class="field"><label>Cycle window (Raw data)</label><select id="cycleWindow"><option value="2">Cycle 2–6 (แนะนำ)</option><option value="1">Cycle 1–7</option><option value="3">Cycle 3–7</option></select></div><div class="field"><label>Sampling window</label><select id="samplingWindow"><option value="all">Full Sampling (120 s)</option><option value="last30">Last 30 seconds</option></select></div></div></div><div id="importStatus" class="notice">ข้อมูลตัวอย่าง Demo A / Demo B เท่านั้น · ไม่ใช่ผลทดลองจริง · ลองแก้ไขหรืออัปโหลดไฟล์ของคุณได้</div></div>
@@ -107,6 +107,7 @@ Demo B,Demo-B,3,0.17,0.32,0.48,0.44,0.25,0.40,0.30,0.28
 const pages=["home","pure","blends","chem","methods","data"],names={home:"OVERVIEW",pure:"PURE TEA / PCA",blends:"BLEND STUDIES",chem:"GC-MS & TPC",methods:"METHODS & QC",data:"DATA UPDATE"};
 function showPage(id){pages.forEach(p=>document.getElementById(p).classList.toggle("active",p===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("crumb").textContent="RESEARCH WORKSPACE / "+names[id];window.scrollTo({top:0,behavior:"smooth"});if(id==="data"&&window.Plotly)Plotly.Plots.resize(document.getElementById("dataPlot"));}
 document.getElementById("nav").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(b)showPage(b.dataset.page)});
+function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);openInitialPageFromHash();
 document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.go)}));
 const $=id=>document.getElementById(id);let importedRows=[],headers=[];
 function parseCSV(txt){const lines=txt.trim().split(/\r?\n/);return lines.map(line=>{let out=[],cur="",q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++}else q=!q}else if(c===","&&!q){out.push(cur);cur=""}else cur+=c}out.push(cur);return out})}
