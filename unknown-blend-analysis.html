@@ -48,4 +48,19 @@ const traces=ratios.map(r=>{const a=known.filter(d=>d.ratio===r);return{type:'sc
 traces.push({type:'scatter3d',mode:'markers+text',name:'Unknown validation',x:unknown.map(d=>d.pc1),y:unknown.map(d=>d.pc2),z:unknown.map(d=>d.pc3),text:['U1','U2'],textposition:'top center',customdata:unknown.map(d=>[d.rep,d.pred]),hovertemplate:'<b>Unknown %{text}</b><br>%{customdata[0]}<br>Predicted Karigane %{customdata[1]:.2f}%<br>PC1 %{x:.3f}<br>PC2 %{y:.3f}<br>PC3 %{z:.3f}<extra></extra>',marker:{size:11,color:'#bd3f32',symbol:'star',line:{color:'#fff',width:1.5}}});
 Plotly.newPlot('plot',traces,{paper_bgcolor:'#fffdf7',plot_bgcolor:'#fffdf7',margin:{l:0,r:0,t:15,b:0},font:{family:'system-ui',color:'#34432f'},legend:{orientation:'h',y:-.08},scene:{aspectmode:'cube',xaxis:{title:'PC1 (66.02%)',gridcolor:'#e5dfd1'},yaxis:{title:'PC2 (18.11%)',gridcolor:'#e5dfd1'},zaxis:{title:'PC3 (13.31%)',gridcolor:'#e5dfd1'},bgcolor:'#fffdf7'}},{responsive:true,displaylogo:false});
 document.getElementById('reveal').onclick=()=>{document.getElementById('truth').textContent='Reference composition: A50:F50 (50:50). Reference was withheld from PCA and regression training.';document.getElementById('reveal').disabled=true;};
+</script>
+<script>
+(function(){
+ const ratios=[10,30,50,70,90];
+ const means={G8:[4.447,5.603,8.345,12.433,11.463],G7:[58.969,56.120,72.788,85.516,82.525],G2:[41.247,37.296,44.323,51.003,50.011],G12:[-1.114,8.344,5.395,6.875,14.027],G10:[91.001,92.865,95.079,109.811,102.301]};
+ const unknown={G8:[3.97,4.91,5.43],G7:[8.87,25.41,39.14],G2:[3.12,13.82,24.00],G12:[-16.89,0.65,4.30],G10:[-21.46,14.54,36.88]};
+ const names=['Rep1','Rep2','Rep3'];
+ ['G8','G7','G2','G12','G10'].forEach(s=>{
+   const traces=[
+    {x:ratios,y:means[s],type:'scatter',mode:'lines+markers',name:'Known blend mean',line:{color:'#477d60',width:3},marker:{size:9}},
+    {x:[60,60,60],y:unknown[s],type:'scatter',mode:'markers',name:'Unknown 60:40',text:names,hovertemplate:'%{text}<br>Karigane true ratio: 60%<br>Response: %{y:.2f}<extra></extra>',marker:{color:'#bd493b',symbol:'x',size:13,line:{width:3}}}
+   ];
+   Plotly.newPlot('curve'+s,traces,{margin:{l:48,r:12,t:10,b:45},paper_bgcolor:'#fff',plot_bgcolor:'#fff',font:{color:'#34432f',size:11},xaxis:{title:'Karigane (%)',range:[0,100],gridcolor:'#edf0e9'},yaxis:{title:'Sensor response',gridcolor:'#edf0e9'},legend:{orientation:'h',y:-.28}},{responsive:true,displaylogo:false});
+ });
+})();
 </script></body></html>
