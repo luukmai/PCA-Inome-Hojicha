@@ -52,15 +52,7 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}td,th{text-align:left
 <div id="afCalibrationPlot" style="height:430px;width:100%"></div><p id="afCalEquation" class="note"></p>
 <p class="note">ข้อควรระวัง: มี calibration เพียง 5 จุด แต่ใช้ตัวแปรทำนาย 3 ตัวและ intercept ทำให้เหลือ degrees of freedom น้อยมาก ค่า R² เป็น apparent training fit เท่านั้น อาจสูงเกินจริง ควรตรวจสอบด้วย cross-validation หรือ independent samples ก่อนนำไปใช้เป็นแบบจำลองทำนาย</p>
 </section>
-<section class="card" id="af-pure-distance">
-<h2>Distance comparison · 50:50 vs Pure references</h2>
-<p class="muted">วัดระยะ Euclidean ใน 3D PCA space จาก centroid ของ 50:50 ไปยัง Pure Karigane (100:0) และ Pure Yuhi (0:100) โดยใช้ PC1, PC2 และ PC3 พร้อมกัน</p>
-<div class="metrics"><div class="metric"><b id="distPureA">—</b>Distance to Pure Karigane</div><div class="metric"><b id="distPureF">—</b>Distance to Pure Yuhi</div><div class="metric"><b id="nearPure">—</b>Closer reference</div></div>
-<div id="afPureDistance3D" style="height:440px;width:100%"></div>
-<div id="afPureDistanceBars" style="height:300px;width:100%"></div>
-<p id="afDistanceInterpretation" class="note"></p>
-<p class="note">ระยะคำนวณจากค่าเฉลี่ย PC scores ของแต่ละกลุ่ม (centroid) ใน PCA model เดียวกัน: d = √[(ΔPC1)² + (ΔPC2)² + (ΔPC3)²]. ระยะที่สั้นกว่าหมายถึง centroid อยู่ใกล้ reference นั้นกว่าใน 3D score space เท่านั้น ไม่ได้แปลว่าองค์ประกอบจริงต้องใกล้สัดส่วนนั้นโดยตรง</p>
-</section>
+
 <section class="card"><h2>Mean score by ratio</h2><table><thead><tr><th>Karigane : Yuhi</th><th>PC1</th><th>PC2</th><th>PC3</th></tr></thead><tbody><tr><td>10:90</td><td>-0.876</td><td>0.659</td><td>-1.152</td></tr><tr><td>30:70</td><td>-2.653</td><td>0.541</td><td>-0.918</td></tr><tr><td>50:50</td><td>-1.138</td><td>0.470</td><td>0.053</td></tr><tr><td>70:30</td><td>0.122</td><td>0.482</td><td>0.869</td></tr><tr><td>90:10</td><td>1.088</td><td>0.964</td><td>1.721</td></tr><tr><td>100:0</td><td>-1.186</td><td>-2.750</td><td>0.466</td></tr><tr><td>0:100</td><td>4.643</td><td>-0.367</td><td>-1.040</td></tr></tbody></table></section>
 
 <section class="card"><h2>Processing</h2><p>Resting correction: Sampling − Resting within the same cycle → average Cycle 2–6 per replicate → Z-score standardization across 8 sensors → PCA. Sensors: G2, G3, G5, G6, G10, G11, G13, G14. Calibration curve: multiple linear regression of the five known blend proportions against PC1–PC3 scores.</p><p class="note">Exploratory calibration: 2 replicates per composition. The mean view shows the centroid of the two replicate scores from the same fitted PCA model, not additional independent samples. Validate the calibration with more independent blend samples before using it for quantitative prediction.</p></section></main>
@@ -108,25 +100,4 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}td,th{text-align:left
   {type:"scatter",mode:"lines",name:"Ideal 1:1",x:[0,100],y:[0,100],line:{dash:"dash",color:"#9aa69b",width:1.5},hoverinfo:"skip"}
  ],{paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",font:{color:"#344b3b"},margin:{l:65,r:20,t:25,b:55},xaxis:{title:"Actual Karigane proportion (%)",range:[0,100],gridcolor:"#e5ebe5"},yaxis:{title:"Predicted Karigane proportion (%)",range:[0,100],gridcolor:"#e5ebe5"},legend:{orientation:"h",y:1.12}},{responsive:true,displaylogo:false});
 })();
-// Distance comparison: 50:50 centroid to each pure reference in the same 3D PCA score space.
-(function(){
- const get=q=>D.means.find(r=>r.Ratio_A_F===q);
- const A=get("100:0"),M=get("50:50"),F=get("0:100");
- const dist=(p,q)=>Math.sqrt((p.PC1-q.PC1)**2+(p.PC2-q.PC2)**2+(p.PC3-q.PC3)**2);
- const dA=dist(M,A),dF=dist(M,F),near=dA<dF?"Pure Karigane":"Pure Yuhi";
- document.getElementById("distPureA").textContent=dA.toFixed(3);
- document.getElementById("distPureF").textContent=dF.toFixed(3);
- document.getElementById("nearPure").textContent=near;
- document.getElementById("afDistanceInterpretation").textContent="The 50:50 centroid is "+(dA<dF?"closer to Pure Karigane":"closer to Pure Yuhi")+" in this 3D PCA score space (distance difference: "+Math.abs(dA-dF).toFixed(3)+"). This is a geometric comparison, not a direct composition estimate.";
- const xyz=p=>[p.PC1,p.PC2,p.PC3];
- Plotly.newPlot("afPureDistance3D",[
-  {type:"scatter3d",mode:"markers+text",name:"Pure Karigane (100:0)",x:[A.PC1],y:[A.PC2],z:[A.PC3],text:["Pure Karigane"],textposition:"top center",marker:{size:8,color:"#315f49"},hovertemplate:"Pure Karigane (100:0)<br>PC1 %{x:.3f}<br>PC2 %{y:.3f}<br>PC3 %{z:.3f}<extra></extra>"},
-  {type:"scatter3d",mode:"markers+text",name:"50:50",x:[M.PC1],y:[M.PC2],z:[M.PC3],text:["50:50"],textposition:"top center",marker:{size:9,color:"#c18a43",symbol:"diamond"},hovertemplate:"50:50 centroid<br>PC1 %{x:.3f}<br>PC2 %{y:.3f}<br>PC3 %{z:.3f}<extra></extra>"},
-  {type:"scatter3d",mode:"markers+text",name:"Pure Yuhi (0:100)",x:[F.PC1],y:[F.PC2],z:[F.PC3],text:["Pure Yuhi"],textposition:"top center",marker:{size:8,color:"#4b83b8"},hovertemplate:"Pure Yuhi (0:100)<br>PC1 %{x:.3f}<br>PC2 %{y:.3f}<br>PC3 %{z:.3f}<extra></extra>"},
-  {type:"scatter3d",mode:"lines",name:"50:50 → Pure Karigane",x:[M.PC1,A.PC1],y:[M.PC2,A.PC2],z:[M.PC3,A.PC3],line:{color:"#315f49",width:5},hovertemplate:"Distance to Pure Karigane: "+dA.toFixed(3)+"<extra></extra>"},
-  {type:"scatter3d",mode:"lines",name:"50:50 → Pure Yuhi",x:[M.PC1,F.PC1],y:[M.PC2,F.PC2],z:[M.PC3,F.PC3],line:{color:"#4b83b8",width:5},hovertemplate:"Distance to Pure Yuhi: "+dF.toFixed(3)+"<extra></extra>"}
- ],{paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",font:{color:"#344b3b"},margin:{l:0,r:0,t:20,b:0},scene:{xaxis:{title:"PC1 ("+(D.variance[0]*100).toFixed(2)+"%)"},yaxis:{title:"PC2 ("+(D.variance[1]*100).toFixed(2)+"%)"},zaxis:{title:"PC3 ("+(D.variance[2]*100).toFixed(2)+"%)"},aspectmode:"data"},legend:{orientation:"h",y:-.08}},{responsive:true,displaylogo:false});
- Plotly.newPlot("afPureDistanceBars",[{type:"bar",x:["Pure Karigane (100:0)","Pure Yuhi (0:100)"],y:[dA,dF],marker:{color:["#315f49","#4b83b8"]},text:[dA.toFixed(3),dF.toFixed(3)],textposition:"outside",hovertemplate:"%{x}<br>3D Euclidean distance: %{y:.3f}<extra></extra>"}],{paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",font:{color:"#344b3b"},margin:{l:55,r:20,t:15,b:65},yaxis:{title:"Euclidean distance in PC1–PC3 space",gridcolor:"#e5ebe5",rangemode:"tozero"},showlegend:false},{responsive:true,displaylogo:false});
-})();
-
 </script></html>
