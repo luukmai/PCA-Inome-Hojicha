@@ -62,18 +62,18 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}td,th{text-align:left
 <p class="note">ระยะคำนวณจากค่าเฉลี่ย PC scores ของแต่ละกลุ่ม (centroid) ใน PCA model เดียวกัน: d = √[(ΔPC1)² + (ΔPC2)² + (ΔPC3)²]. ระยะที่สั้นกว่าหมายถึง centroid อยู่ใกล้ reference นั้นกว่าใน 3D score space เท่านั้น ไม่ได้แปลว่าองค์ประกอบจริงต้องใกล้สัดส่วนนั้นโดยตรง</p>
 </section>
 <section class="card"><h2>Mean score by ratio</h2><table><thead><tr><th>Karigane : Yuhi</th><th>PC1</th><th>PC2</th><th>PC3</th></tr></thead><tbody><tr><td>10:90</td><td>-0.876</td><td>0.659</td><td>-1.152</td></tr><tr><td>30:70</td><td>-2.653</td><td>0.541</td><td>-0.918</td></tr><tr><td>50:50</td><td>-1.138</td><td>0.470</td><td>0.053</td></tr><tr><td>70:30</td><td>0.122</td><td>0.482</td><td>0.869</td></tr><tr><td>90:10</td><td>1.088</td><td>0.964</td><td>1.721</td></tr><tr><td>100:0</td><td>-1.186</td><td>-2.750</td><td>0.466</td></tr><tr><td>0:100</td><td>4.643</td><td>-0.367</td><td>-1.040</td></tr></tbody></table></section>
-<section class="card" id="unknown-analysis"><h2>Unknown blend · Proportion estimation</h2>
-<p class="muted">ทดลองจำลองการวิเคราะห์ตัวอย่างไม่ทราบสัดส่วน โดยซ่อนข้อมูลหนึ่ง replicate จากชุด calibration แล้วใช้ replicate ที่เหลือสร้างสมการทำนาย</p>
+<section class="card" id="unknown-analysis">
+<h2>Blind Unknown · Distance from 3D calibration standard</h2>
+<p class="muted">Project Unknown Rep1–3 onto the standard trend axis defined by the five blend-ratio centroids (10:90–90:10) in the same PC1–PC3 model. Report both estimated position along the standard and perpendicular distance from it.</p>
 <div class="metrics">
-<div class="metric"><b>50.9%</b>Predicted Karigane (A)</div>
-<div class="metric"><b>49.1%</b>Predicted Yuhi (F)</div>
-<div class="metric"><b>50:50</b>Nearest prepared ratio</div>
+<div class="metric"><b>5.3%</b>Mean estimated Karigane · Rep2–3</div>
+<div class="metric"><b>94.7%</b>Mean estimated Yuhi · Rep2–3</div>
+<div class="metric"><b>2.77–3.21</b>Distance · Rep2–3</div>
 </div>
-<p><strong>ตัวอย่าง Unknown:</strong> A50:F50 · Rep2 (ตัดออกจากชุดฝึกระหว่างทำนาย)</p>
-<p><strong>วิธีวิเคราะห์:</strong> ใช้ PC1, PC2 และ PC3 จาก PCA model ที่มีอยู่เป็นตัวแปรอิสระ และสัดส่วน Karigane (%) เป็นตัวแปรตาม สร้าง multiple linear regression จากอีก 13 replicates แล้วทำนายจุดที่กันไว้</p>
-<table><thead><tr><th>Validation (Leave-one-out)</th><th>Result</th></tr></thead><tbody>
-<tr><td>MAE</td><td>5.96 percentage points</td></tr><tr><td>RMSE</td><td>8.36 percentage points</td></tr><tr><td>R²</td><td>0.946</td></tr></tbody></table>
-<p class="note"><strong>Interpretation:</strong> ตัวอย่างจำลองถูกทำนายเป็น Karigane 50.9% และ Yuhi 49.1% ซึ่งใกล้กับสูตรจริง 50:50 มาก อย่างไรก็ตาม นี่เป็น pseudo-unknown จากข้อมูลเดิม ไม่ใช่ตัวอย่าง unknown ใหม่ที่วัดแยก และ PCA scores คำนวณจากโมเดลที่ fit ด้วยข้อมูลทั้ง 14 จุดก่อนแยก unknown ดังนั้นยังมี information leakage ในขั้น PCA ค่า MAE/RMSE/R² จึงเป็นผลเบื้องต้น ไม่ใช่ external validation ต้องคำนวณ PCA ใหม่จาก calibration set เท่านั้น แล้ว project unknown ด้วย loading เดิม จึงจะเป็นการทดสอบแบบ blind ที่ถูกต้อง ชุด calibration ยังมีเพียง 2 replicates ต่อสูตร</p>
+<div id="unknownStandard3D" style="height:480px;width:100%"></div>
+<table><thead><tr><th>Unknown</th><th>PC1</th><th>PC2</th><th>PC3</th><th>Estimated A (%)</th><th>Estimated F (%)</th><th>Distance to standard</th><th>Flag</th></tr></thead><tbody id="unknownStandardRows"></tbody></table>
+<p id="unknownStandardSummary" class="note"></p>
+<p class="note"><strong>Interpretation:</strong> The estimates are extrapolations outside the calibration range (10–90% A), and all Unknown points lie much farther from the standard axis than the calibration centroids. Therefore, the displayed percentages are geometric projections, not reliable quantitative composition results. Unknowns were measured on 12 Nov, whereas blends were measured on 10 Nov; day-to-day sensor/background drift may contribute. Rep1 is flagged separately because it was noted as poorly mixed.</p>
 </section>
 <section class="card"><h2>Processing</h2><p>Resting correction: Sampling − Resting within the same cycle → average Cycle 2–6 per replicate → Z-score standardization across 8 sensors → PCA. Sensors: G2, G3, G5, G6, G10, G11, G13, G14. For unknown estimation, fit multiple linear regression of known Karigane proportion (%) against PC1–PC3, withholding the selected replicate from training.</p><p class="note">Exploratory result: 2 replicates per composition. The mean view shows the centroid of the two replicate scores from the same fitted PCA model, not additional independent samples. Confirm with more replicates before making a classification claim.</p></section></main>
 <script>const D={"replicates":[{"Sample_Group":"A10:F90","Ratio_A_F":"10:90","Replicate":"Rep1","PC1":0.051753,"PC2":0.70406,"PC3":-1.134412},{"Sample_Group":"A10:F90","Ratio_A_F":"10:90","Replicate":"Rep2","PC1":-1.803999,"PC2":0.614621,"PC3":-1.170324},{"Sample_Group":"A30:F70","Ratio_A_F":"30:70","Replicate":"Rep1","PC1":-3.619308,"PC2":0.484821,"PC3":-0.625656},{"Sample_Group":"A30:F70","Ratio_A_F":"30:70","Replicate":"Rep2","PC1":-1.687353,"PC2":0.596515,"PC3":-1.21026},{"Sample_Group":"A50:F50","Ratio_A_F":"50:50","Replicate":"Rep1","PC1":-0.383047,"PC2":0.658255,"PC3":0.243127},{"Sample_Group":"A50:F50","Ratio_A_F":"50:50","Replicate":"Rep2","PC1":-1.892698,"PC2":0.282711,"PC3":-0.136363},{"Sample_Group":"A70:F30","Ratio_A_F":"70:30","Replicate":"Rep1","PC1":0.228115,"PC2":0.553993,"PC3":0.928914},{"Sample_Group":"A70:F30","Ratio_A_F":"70:30","Replicate":"Rep2","PC1":0.015504,"PC2":0.409788,"PC3":0.809234},{"Sample_Group":"A90:F10","Ratio_A_F":"90:10","Replicate":"Rep1","PC1":1.36566,"PC2":0.96848,"PC3":1.794514},{"Sample_Group":"A90:F10","Ratio_A_F":"90:10","Replicate":"Rep2","PC1":0.811219,"PC2":0.958988,"PC3":1.648304},{"Sample_Group":"Pure A - Karigane","Ratio_A_F":"100:0","Replicate":"Rep1","PC1":-0.413254,"PC2":-2.770215,"PC3":0.708693},{"Sample_Group":"Pure A - Karigane","Ratio_A_F":"100:0","Replicate":"Rep2","PC1":-1.95856,"PC2":-2.728952,"PC3":0.223487},{"Sample_Group":"Pure F - Yuhi","Ratio_A_F":"0:100","Replicate":"Rep1","PC1":3.759275,"PC2":0.02867,"PC3":-0.953723},{"Sample_Group":"Pure F - Yuhi","Ratio_A_F":"0:100","Replicate":"Rep2","PC1":5.526696,"PC2":-0.761735,"PC3":-1.125534}],"means":[{"Sample_Group":"A10:F90","Ratio_A_F":"10:90","PC1":-0.876123,"PC2":0.659341,"PC3":-1.152368},{"Sample_Group":"A30:F70","Ratio_A_F":"30:70","PC1":-2.653331,"PC2":0.540668,"PC3":-0.917958},{"Sample_Group":"A50:F50","Ratio_A_F":"50:50","PC1":-1.137873,"PC2":0.470483,"PC3":0.053382},{"Sample_Group":"A70:F30","Ratio_A_F":"70:30","PC1":0.121809,"PC2":0.481891,"PC3":0.869074},{"Sample_Group":"A90:F10","Ratio_A_F":"90:10","PC1":1.088439,"PC2":0.963734,"PC3":1.721409},{"Sample_Group":"Pure A - Karigane","Ratio_A_F":"100:0","PC1":-1.185907,"PC2":-2.749583,"PC3":0.46609},{"Sample_Group":"Pure F - Yuhi","Ratio_A_F":"0:100","PC1":4.642985,"PC2":-0.366532,"PC3":-1.039629}],"variance":[0.662422,0.178682,0.13191]};const C={"0:100":"#3b82a0","10:90":"#78a6a0","30:70":"#8a9b65","50:50":"#c1a05b","70:30":"#d18a50","90:10":"#bd6d4d","100:0":"#795b87"};const L={"0:100":"Pure Yuhi","100:0":"Pure Karigane"};let m="replicates";function draw(){let rows=m==="replicates"?D.replicates:D.means,ax=document.getElementById("axes").value,ds=ax==="3"?[1,2,3]:ax==="12"?[1,2]:ax==="13"?[1,3]:[2,3],ratios=[...new Set(rows.map(x=>x.Ratio_A_F))];let t=ratios.map(q=>{let a=rows.filter(x=>x.Ratio_A_F===q),o={type:ax==="3"?"scatter3d":"scatter",mode:"markers+text",name:L[q]||q,x:a.map(x=>x["PC"+ds[0]]),y:a.map(x=>x["PC"+ds[1]]),text:a.map(x=>m==="replicates"?x.Replicate:"Mean"),textposition:"top center",marker:{size:m==="replicates"?9:12,color:C[q],symbol:({"10:90":"circle","30:70":"square","50:50":"diamond","70:30":"triangle-up","90:10":"hexagon","100:0":"star","0:100":"cross"})[q]||"circle",line:{color:"#fff",width:1.2}},customdata:a.map(x=>[x.Sample_Group,x.Ratio_A_F,x.Replicate||"Mean"]),hovertemplate:"%{customdata[0]}<br>Ratio A:F %{customdata[1]}<br>%{customdata[2]}<br>PC"+ds[0]+" %{x:.3f}<br>PC"+ds[1]+" %{y:.3f}"+(ax==="3"?"<br>PC3 %{z:.3f}":"")+"<extra></extra>"};if(ax==="3")o.z=a.map(x=>x.PC3);return o});let layout={paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",margin:{l:0,r:0,t:15,b:0},legend:{orientation:"h",y:-.1},scene:{xaxis:{title:"PC"+ds[0]+" ("+(D.variance[ds[0]-1]*100).toFixed(2)+"%)"},yaxis:{title:"PC"+ds[1]+" ("+(D.variance[ds[1]-1]*100).toFixed(2)+"%)"},zaxis:{title:"PC3 (13.19%)"},aspectmode:"cube"},xaxis:{title:"PC"+ds[0]},yaxis:{title:"PC"+ds[1]}};Plotly.react("plot",t,layout,{responsive:true,displaylogo:false})}document.getElementById("rep").onclick=()=>{m="replicates";rep.classList.add("active");mean.classList.remove("active");draw()};document.getElementById("mean").onclick=()=>{m="means";mean.classList.add("active");rep.classList.remove("active");draw()};document.getElementById("axes").onchange=draw;draw();
@@ -139,5 +139,47 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}td,th{text-align:left
   {type:"scatter3d",mode:"lines",name:"50:50 → Pure Yuhi",x:[M.PC1,F.PC1],y:[M.PC2,F.PC2],z:[M.PC3,F.PC3],line:{color:"#4b83b8",width:5},hovertemplate:"Distance to Pure Yuhi: "+dF.toFixed(3)+"<extra></extra>"}
  ],{paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",font:{color:"#344b3b"},margin:{l:0,r:0,t:20,b:0},scene:{xaxis:{title:"PC1 ("+(D.variance[0]*100).toFixed(2)+"%)"},yaxis:{title:"PC2 ("+(D.variance[1]*100).toFixed(2)+"%)"},zaxis:{title:"PC3 ("+(D.variance[2]*100).toFixed(2)+"%)"},aspectmode:"data"},legend:{orientation:"h",y:-.08}},{responsive:true,displaylogo:false});
  Plotly.newPlot("afPureDistanceBars",[{type:"bar",x:["Pure Karigane (100:0)","Pure Yuhi (0:100)"],y:[dA,dF],marker:{color:["#315f49","#4b83b8"]},text:[dA.toFixed(3),dF.toFixed(3)],textposition:"outside",hovertemplate:"%{x}<br>3D Euclidean distance: %{y:.3f}<extra></extra>"}],{paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",font:{color:"#344b3b"},margin:{l:55,r:20,t:15,b:65},yaxis:{title:"Euclidean distance in PC1–PC3 space",gridcolor:"#e5ebe5",rangemode:"tozero"},showlegend:false},{responsive:true,displaylogo:false});
+})();
+
+// Blind Unknown projection onto the 5-ratio 3D calibration standard axis.
+// Unknown feature extraction matches the existing PCA model: S-R correction,
+// cycles 2-6, average within cycle then average across cycles; same scaler/PCA.
+(function(){
+ const standard=["10:90","30:70","50:50","70:30","90:10"].map(q=>D.means.find(r=>r.Ratio_A_F===q));
+ const Y=standard.map(r=>[r.PC1,r.PC2,r.PC3]);
+ const center=[0,1,2].map(j=>Y.reduce((s,r)=>s+r[j],0)/Y.length);
+ // First principal direction of the five standard centroids, calculated in 3D.
+ const cov=[[0,0,0],[0,0,0],[0,0,0]];
+ Y.forEach(r=>{const z=r.map((v,j)=>v-center[j]);for(let i=0;i<3;i++)for(let j=0;j<3;j++)cov[i][j]+=z[i]*z[j];});
+ let axis=[1,1,1];
+ for(let k=0;k<100;k++){const w=[0,1,2].map(i=>cov[i].reduce((s,v,j)=>s+v*axis[j],0));const n=Math.hypot(...w);axis=w.map(v=>v/n);}
+ if(axis[0]<0)axis=axis.map(v=>-v);
+ const qstd=Y.map(r=>r.reduce((s,v,j)=>s+(v-center[j])*axis[j],0));
+ const pct=[10,30,50,70,90];
+ const qmean=qstd.reduce((s,v)=>s+v,0)/qstd.length, pmean=pct.reduce((s,v)=>s+v,0)/pct.length;
+ const slope=qstd.reduce((s,v,i)=>s+(v-qmean)*(pct[i]-pmean),0)/qstd.reduce((s,v)=>s+(v-qmean)**2,0);
+ const intercept=pmean-slope*qmean;
+ const unknown=[
+  {rep:"Rep1",pc:[-7.639770,-2.519960,-0.174848],flag:"Poorly mixed"},
+  {rep:"Rep2",pc:[-4.041214,-2.136254,-0.175903],flag:"Use in Rep2–3 mean"},
+  {rep:"Rep3",pc:[-4.294291,-0.935176,0.242976],flag:"Use in Rep2–3 mean"}
+ ];
+ const results=unknown.map(o=>{
+  const q=o.pc.reduce((s,v,j)=>s+(v-center[j])*axis[j],0);
+  const projection=center.map((v,j)=>v+q*axis[j]);
+  const distance=Math.hypot(...o.pc.map((v,j)=>v-projection[j]));
+  const A=intercept+slope*q;
+  return {...o,q,projection,distance,A,F:100-A};
+ });
+ const use=results.slice(1),meanA=use.reduce((s,r)=>s+r.A,0)/use.length,meanF=100-meanA;
+ document.getElementById("unknownStandardRows").innerHTML=results.map(r=>"<tr><td>"+r.rep+"</td><td>"+r.pc[0].toFixed(3)+"</td><td>"+r.pc[1].toFixed(3)+"</td><td>"+r.pc[2].toFixed(3)+"</td><td>"+r.A.toFixed(2)+"</td><td>"+r.F.toFixed(2)+"</td><td>"+r.distance.toFixed(3)+"</td><td>"+r.flag+"</td></tr>").join("");
+ document.getElementById("unknownStandardSummary").textContent="Rep2–3 mean geometric projection: Karigane "+meanA.toFixed(2)+"% : Yuhi "+meanF.toFixed(2)+"%. Both estimates are outside the 10–90% calibration range; perpendicular distances (Rep2 "+results[1].distance.toFixed(3)+", Rep3 "+results[2].distance.toFixed(3)+") greatly exceed the standard-centroid residual distances (max "+Math.max(...Y.map((r,i)=>{const z=r.map((v,j)=>v-center[j]);const q=z.reduce((s,v,j)=>s+v*axis[j],0);return Math.hypot(...z.map((v,j)=>v-q*axis[j]));})).toFixed(3)+"). Treat the ratio as out-of-domain and not quantitatively reliable.";
+ const colors=["#c94b3b","#4b83b8","#2f9b58"];
+ const traces=[
+  {type:"scatter3d",mode:"lines+markers+text",name:"5-ratio standard centroids",x:Y.map(r=>r[0]),y:Y.map(r=>r[1]),z:Y.map(r=>r[2]),text:pct.map(v=>v+": "+(100-v)),textposition:"top center",marker:{size:6,color:"#c18a43"},line:{color:"#c18a43",width:5},hovertemplate:"Standard blend<br>PC1 %{x:.3f}<br>PC2 %{y:.3f}<br>PC3 %{z:.3f}<extra></extra>"},
+  {type:"scatter3d",mode:"markers+text",name:"Unknown",x:results.map(r=>r.pc[0]),y:results.map(r=>r.pc[1]),z:results.map(r=>r.pc[2]),text:results.map(r=>r.rep),textposition:"top center",marker:{size:7,color:colors},hovertemplate:"%{text}<br>PC1 %{x:.3f}<br>PC2 %{y:.3f}<br>PC3 %{z:.3f}<extra></extra>"},
+  {type:"scatter3d",mode:"lines",name:"Perpendicular distance to standard",x:results.flatMap(r=>[r.pc[0],r.projection[0],null]),y:results.flatMap(r=>[r.pc[1],r.projection[1],null]),z:results.flatMap(r=>[r.pc[2],r.projection[2],null]),line:{color:"#777",width:3,dash:"dash"},hoverinfo:"skip"}
+ ];
+ Plotly.newPlot("unknownStandard3D",traces,{paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",font:{color:"#344b3b"},margin:{l:0,r:0,t:20,b:0},scene:{xaxis:{title:"PC1 ("+(D.variance[0]*100).toFixed(2)+"%)"},yaxis:{title:"PC2 ("+(D.variance[1]*100).toFixed(2)+"%)"},zaxis:{title:"PC3 ("+(D.variance[2]*100).toFixed(2)+"%)"},aspectmode:"data"},legend:{orientation:"h",y:-.08}},{responsive:true,displaylogo:false});
 })();
 </script></html>
