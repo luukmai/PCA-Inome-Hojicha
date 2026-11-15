@@ -45,7 +45,20 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}td,th{text-align:left
 </select><span class="hint">แต่ละชุดใช้ข้อมูลและ PCA ของตัวเอง</span></nav><div class="nav"><a href="./index.html">← Research overview</a><a href="./pca.html">Pure Tea PCA</a></div>
 <section class="card"><h2>Composition set</h2><p class="muted">A = Karigane Hojicha · F = Yuhi · 5 blend ratios + 2 pure references</p><div class="metrics"><div class="metric"><b>14</b>Replicate measurements</div><div class="metric"><b>7</b>Composition groups</div><div class="metric"><b>8</b>Sensors</div><div class="metric"><b>2–6</b>Cycle window</div></div></section>
 <section class="card"><h2>PCA score plot</h2><p class="muted">เลือกการแสดงผลและแกน PCA ได้ในรูปแบบเดียวกับหน้า Pure Tea PCA</p><div class="pca-controls"><div class="pca-control"><label>DATA VIEW</label><div class="segmented"><button id="rep" class="active">Replicates · 14 points</button><button id="mean">Ratio means · 7 points</button></div></div><div class="pca-control"><label>AXIS VIEW</label><select id="axes"><option value="3">3D · PC1 / PC2 / PC3</option><option value="12">2D · PC1 / PC2</option><option value="13">2D · PC1 / PC3</option><option value="23">2D · PC2 / PC3</option></select></div></div><div id="plot"></div><div class="metrics"><div class="metric"><b>66.24%</b>PC1</div><div class="metric"><b>17.87%</b>PC2</div><div class="metric"><b>13.19%</b>PC3</div><div class="metric"><b>97.30%</b>PC1–PC3 total</div></div></section>
-<section class="card" id="af-calibration"><h2>Calibration curve · Karigane proportion</h2><p class="muted">สร้าง calibration จากค่าเฉลี่ย PCA scores (PC1–PC3) ของ 5 blend ratios ที่เตรียมไว้ โดยใช้สัดส่วน Karigane จริงเป็นค่าอ้างอิง แสดง predicted vs actual เพื่อดูแนวโน้มของชุด calibration</p><div class="metrics"><div class="metric"><b id="afCalR2">—</b>Apparent R² · training fit</div><div class="metric"><b>5</b>Blend levels</div><div class="metric"><b>PC1–PC3</b>Predictors</div></div><div id="afCalibrationPlot" style="height:430px;width:100%"></div><p class="note">ข้อควรระวัง: กราฟนี้เป็น calibration fit บนข้อมูลชุดฝึกเดียวกัน ไม่ใช่ independent validation และมีเพียง 5 ระดับสัดส่วน จึงอาจให้ค่า R² สูงเกินจริงได้ ห้ามใช้ค่า R² นี้ยืนยันความแม่นยำในการทำนาย Unknown จนกว่าจะทดสอบกับตัวอย่างอิสระที่ทราบสัดส่วน</p></section>
+<section class="card" id="af-calibration">
+<h2>Calibration 1 · Five blend ratios (3D PCA model)</h2>
+<p class="muted">ใช้ 5 blend ratios และค่าเฉลี่ย PC1, PC2, PC3 ของแต่ละ ratio เพื่อสร้าง multiple linear regression สำหรับประมาณ %Karigane</p>
+<div class="metrics"><div class="metric"><b id="afCalR2">—</b>Apparent R² · training fit</div><div class="metric"><b>5</b>Blend levels</div><div class="metric"><b>3</b>Predictors · PC1, PC2, PC3</div></div>
+<div id="afCalibrationPlot" style="height:430px;width:100%"></div><p id="afCalEquation" class="note"></p>
+<p class="note">ข้อควรระวัง: มี calibration เพียง 5 จุด แต่ใช้ตัวแปรทำนาย 3 ตัวและ intercept ทำให้เหลือ degrees of freedom น้อยมาก ค่า R² เป็น apparent training fit เท่านั้น อาจสูงเกินจริง ต้องตรวจสอบด้วย cross-validation หรือ independent samples ก่อนนำไปทำนาย Unknown</p>
+</section>
+<section class="card" id="af-calibration-pure-axis">
+<h2>Calibration 2 · Pure references + 50:50</h2>
+<p class="muted">ใช้ Pure Karigane (100:0), 50:50 และ Pure Yuhi (0:100) โดย project คะแนน 3D PCA ลงบนแกนระหว่าง pure references แล้ว fit เส้นตรงกับ %Karigane</p>
+<div class="metrics"><div class="metric"><b id="afPureR2">—</b>R² · 3-point linear fit</div><div class="metric"><b>3</b>Reference points</div><div class="metric"><b>PC1–PC3</b>3D projection</div></div>
+<div id="afPureCalibrationPlot" style="height:430px;width:100%"></div><p id="afPureEquation" class="note"></p>
+<p class="note">กราฟนี้ใช้เพียง 3 จุด จึงเป็นเส้น calibration แบบเบื้องต้นและยังไม่มี independent validation ไม่ควรใช้ R² เพียงอย่างเดียวตัดสินความแม่นยำ</p>
+</section>
 <section class="card"><h2>Mean score by ratio</h2><table><thead><tr><th>Karigane : Yuhi</th><th>PC1</th><th>PC2</th><th>PC3</th></tr></thead><tbody><tr><td>10:90</td><td>-0.876</td><td>0.659</td><td>-1.152</td></tr><tr><td>30:70</td><td>-2.653</td><td>0.541</td><td>-0.918</td></tr><tr><td>50:50</td><td>-1.138</td><td>0.470</td><td>0.053</td></tr><tr><td>70:30</td><td>0.122</td><td>0.482</td><td>0.869</td></tr><tr><td>90:10</td><td>1.088</td><td>0.964</td><td>1.721</td></tr><tr><td>100:0</td><td>-1.186</td><td>-2.750</td><td>0.466</td></tr><tr><td>0:100</td><td>4.643</td><td>-0.367</td><td>-1.040</td></tr></tbody></table></section>
 <section class="card" id="unknown-analysis"><h2>Unknown blend · Proportion estimation</h2>
 <p class="muted">ทดลองจำลองการวิเคราะห์ตัวอย่างไม่ทราบสัดส่วน โดยซ่อนข้อมูลหนึ่ง replicate จากชุด calibration แล้วใช้ replicate ที่เหลือสร้างสมการทำนาย</p>
@@ -62,29 +75,65 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}td,th{text-align:left
 </section>
 <section class="card"><h2>Processing</h2><p>Resting correction: Sampling − Resting within the same cycle → average Cycle 2–6 per replicate → Z-score standardization across 8 sensors → PCA. Sensors: G2, G3, G5, G6, G10, G11, G13, G14. For unknown estimation, fit multiple linear regression of known Karigane proportion (%) against PC1–PC3, withholding the selected replicate from training.</p><p class="note">Exploratory result: 2 replicates per composition. The mean view shows the centroid of the two replicate scores from the same fitted PCA model, not additional independent samples. Confirm with more replicates before making a classification claim.</p></section></main>
 <script>const D={"replicates":[{"Sample_Group":"A10:F90","Ratio_A_F":"10:90","Replicate":"Rep1","PC1":0.051753,"PC2":0.70406,"PC3":-1.134412},{"Sample_Group":"A10:F90","Ratio_A_F":"10:90","Replicate":"Rep2","PC1":-1.803999,"PC2":0.614621,"PC3":-1.170324},{"Sample_Group":"A30:F70","Ratio_A_F":"30:70","Replicate":"Rep1","PC1":-3.619308,"PC2":0.484821,"PC3":-0.625656},{"Sample_Group":"A30:F70","Ratio_A_F":"30:70","Replicate":"Rep2","PC1":-1.687353,"PC2":0.596515,"PC3":-1.21026},{"Sample_Group":"A50:F50","Ratio_A_F":"50:50","Replicate":"Rep1","PC1":-0.383047,"PC2":0.658255,"PC3":0.243127},{"Sample_Group":"A50:F50","Ratio_A_F":"50:50","Replicate":"Rep2","PC1":-1.892698,"PC2":0.282711,"PC3":-0.136363},{"Sample_Group":"A70:F30","Ratio_A_F":"70:30","Replicate":"Rep1","PC1":0.228115,"PC2":0.553993,"PC3":0.928914},{"Sample_Group":"A70:F30","Ratio_A_F":"70:30","Replicate":"Rep2","PC1":0.015504,"PC2":0.409788,"PC3":0.809234},{"Sample_Group":"A90:F10","Ratio_A_F":"90:10","Replicate":"Rep1","PC1":1.36566,"PC2":0.96848,"PC3":1.794514},{"Sample_Group":"A90:F10","Ratio_A_F":"90:10","Replicate":"Rep2","PC1":0.811219,"PC2":0.958988,"PC3":1.648304},{"Sample_Group":"Pure A - Karigane","Ratio_A_F":"100:0","Replicate":"Rep1","PC1":-0.413254,"PC2":-2.770215,"PC3":0.708693},{"Sample_Group":"Pure A - Karigane","Ratio_A_F":"100:0","Replicate":"Rep2","PC1":-1.95856,"PC2":-2.728952,"PC3":0.223487},{"Sample_Group":"Pure F - Yuhi","Ratio_A_F":"0:100","Replicate":"Rep1","PC1":3.759275,"PC2":0.02867,"PC3":-0.953723},{"Sample_Group":"Pure F - Yuhi","Ratio_A_F":"0:100","Replicate":"Rep2","PC1":5.526696,"PC2":-0.761735,"PC3":-1.125534}],"means":[{"Sample_Group":"A10:F90","Ratio_A_F":"10:90","PC1":-0.876123,"PC2":0.659341,"PC3":-1.152368},{"Sample_Group":"A30:F70","Ratio_A_F":"30:70","PC1":-2.653331,"PC2":0.540668,"PC3":-0.917958},{"Sample_Group":"A50:F50","Ratio_A_F":"50:50","PC1":-1.137873,"PC2":0.470483,"PC3":0.053382},{"Sample_Group":"A70:F30","Ratio_A_F":"70:30","PC1":0.121809,"PC2":0.481891,"PC3":0.869074},{"Sample_Group":"A90:F10","Ratio_A_F":"90:10","PC1":1.088439,"PC2":0.963734,"PC3":1.721409},{"Sample_Group":"Pure A - Karigane","Ratio_A_F":"100:0","PC1":-1.185907,"PC2":-2.749583,"PC3":0.46609},{"Sample_Group":"Pure F - Yuhi","Ratio_A_F":"0:100","PC1":4.642985,"PC2":-0.366532,"PC3":-1.039629}],"variance":[0.662422,0.178682,0.13191]};const C={"0:100":"#3b82a0","10:90":"#78a6a0","30:70":"#8a9b65","50:50":"#c1a05b","70:30":"#d18a50","90:10":"#bd6d4d","100:0":"#795b87"};const L={"0:100":"Pure Yuhi","100:0":"Pure Karigane"};let m="replicates";function draw(){let rows=m==="replicates"?D.replicates:D.means,ax=document.getElementById("axes").value,ds=ax==="3"?[1,2,3]:ax==="12"?[1,2]:ax==="13"?[1,3]:[2,3],ratios=[...new Set(rows.map(x=>x.Ratio_A_F))];let t=ratios.map(q=>{let a=rows.filter(x=>x.Ratio_A_F===q),o={type:ax==="3"?"scatter3d":"scatter",mode:"markers+text",name:L[q]||q,x:a.map(x=>x["PC"+ds[0]]),y:a.map(x=>x["PC"+ds[1]]),text:a.map(x=>m==="replicates"?x.Replicate:"Mean"),textposition:"top center",marker:{size:m==="replicates"?9:12,color:C[q],symbol:({"10:90":"circle","30:70":"square","50:50":"diamond","70:30":"triangle-up","90:10":"hexagon","100:0":"star","0:100":"cross"})[q]||"circle",line:{color:"#fff",width:1.2}},customdata:a.map(x=>[x.Sample_Group,x.Ratio_A_F,x.Replicate||"Mean"]),hovertemplate:"%{customdata[0]}<br>Ratio A:F %{customdata[1]}<br>%{customdata[2]}<br>PC"+ds[0]+" %{x:.3f}<br>PC"+ds[1]+" %{y:.3f}"+(ax==="3"?"<br>PC3 %{z:.3f}":"")+"<extra></extra>"};if(ax==="3")o.z=a.map(x=>x.PC3);return o});let layout={paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",margin:{l:0,r:0,t:15,b:0},legend:{orientation:"h",y:-.1},scene:{xaxis:{title:"PC"+ds[0]+" ("+(D.variance[ds[0]-1]*100).toFixed(2)+"%)"},yaxis:{title:"PC"+ds[1]+" ("+(D.variance[ds[1]-1]*100).toFixed(2)+"%)"},zaxis:{title:"PC3 (13.19%)"},aspectmode:"cube"},xaxis:{title:"PC"+ds[0]},yaxis:{title:"PC"+ds[1]}};Plotly.react("plot",t,layout,{responsive:true,displaylogo:false})}document.getElementById("rep").onclick=()=>{m="replicates";rep.classList.add("active");mean.classList.remove("active");draw()};document.getElementById("mean").onclick=()=>{m="means";mean.classList.add("active");rep.classList.remove("active");draw()};document.getElementById("axes").onchange=draw;draw();
-// Calibration fit from the five prepared blend-ratio centroids (PC1-PC3).
-// Standardized predictors and OLS; this is an apparent training fit, not CV.
+// Calibration 1: multiple linear regression using 5 blend centroids and PC1-PC3.
 (function(){
- const rows=D.means.filter(r=>["10:90","30:70","50:50","70:30","90:10"].includes(r.Ratio_A_F));
+ const ratios=["10:90","30:70","50:50","70:30","90:10"];
+ const rows=D.means.filter(r=>ratios.includes(r.Ratio_A_F));
  const actual=rows.map(r=>Number(r.Ratio_A_F.split(":")[0]));
  const X=rows.map(r=>[r.PC1,r.PC2,r.PC3]);
- const means=[0,1,2].map(j=>X.reduce((s,r)=>s+r[j],0)/X.length);
- const sds=[0,1,2].map(j=>Math.sqrt(X.reduce((s,r)=>s+(r[j]-means[j])**2,0)/X.length)||1);
- const Z=X.map(r=>r.map((v,j)=>(v-means[j])/sds[j]));
+ function solve(M,b){
+  M=M.map((r,i)=>r.concat([b[i]]));
+  for(let i=0;i<M.length;i++){
+   let p=i;for(let k=i+1;k<M.length;k++)if(Math.abs(M[k][i])>Math.abs(M[p][i]))p=k;
+   if(Math.abs(M[p][i])<1e-12)throw Error("Singular calibration matrix");
+   [M[i],M[p]]=[M[p],M[i]];
+   const d=M[i][i];for(let j=i;j<M[i].length;j++)M[i][j]/=d;
+   for(let k=0;k<M.length;k++)if(k!==i){const q=M[k][i];for(let j=i;j<M[i].length;j++)M[k][j]-=q*M[i][j];}
+  }
+  return M.map(r=>r[r.length-1]);
+ }
+ const mu=[0,1,2].map(j=>X.reduce((s,r)=>s+r[j],0)/X.length);
+ const sd=[0,1,2].map(j=>Math.sqrt(X.reduce((s,r)=>s+(r[j]-mu[j])**2,0)/(X.length-1))||1);
+ const Z=X.map(r=>r.map((v,j)=>(v-mu[j])/sd[j]));
  const A=Z.map(r=>[1,...r]);
- function solve(M,b){M=M.map((r,i)=>[...r,b[i]]);for(let i=0;i<M.length;i++){let p=i;for(let k=i+1;k<M.length;k++)if(Math.abs(M[k][i])>Math.abs(M[p][i]))p=k;[M[i],M[p]]=[M[p],M[i]];let d=M[i][i];for(let j=i;j<M[i].length;j++)M[i][j]/=d;for(let k=0;k<M.length;k++)if(k!==i){let f=M[k][i];for(let j=i;j<M[k].length;j++)M[k][j]-=f*M[i][j];}}return M.map(r=>r.at(-1));}
- const AT=A[0].map((_,j)=>A.map(r=>r[j]));
- const XtX=AT.map(a=>AT.map(b=>a.reduce((s,v,i)=>s+v*b[i],0)));
- const Xty=AT.map(a=>a.reduce((s,v,i)=>s+v*actual[i],0));
- const beta=solve(XtX,Xty),pred=A.map(r=>r.reduce((s,v,j)=>s+v*beta[j],0));
- const ym=actual.reduce((s,v)=>s+v,0)/actual.length;
- const ssr=actual.reduce((s,v,i)=>s+(v-pred[i])**2,0),sst=actual.reduce((s,v)=>s+(v-ym)**2,0);
- const r2=1-ssr/sst;
+ const cols=A[0].map((_,j)=>A.map(r=>r[j]));
+ const XtX=cols.map(a=>cols.map(b=>a.reduce((s,v,i)=>s+v*b[i],0)));
+ const Xty=cols.map(a=>a.reduce((s,v,i)=>s+v*actual[i],0));
+ const beta=solve(XtX,Xty);
+ const predicted=A.map(r=>r.reduce((s,v,j)=>s+v*beta[j],0));
+ const mean=actual.reduce((s,v)=>s+v,0)/actual.length;
+ const sse=actual.reduce((s,v,i)=>s+(v-predicted[i])**2,0);
+ const sst=actual.reduce((s,v)=>s+(v-mean)**2,0);
+ const r2=1-sse/sst;
  document.getElementById("afCalR2").textContent=r2.toFixed(3);
- const pts=rows.map((r,i)=>({ratio:r.Ratio_A_F,actual:actual[i],pred:pred[i]}));
+ const eq="Karigane (%) = "+beta[0].toFixed(2)+" + "+beta[1].toFixed(2)+" × Z(PC1) "+(beta[2]<0?"− ":"+ ")+Math.abs(beta[2]).toFixed(2)+" × Z(PC2) "+(beta[3]<0?"− ":"+ ")+Math.abs(beta[3]).toFixed(2)+" × Z(PC3). Z uses calibration-set mean and SD.";
+ document.getElementById("afCalEquation").textContent=eq;
+ const trendX=actual.slice().sort((a,b)=>a-b);
+ const n=actual.length,xm=actual.reduce((s,v)=>s+v,0)/n,ym=predicted.reduce((s,v)=>s+v,0)/n;
+ const slope=actual.reduce((s,v,i)=>s+(v-xm)*(predicted[i]-ym),0)/actual.reduce((s,v)=>s+(v-xm)**2,0);
+ const intercept=ym-slope*xm;
  Plotly.newPlot("afCalibrationPlot",[
-  {type:"scatter",mode:"markers+text",name:"Calibration blends",x:pts.map(p=>p.actual),y:pts.map(p=>p.pred),text:pts.map(p=>p.ratio),textposition:"top center",marker:{size:12,color:"#315f49"},customdata:pts.map(p=>p.ratio),hovertemplate:"Ratio A:F %{customdata}<br>Actual A: %{x:.1f}%<br>Predicted A: %{y:.2f}%<extra></extra>"},
-  {type:"scatter",mode:"lines",name:"Ideal 1:1",x:[0,100],y:[0,100],line:{dash:"dash",color:"#b78a4a",width:2},hoverinfo:"skip"}
- ],{paper_bgcolor:"#fff",plot_bgcolor:"#fff",font:{color:"#344b3b"},margin:{l:65,r:20,t:20,b:55},xaxis:{title:"Actual Karigane proportion (%)",range:[0,100],gridcolor:"#e5ebe5"},yaxis:{title:"Predicted Karigane proportion (%)",range:[0,100],gridcolor:"#e5ebe5"},legend:{orientation:"h",y:1.12}},{responsive:true,displaylogo:false});
+  {type:"scatter",mode:"markers+text",name:"5 blend calibration points",x:actual,y:predicted,text:rows.map(r=>r.Ratio_A_F),textposition:"top center",marker:{size:12,color:"#315f49"},customdata:rows.map(r=>[r.PC1,r.PC2,r.PC3]),hovertemplate:"Ratio A:F %{text}<br>Actual Karigane: %{x:.1f}%<br>Predicted: %{y:.2f}%<br>PC1 %{customdata[0]:.3f}<br>PC2 %{customdata[1]:.3f}<br>PC3 %{customdata[2]:.3f}<extra></extra>"},
+  {type:"scatter",mode:"lines",name:"Linear trend of predicted vs actual",x:[Math.min(...actual),Math.max(...actual)],y:[slope*Math.min(...actual)+intercept,slope*Math.max(...actual)+intercept],line:{color:"#c18a43",width:3}},
+  {type:"scatter",mode:"lines",name:"Ideal 1:1",x:[0,100],y:[0,100],line:{dash:"dash",color:"#9aa69b",width:1.5},hoverinfo:"skip"}
+ ],{paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",font:{color:"#344b3b"},margin:{l:65,r:20,t:25,b:55},xaxis:{title:"Actual Karigane proportion (%)",range:[0,100],gridcolor:"#e5ebe5"},yaxis:{title:"Predicted Karigane proportion (%)",range:[0,100],gridcolor:"#e5ebe5"},legend:{orientation:"h",y:1.12}},{responsive:true,displaylogo:false});
+})();
+// Calibration 2: project three reference points onto the Pure A -> Pure F axis in 3D PCA space.
+(function(){
+ const get=q=>D.means.find(r=>r.Ratio_A_F===q);
+ const pureA=get("100:0"),mid=get("50:50"),pureF=get("0:100");
+ const vec=[pureF.PC1-pureA.PC1,pureF.PC2-pureA.PC2,pureF.PC3-pureA.PC3];
+ const norm=vec.reduce((s,v)=>s+v*v,0);
+ const proj=r=>[r.PC1-pureA.PC1,r.PC2-pureA.PC2,r.PC3-pureA.PC3].reduce((s,v,i)=>s+v*vec[i],0)/norm;
+ const pts=[{r:pureA,label:"Pure Karigane",actual:100},{r:mid,label:"50:50 blend",actual:50},{r:pureF,label:"Pure Yuhi",actual:0}].map(o=>({...o,score:proj(o.r)})).sort((a,b)=>a.score-b.score);
+ const x=pts.map(p=>p.score),y=pts.map(p=>p.actual),xm=x.reduce((s,v)=>s+v,0)/3,ym=y.reduce((s,v)=>s+v,0)/3;
+ const slope=x.reduce((s,v,i)=>s+(v-xm)*(y[i]-ym),0)/x.reduce((s,v)=>s+(v-xm)**2,0),intercept=ym-slope*xm;
+ const pred=x.map(v=>intercept+slope*v),sse=y.reduce((s,v,i)=>s+(v-pred[i])**2,0),sst=y.reduce((s,v)=>s+(v-ym)**2,0),r2=1-sse/sst;
+ document.getElementById("afPureR2").textContent=r2.toFixed(3);
+ document.getElementById("afPureEquation").textContent="Karigane (%) = "+intercept.toFixed(2)+" + ("+slope.toFixed(2)+" × projected 3D score). The score is the normalized projection onto the Pure Karigane → Pure Yuhi axis.";
+ Plotly.newPlot("afPureCalibrationPlot",[
+  {type:"scatter",mode:"markers+text",name:"Reference samples",x,y,text:pts.map(p=>p.label),textposition:"top center",marker:{size:13,color:["#315f49","#c18a43","#4b83b8"]},customdata:pts.map(p=>p.r.Ratio_A_F),hovertemplate:"%{text}<br>Ratio A:F %{customdata}<br>Projected score %{x:.4f}<br>Actual Karigane %{y}%<extra></extra>"},
+  {type:"scatter",mode:"lines",name:"Linear calibration",x:[Math.min(...x),Math.max(...x)],y:[intercept+slope*Math.min(...x),intercept+slope*Math.max(...x)],line:{color:"#c18a43",width:3}}
+ ],{paper_bgcolor:"#fffefa",plot_bgcolor:"#fffefa",font:{color:"#344b3b"},margin:{l:65,r:20,t:25,b:55},xaxis:{title:"Projected score along Pure A → Pure F axis",gridcolor:"#e5ebe5"},yaxis:{title:"Actual Karigane proportion (%)",range:[0,100],gridcolor:"#e5ebe5"},legend:{orientation:"h",y:1.12}},{responsive:true,displaylogo:false});
 })();
 </script></html>
