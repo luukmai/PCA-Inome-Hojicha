@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>eNose Tea Identification & Blend Prediction</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#f4f7f3;--paper:#fff;--ink:#24372b;--muted:#718076;--line:#dfe8df;--green:#315f49;--soft:#edf4ee;--gold:#b78a4a;--blue:#356fa8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,"Noto Sans Thai",sans-serif}main{max-width:1120px;margin:auto;padding:28px 18px 60px}a{color:var(--green)}h1{font-size:clamp(27px,4vw,40px);line-height:1.2;margin:8px 0 10px;color:#244a36}h2{font-size:20px;margin:0 0 8px;color:#294b38}h3{font-size:16px;margin:0 0 6px}.muted{color:var(--muted);font-size:13px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.back{font-size:13px}.tag{display:inline-block;background:var(--soft);color:var(--green);padding:4px 10px;border-radius:30px;font-size:11px}.hero,.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;margin:14px 0}.hero{background:linear-gradient(120deg,#e8f1e8,#fff 75%)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tabs button,.btn{border:1px solid var(--line);background:white;color:var(--green);border-radius:10px;padding:10px 14px;cursor:pointer;font:inherit;font-size:13px}.tabs button.active,.btn.primary{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.upload{border:1.5px dashed #b7cbb9;background:#f8fbf8;border-radius:14px;padding:18px;text-align:center}.upload input{max-width:100%;margin:10px 0}.status{font-size:13px;margin-top:8px;color:var(--muted)}.status.ok{color:#16724c}.status.err{color:#a43b36}.field{display:grid;gap:5px;margin:12px 0}.field label{font-size:12px;color:var(--muted)}select{border:1px solid var(--line);padding:9px;border-radius:9px;background:white;max-width:100%}select[multiple]{min-width:260px;min-height:145px}.btn:disabled{opacity:.45;cursor:not-allowed}.note{background:#fbf5e8;border:1px solid #eee1c4;border-radius:12px;padding:13px;color:#705b32;font-size:12px;line-height:1.6;margin-top:12px}.result{background:#f8fbf8;border:1px solid var(--line);border-radius:13px;padding:15px;margin:10px 0}.bar{height:12px;background:#e9eee9;border-radius:20px;overflow:hidden;margin:8px 0}.bar>div{height:100%;background:#4c8a65}.big{font-size:28px;font-weight:750;color:var(--green)}table{border-collapse:collapse;width:100%;font-size:12px;margin-top:10px}td,th{padding:9px;border-bottom:1px solid var(--line);text-align:left}th{background:#f2f6f1;color:#48624e}.hidden{display:none}.footer{font-size:11px;color:var(--muted);margin-top:20px}@media(max-width:700px){.grid{grid-template-columns:1fr}main{padding:18px 12px 40px}.hero,.card{padding:15px}}
+</style></head><body><main>
+<div class="top"><a class="back" href="index.html">← กลับหน้า eNose Tea Lab</a><span class="tag">Research prototype · 2026</span></div>
+<section class="hero"><div class="tag">eNOSE DATA ANALYSIS</div><h1>Tea Identification<br>& Blend Prediction</h1><p class="muted">อัปโหลดข้อมูล eNose เพื่อจำแนกชนิดชาที่ไม่ทราบชื่อ หรือประเมินสัดส่วน Karigane Hojicha (A) และ Yuhi (F)</p></section>
+<div class="tabs"><button class="active" data-tab="identify">1 · Identify unknown tea</button><button data-tab="blend">2 · Predict A/F blend</button><button data-tab="guide">3 · Data guide</button></div>
+<section id="identify" class="panel active">
+<div class="card"><h2>จำแนกชนิดชา (Tea classification)</h2><p class="muted">ระบบจะเรียนรู้รูปแบบจาก Reference Library ที่ผู้ใช้เตรียมไว้ แล้วเปรียบเทียบกับ Unknown sample</p>
+<div class="grid">
+<div><h3>ขั้นที่ 1 · Upload reference library</h3><div class="upload"><div>📚 ไฟล์ Excel ที่มีหลาย Sheet</div><input id="refFile" type="file" accept=".xlsx,.xls"><div class="muted">หนึ่ง Sheet = หนึ่งตัวอย่าง / replicate · ตั้งชื่อ Sheet ให้ขึ้นต้นด้วยชื่อชนิดชา เช่น Hikari_Rep1</div><div id="refStatus" class="status">ยังไม่ได้อัปโหลด Reference Library</div></div></div>
+<div><h3>ขั้นที่ 2 · Upload unknown samples</h3><div class="upload"><div>🧪 ไฟล์ Excel ของตัวอย่างที่ไม่ทราบชนิด</div><input id="unkFile" type="file" accept=".xlsx,.xls"><div class="muted">หนึ่ง Sheet = หนึ่ง Unknown sample · ชื่อ Sheet ใช้เป็นรหัสตัวอย่างได้</div><div id="unkStatus" class="status">ยังไม่ได้อัปโหลด Unknown</div></div></div>
+</div>
+<div class="field"><label>เลือก Sensor ที่ใช้ในการจำแนก (เลือก 3 ตัวขึ้นไป)</label><select id="classSensors" multiple></select><div class="muted">ระบบคำนวณ Resting-corrected จาก Cycle 2–6 ให้ทั้ง Reference และ Unknown ด้วยวิธีเดียวกัน</div></div>
+<button id="classifyBtn" class="btn primary" disabled>จำแนก Unknown samples</button>
+<div id="classResults"></div>
+<div class="note"><b>ความหมายผลลัพธ์:</b> ระบบใช้ nearest-neighbour comparison กับ Reference Library ที่อัปโหลด โดย confidence เป็นสัดส่วนคะแนนจากเพื่อนบ้านใกล้สุด ไม่ใช่ความน่าจะเป็นที่ผ่านการสอบเทียบทางสถิติ ควรมี reference replicates หลายตัวอย่างต่อชนิดชา และควรพิจารณาระยะห่างด้วย หากตัวอย่างไม่ใกล้กับ reference ใดชัดเจน ให้จัดเป็น “ต้องตรวจสอบ / อาจเป็นชาอื่น” ไม่ควรยืนยันชนิดจากคะแนนเพียงอย่างเดียว</div>
+</div>
+</section>
+<section id="blend" class="panel">
+<div class="card"><h2>ทำนายสัดส่วน Karigane Hojicha / Yuhi</h2><p class="muted">โมเดล PLS3 ที่สร้างจาก Blend Calibration 10–90% ใช้ Sensor ชุดคงที่ 8 ตัว</p>
+<div class="upload"><div>🧪 Upload Unknown Excel workbook</div><input id="blendFile" type="file" accept=".xlsx,.xls"><div class="muted">หนึ่ง Sheet = หนึ่งตัวอย่าง · ต้องมี Cycle Loop, Mode และ Sensor ที่กำหนด</div><div id="blendStatus" class="status">ยังไม่ได้อัปโหลดไฟล์</div></div>
+<button id="blendBtn" class="btn primary" disabled>ทำนายสัดส่วน A/F</button><div id="blendResults"></div>
+<div class="note"><b>ข้อจำกัด:</b> โมเดลนี้ใช้เฉพาะกับคู่ชา Karigane Hojicha (A) และ Yuhi (F) เท่านั้น ยังไม่ใช่โมเดลทำนายสัดส่วนชา 10 ชนิด และมีข้อจำกัดจากการวัด Pure references คนละวันกับ Blend calibration</div>
+</div>
+</section>
+<section id="guide" class="panel">
+<div class="card"><h2>รูปแบบไฟล์ที่ต้องเตรียม</h2><p class="muted">ไฟล์ Excel ต้องมีหนึ่ง Sheet ต่อหนึ่ง sample/replicate และมีหัวคอลัมน์ดังนี้</p>
+<table><thead><tr><th>Cycle Loop</th><th>Mode</th><th>G1</th><th>G2</th><th>...</th><th>G15</th></tr></thead><tbody><tr><td>2</td><td>Resting</td><td>...</td><td>...</td><td>...</td><td>...</td></tr><tr><td>2</td><td>Sampling</td><td>...</td><td>...</td><td>...</td><td>...</td></tr><tr><td>3</td><td>Resting</td><td>...</td><td>...</td><td>...</td><td>...</td></tr><tr><td>3</td><td>Sampling</td><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody></table>
+<p class="muted">ควรมี Cycle 2–6 ครบ และในแต่ละ Cycle ต้องมีทั้ง Resting และ Sampling</p>
+<h3>ตั้งชื่อ Sheet สำหรับ Reference Library</h3><p class="muted">ตัวอย่าง: Karigane_Rep1, Karigane_Rep2, Hikari_Rep1, Hikari_Rep2, Asahi_Rep1, Asahi_Rep2 เป็นต้น ชื่อก่อนคำว่า Rep จะถูกใช้เป็น class label</p>
+<h3>การประมวลผล</h3><p class="muted">ในแต่ละ Cycle: ค่าเฉลี่ย Sampling − ค่าเฉลี่ย Resting จากนั้นเฉลี่ย Cycle 2–6 แล้ว standardize features ก่อนเทียบระยะห่างระหว่างตัวอย่าง</p>
+</div></section>
+<div class="footer">การประมวลผลเกิดขึ้นใน browser ของผู้ใช้ ไฟล์ไม่ได้ถูกส่งไปยัง server · ต้องเชื่อมต่ออินเทอร์เน็ตเพื่อโหลดไลบรารี XLSX · ใช้ผลเป็น exploratory screening จนกว่าจะผ่าน validation</div>
+</main>
+<script>
+const SENSORS=Array.from({length:15},(_,i)=>"G"+(i+1)),BLEND_SENS=["G2","G3","G5","G6","G10","G11","G13","G14"];
+const M={mean:[17.80661345,27.61606331,13.10552381,23.54756275,34.60002801,33.81475322,19.51754902,11.68726022],scale:[2.70864691,3.28360995,3.75752387,2.83791188,4.13225603,17.11137259,3.70420457,2.31038787],coef:[4.33741581,-4.35203245,14.21143575,-9.1791381,5.63947456,16.40052251,-.81553907,-2.9215111]};
+let refData=null,unkData=null,blendData=null;
+const $=id=>document.getElementById(id);
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab))});
+$("classSensors").innerHTML=SENSORS.map(s=>'<option selected value="'+s+'">'+s+'</option>').join("");
+async function readWorkbook(file){const wb=XLSX.read(await file.arrayBuffer(),{type:"array"});return wb}
+function cleanLabel(s){return s.replace(/[_\- ]*(rep(?:licate)?|r)[_\- ]*\d+.*$/i,"").replace(/[_\- ]+/g," ").trim()||s}
+function getFeature(ws,name,selected=SENSORS){
+ const rows=XLSX.utils.sheet_to_json(ws,{defval:null});if(!rows.length)throw Error("Sheet "+name+" ไม่มีข้อมูล");
+ const h=Object.keys(rows[0]),find=x=>h.find(k=>k.trim().toLowerCase()===x.toLowerCase()),cy=find("Cycle Loop"),mo=find("Mode");
+ if(!cy||!mo)throw Error("Sheet "+name+": ต้องมี Cycle Loop และ Mode");
+ for(const s of selected)if(!find(s))throw Error("Sheet "+name+": ไม่พบ "+s);
+ const v={};
+ selected.forEach(s=>{let diffs=[];for(let c=2;c<=6;c++){const rr=rows.filter(r=>Number(r[cy])===c),rest=rr.filter(r=>String(r[mo]).toLowerCase().trim()==="resting").map(r=>Number(r[find(s)])).filter(Number.isFinite),sam=rr.filter(r=>String(r[mo]).toLowerCase().trim()==="sampling").map(r=>Number(r[find(s)])).filter(Number.isFinite);if(!rest.length||!sam.length)throw Error("Sheet "+name+": Cycle "+c+" ขาด Resting/Sampling ("+s+")");diffs.push(sam.reduce((a,b)=>a+b,0)/sam.length-rest.reduce((a,b)=>a+b,0)/rest.length)}v[s]=diffs.reduce((a,b)=>a+b,0)/diffs.length});return v
+}
+function extractBook(wb,selected){let out=[];wb.SheetNames.forEach(n=>{if(/blank|readme|guide|index/i.test(n))return;try{out.push({name:n,label:cleanLabel(n),features:getFeature(wb.Sheets[n],n,selected)})}catch(e){out.push({name:n,error:e.message})}});return out}
+$("refFile").onchange=async e=>{try{const wb=await readWorkbook(e.target.files[0]);refData=extractBook(wb,SENSORS);const good=refData.filter(x=>x.features);$("refStatus").className="status ok";$("refStatus").textContent="อ่าน "+good.length+" reference sheets สำเร็จ · "+new Set(good.map(x=>x.label)).size+" classes";$("classifyBtn").disabled=!(unkData&&good.length>=2)}catch(err){$("refStatus").className="status err";$("refStatus").textContent=err.message}};
+$("unkFile").onchange=async e=>{try{const wb=await readWorkbook(e.target.files[0]);unkData=extractBook(wb,SENSORS);const good=unkData.filter(x=>x.features);$("unkStatus").className="status ok";$("unkStatus").textContent="อ่าน "+good.length+" unknown sheets สำเร็จ";$("classifyBtn").disabled=!(refData&&refData.filter(x=>x.features).length>=2)}catch(err){$("unkStatus").className="status err";$("unkStatus").textContent=err.message}};
+$("classifyBtn").onclick=()=>{
+ const chosen=[...$("classSensors").selectedOptions].map(o=>o.value);if(chosen.length<3){$("classResults").textContent="กรุณาเลือก Sensor อย่างน้อย 3 ตัว";return}
+ const refs=refData.filter(x=>x.features),unknowns=unkData.filter(x=>x.features);if(!refs.length||!unknowns.length)return;
+ const means={},sds={};chosen.forEach(s=>{const vals=refs.map(r=>r.features[s]);means[s]=vals.reduce((a,b)=>a+b,0)/vals.length;sds[s]=Math.sqrt(vals.reduce((a,b)=>a+(b-means[s])**2,0)/Math.max(1,vals.length-1))||1});
+ let html="";unknowns.forEach(u=>{const distances=refs.map(r=>({label:r.label,name:r.name,d:Math.sqrt(chosen.reduce((sum,s)=>sum+(((u.features[s]-r.features[s])/sds[s])**2),0)/chosen.length)})).sort((a,b)=>a.d-b.d),k=Math.min(3,distances.length),votes={};distances.slice(0,k).forEach(x=>votes[x.label]=(votes[x.label]||0)+1);const ranking=Object.entries(votes).sort((a,b)=>b[1]-a[1]),top=ranking[0],conf=top[1]/k*100,nearest=distances[0].d,other=conf<67||nearest>3.5;
+ html+='<div class="result"><h3>'+u.name+'</h3><div class="big">'+(other?"Uncertain / Review":top[0])+'</div><p class="muted">'+(other?"ยังไม่สามารถจำแนกได้อย่างมั่นใจ · nearest distance "+nearest.toFixed(2):"กลุ่มที่ใกล้ที่สุด · "+conf.toFixed(0)+"% neighbour vote · nearest distance "+nearest.toFixed(2))+'</p><table><thead><tr><th>Class</th><th>Neighbour votes</th></tr></thead><tbody>'+ranking.map(([l,v])=>'<tr><td>'+l+'</td><td>'+v+'/'+k+'</td></tr>').join("")+'</tbody></table><p class="muted">Nearest references: '+distances.slice(0,k).map(x=>x.name+" ("+x.d.toFixed(2)+")").join(", ")+'</p></div>'});
+ $("classResults").innerHTML="<h3>Classification results</h3>"+html
+};
+$("blendFile").onchange=async e=>{try{const wb=await readWorkbook(e.target.files[0]);blendData=extractBook(wb,BLEND_SENS);const good=blendData.filter(x=>x.features);$("blendStatus").className="status ok";$("blendStatus").textContent="อ่าน "+good.length+" sheets สำเร็จ";$("blendBtn").disabled=!good.length}catch(err){$("blendStatus").className="status err";$("blendStatus").textContent=err.message}};
+$("blendBtn").onclick=()=>{let html="";blendData.filter(x=>x.features).forEach(x=>{const z=BLEND_SENS.reduce((a,s,i)=>a+((x.features[s]-M.mean[i])/M.scale[i])*M.coef[i],0),raw=50+z,A=Math.max(0,Math.min(100,raw)),F=100-A,w=raw<10||raw>90;html+='<div class="result"><h3>'+x.name+'</h3><div class="grid"><div><div class="muted">Karigane Hojicha (A)</div><div class="big">'+A.toFixed(1)+'%</div></div><div><div class="muted">Yuhi (F)</div><div class="big">'+F.toFixed(1)+'%</div></div></div><div class="bar"><div style="width:'+A+'%"></div></div><p class="muted">'+(w?"Warning: raw estimate "+raw.toFixed(1)+"% is outside calibration range 10–90%.":"Within calibration range 10–90%.")+'</p></div>'});$("blendResults").innerHTML=html};
+</script></body></html>
