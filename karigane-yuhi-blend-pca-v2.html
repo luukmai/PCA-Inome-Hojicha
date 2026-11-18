@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karigane × Yuhi | Calibration & Unknown PCA</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root{--bg:#f4f1ea;--paper:#fffdf7;--ink:#263322;--muted:#687463;--line:#ddd8c8;--green:#477b3f;--gold:#c59a4a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Noto Sans Thai",sans-serif}
+header{max-width:1200px;margin:20px auto 14px;padding:28px 30px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(125deg,#e8f0e2,#fbf8ef 65%,#f2e8d6)}
+main{max-width:1200px;margin:auto;padding:0 18px 55px}.eyebrow{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--green);font-weight:800}
+h1{font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.2;margin:8px 0;color:#294128}h2{font-size:1.2rem;color:#355b32;margin:0 0 6px}
+p{margin:6px 0}.muted{color:var(--muted)}.card{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:18px;margin:12px 0}
+.metrics{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.metric{background:#f7f6ee;border:1px solid var(--line);border-radius:12px;padding:10px 14px}.metric b{display:block;color:var(--green);font-size:20px}
+.controls{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}.controls label{font-size:.78rem;font-weight:800;color:#687463}.controls select{display:block;margin-top:4px;padding:9px 12px;border:1px solid #d3d8cb;border-radius:10px;background:white;color:#263322;font:inherit}
+#pca{height:610px}#calplot{height:450px}.note{background:#faf5e9;padding:12px;border-left:3px solid var(--gold);border-radius:8px;color:#695a3e}
+table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{text-align:left;padding:9px;border-bottom:1px solid var(--line)}th{background:#f3f5ed;color:#496444}
+a{color:var(--green)}@media(max-width:700px){header{margin:10px;padding:20px 16px}main{padding:0 10px 35px}.card{padding:13px}#pca{height:500px}#calplot{height:400px}}
+</style></head><body>
+<header><div class="eyebrow">eNose · Tea aroma research · blend calibration</div><h1>Karigane Hojicha × Yuhi</h1><p>Calibration blend ratios and unknown sample mapping using Response = Sampling − Resting.</p><p class="muted">Data processing: average response over Cycles 2–6 per replicate. Unknown Rep1 excluded due to poor mixing; Rep2 and Rep3 included.</p></header>
+<main>
+<section class="card"><h2>1. PCA score plot · Calibration + Unknown</h2><p class="muted">One shared PCA model fitted using the calibration samples only. Unknown samples are projected into the same PCA space.</p>
+<div class="controls"><label>DATA VIEW<select id="view"><option value="rep">Replicates</option><option value="mean">Ratio means</option></select></label><label>AXES<select id="axes"><option value="3">3D · PC1 / PC2 / PC3</option><option value="12">2D · PC1 / PC2</option><option value="13">2D · PC1 / PC3</option><option value="23">2D · PC2 / PC3</option></select></label></div>
+<div id="pca"></div><div class="metrics"><div class="metric"><b>72.01%</b>PC1</div><div class="metric"><b>14.57%</b>PC2</div><div class="metric"><b>10.52%</b>PC3</div><div class="metric"><b>97.10%</b>PC1–PC3 total</div></div>
+<p class="note">PCA uses 12 non-constant sensors (G1, G2, G3, G5, G6, G7, G8, G10, G11, G12, G13, G14). G4, G9 and G15 were constant in calibration and excluded. The PCA plot visualizes similarity; it does not itself provide a validated blend percentage.</p></section>
+<section class="card"><h2>2. Sensor-wise calibration curve · R²</h2><p class="muted">Each sensor has its own linear calibration: Response = slope × %Karigane + intercept. Select a sensor to view both replicates, the fitted line, and R².</p>
+<div class="controls"><label>SENSOR<select id="sensor"></select></label></div><div id="calplot"></div><div id="equation" class="note"></div>
+<div style="overflow-x:auto"><table><thead><tr><th>Sensor</th><th>Slope</th><th>Intercept</th><th>R²</th></tr></thead><tbody id="r2table"></tbody></table></div>
+</section>
+<section class="card"><h2>3. Exploratory PLS prediction</h2><p class="muted">Models fitted on the 10 calibration replicates using the same 12-sensor Response matrix. Cross-validation: leave one blend ratio (both replicates) out at a time.</p>
+<div style="overflow-x:auto"><table><thead><tr><th>Model</th><th>CV MAE</th><th>CV RMSE</th><th>CV R²</th></tr></thead><tbody>
+<tr><td>PLS-1</td><td>18.81</td><td>22.95</td><td>0.342</td></tr><tr><td>PLS-2</td><td>10.59</td><td>13.68</td><td>0.766</td></tr><tr><td>PLS-3</td><td>8.52</td><td>11.16</td><td>0.844</td></tr>
+</tbody></table></div>
+<div style="overflow-x:auto;margin-top:12px"><table><thead><tr><th>Unknown</th><th>PLS-1 A:F</th><th>PLS-2 A:F</th><th>PLS-3 A:F</th><th>Nearest PCA centroid</th><th>Distance</th></tr></thead><tbody>
+<tr><td>Rep2</td><td>12.78:87.22</td><td>38.79:61.21</td><td><b>43.14:56.86</b></td><td>30:70</td><td>2.006</td></tr>
+<tr><td>Rep3</td><td>11.30:88.70</td><td>53.71:46.29</td><td><b>60.26:39.74</b></td><td>30:70</td><td>4.073</td></tr>
+</tbody></table></div>
+<p class="note">PLS-3 had the lowest CV error among the three tested models, but the calibration set contains only five blend levels with two replicates each. Unknown predictions are exploratory; Rep2 and Rep3 disagree, and the PCA nearest-centroid result is not a quantitative composition estimate. Nominal weighed blend was A:F = 60:40 (0.6 g : 0.4 g).</p></section>
+<section class="card"><h2>Processing notes</h2><p>Within each cycle and sensor: Response = mean(Sampling) − mean(Resting). Cycle responses were averaged over Cycles 2–6 to obtain one feature vector per replicate. StandardScaler was fitted on calibration only; PCA was fitted on standardized calibration responses, and unknown responses were transformed using the same scaler and PCA.</p><p class="muted">Calibration date: 10–11 Nov 2026 · Unknown date: 12 Nov 2026 · Instrument/day effects may influence cross-day predictions.</p></section>
+<p class="muted"><a href="./index.html">← Back to eNose research home</a> · <a href="./karigane-yuhi-blend-pca.html">Previous Karigane–Yuhi PCA page</a></p>
+</main>
+<script>
+const C={"10:90":"#78a6a0","30:70":"#8a9b65","50:50":"#c1a05b","70:30":"#d18a50","90:10":"#bd6d4d"};
+const cal=[
+{ratio:"10:90",rep:"Rep1",pc:[0.413704,-1.577756,-2.136619]},{ratio:"10:90",rep:"Rep2",pc:[-2.660795,-0.437949,-1.063399]},
+{ratio:"30:70",rep:"Rep1",pc:[-5.296851,1.379256,1.248942]},{ratio:"30:70",rep:"Rep2",pc:[-2.328472,-0.457954,-0.412448]},
+{ratio:"50:50",rep:"Rep1",pc:[0.554193,0.543561,-0.625207]},{ratio:"50:50",rep:"Rep2",pc:[-2.312858,0.336758,0.544368]},
+{ratio:"70:30",rep:"Rep1",pc:[1.910406,-2.910357,2.076283]},{ratio:"70:30",rep:"Rep2",pc:[1.556483,0.463573,-0.043828]},
+{ratio:"90:10",rep:"Rep1",pc:[4.640801,1.492375,-0.030946]},{ratio:"90:10",rep:"Rep2",pc:[3.523389,1.168492,0.442854]}];
+const unknown=[{name:"Unknown Rep2",pc:[-5.224827,0.289685,1.833053]},{name:"Unknown Rep3",pc:[-5.825997,-0.194793,3.897977]}];
+const means={"10:90":[-1.123646,-1.007853,-1.600009],"30:70":[-3.812662,0.460651,0.418247],"50:50":[-0.879333,0.44016,-0.04042],"70:30":[1.733445,-1.223392,1.016228],"90:10":[4.082095,1.330434,0.205954]};
+const sensors=[
+["G8",0.024062,0.778750,0.956235,[1.238888,1.066185,1.490417,1.437768,1.886064,1.705359,2.365784,2.458574,3.192034,2.977305]],
+["G11",0.580778,4.775868,0.921595,[16.316664,14.787944,20.204835,10.294787,37.292261,30.340485,47.442854,45.358342,59.295263,56.814098]],
+["G7",0.135512,17.574501,0.741317,[23.036361,20.174092,17.403997,19.947807,25.166714,21.682162,27.772611,26.429395,31.491768,30.395905]],
+["G10",0.118637,28.668160,0.659415,[33.347950,31.465283,29.385445,31.973566,34.638101,29.907423,36.747832,35.376770,42.136479,41.021431]],
+["G5",0.106617,7.774673,0.644080,[13.177059,7.648905,6.186936,12.133697,12.919017,11.594947,15.621255,16.548734,18.471020,16.753669]],
+["G2",0.073020,14.155638,0.581384,[18.094443,15.790790,13.126440,15.233109,18.385518,15.599866,19.644106,18.690011,22.080700,21.421151]],
+["G12",0.014990,0.676229,0.277903,[1.009392,0.814031,1.317633,1.047860,2.012549,1.212067,-0.134367,1.813569,2.824062,2.340513]],
+["G3",0.059584,24.636887,0.263414,[30.475213,26.247739,20.812571,24.414146,29.381263,24.710922,29.369048,28.362479,31.668146,30.719106]],
+["G13",0.061460,16.444534,0.220237,[22.825479,17.576401,10.887020,18.546101,19.874717,16.058283,22.068692,21.925291,23.785969,21.627538]],
+["G14",0.031042,10.135151,0.144419,[14.327641,10.594137,6.264947,11.450266,11.701930,9.452863,13.065258,13.120734,14.000583,12.894244]],
+["G6",0.035330,21.781048,0.123990,[27.261510,22.944465,17.457513,21.027622,24.864308,21.049196,24.751955,23.960871,26.592493,25.565695]],
+["G1",0.015164,1.417570,0.095707,[1.866095,1.130966,1.496692,1.961599,1.596515,1.931754,6.264347,1.766006,1.694104,2.049796]]
+];
+const ratios=["10:90","30:70","50:50","70:30","90:10"];
+function axes(){const v=document.getElementById("axes").value;return v==="3"?[0,1,2]:v==="12"?[0,1]:v==="13"?[0,2]:[1,2]}
+function drawPCA(){const a=axes(),view=document.getElementById("view").value,tr=[];ratios.forEach(r=>{let pts=view==="rep"?cal.filter(x=>x.ratio===r):[{ratio:r,rep:"Mean",pc:means[r]}];tr.push({type:a.length===3?"scatter3d":"scatter",mode:"markers+text",name:r,x:pts.map(p=>p.pc[a[0]]),y:pts.map(p=>p.pc[a[1]]),...(a.length===3?{z:pts.map(p=>p.pc[a[2]])}:{}),text:pts.map(p=>p.rep),textposition:"top center",marker:{size:view==="rep"?7:12,color:C[r],symbol:({"10:90":"circle","30:70":"square","50:50":"diamond","70:30":"triangle-up","90:10":"hexagon"})[r]},hovertemplate:r+"<br>"+pts.map(p=>p.rep).join("")+"<extra></extra>"});});
+tr.push({type:a.length===3?"scatter3d":"scatter",mode:"markers+text",name:"Unknown",x:unknown.map(p=>p.pc[a[0]]),y:unknown.map(p=>p.pc[a[1]]),...(a.length===3?{z:unknown.map(p=>p.pc[a[2]])}:{}),text:["Rep2","Rep3"],textposition:"top center",marker:{size:10,color:"#202020",symbol:"star"},hovertemplate:"%{text}<extra>Unknown</extra>"});
+const titles=["PC1 (72.01%)","PC2 (14.57%)","PC3 (10.52%)"];const layout={paper_bgcolor:"#fffdf7",plot_bgcolor:"#fffdf7",margin:{l:0,r:0,t:20,b:10},legend:{orientation:"h",y:-.08},...(a.length===3?{scene:{xaxis:{title:titles[a[0]]},yaxis:{title:titles[a[1]]},zaxis:{title:titles[a[2]]},aspectmode:"cube"}}:{xaxis:{title:titles[a[0]]},yaxis:{title:titles[a[1]]}})};Plotly.react("pca",tr,layout,{responsive:true,displaylogo:false});}
+function drawCal(){const s=sensors.find(x=>x[0]===document.getElementById("sensor").value)||sensors[0],x=[10,10,30,30,50,50,70,70,90,90],y=s[4],lineX=[10,90],lineY=lineX.map(v=>s[1]*v+s[2]);Plotly.react("calplot",[{type:"scatter",mode:"markers",name:"Replicates",x,y,marker:{size:10,color:x.map((v,i)=>i%2?"#c59a4a":"#477b3f"),symbol:x.map((v,i)=>i%2?"square":"circle")},hovertemplate:"%{x}% A<br>Response %{y:.4f}<extra></extra>"},{type:"scatter",mode:"lines",name:"Linear fit",x:lineX,y:lineY,line:{color:"#bd6d4d",width:3}}],{paper_bgcolor:"#fffdf7",plot_bgcolor:"#fffdf7",margin:{l:60,r:20,t:15,b:55},xaxis:{title:"Karigane (A), %",dtick:20,gridcolor:"#e5e8df"},yaxis:{title:"Response",gridcolor:"#e5e8df"},legend:{orientation:"h",y:1.12}},{responsive:true,displaylogo:false});document.getElementById("equation").textContent=s[0]+": Response = "+s[1].toFixed(5)+" × %A + ("+s[2].toFixed(5)+"), R² = "+s[3].toFixed(3)+". This is a univariate fit to 10 calibration replicate points."}
+sensors.forEach(s=>{let o=document.createElement("option");o.value=s[0];o.textContent=s[0]+" · R² "+s[3].toFixed(3);document.getElementById("sensor").appendChild(o)});
+document.getElementById("r2table").innerHTML=sensors.map(s=>"<tr><td>"+s[0]+"</td><td>"+s[1].toFixed(4)+"</td><td>"+s[2].toFixed(4)+"</td><td>"+s[3].toFixed(3)+"</td></tr>").join("");
+document.getElementById("view").onchange=drawPCA;document.getElementById("axes").onchange=drawPCA;document.getElementById("sensor").onchange=drawCal;drawPCA();drawCal();
+</script></body></html>
