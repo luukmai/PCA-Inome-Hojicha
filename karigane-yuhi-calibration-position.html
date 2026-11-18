@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karigane × Yuhi | Unknown Position in Calibration</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root{--bg:#f5f6f2;--paper:#fff;--ink:#26352d;--muted:#728077;--line:#e3e9e2;--green:#315f49;--gold:#b78a4a;--blue:#477d9e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 Inter,"Noto Sans Thai",system-ui,sans-serif}
+.home{max-width:1200px;margin:auto;padding:14px 18px 0}.home a{display:inline-block;padding:9px 14px;border-radius:10px;background:var(--green);color:white;text-decoration:none;font-weight:650}
+main{max-width:1200px;margin:auto;padding:18px}.hero{padding:26px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(120deg,#e7f0e8,#f8f8f2 70%,#f3ecdf);box-shadow:0 10px 28px #2441300d}
+h1,h2{color:#244a36;margin:0 0 8px}.hero h1{font-size:clamp(25px,4vw,36px)}.muted{color:var(--muted)}.pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.pill{background:#edf4ee;border:1px solid #dce7dc;border-radius:30px;padding:5px 11px;color:var(--green);font-size:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:20px;margin:14px 0;box-shadow:0 8px 24px #24413008}.plot{height:390px;width:100%}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.metric{background:#f7f9f6;border:1px solid var(--line);border-radius:13px;padding:13px}.metric b{display:block;font-size:23px;color:var(--green)}
+.note{background:#fff8eb;border:1px solid #efdfbf;border-left:4px solid var(--gold);border-radius:10px;padding:13px 15px;color:#675a43;margin-top:14px}
+table{width:100%;border-collapse:collapse;margin-top:10px}td,th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}th{color:#49644f;background:#f5f8f4}
+@media(max-width:650px){main{padding:12px}.card{padding:14px}.metrics{grid-template-columns:1fr}.plot{height:330px}}
+</style></head><body>
+<div class="home"><a href="./index.html">← กลับหน้าหลัก</a></div>
+<main>
+<header class="hero"><div style="font-size:12px;letter-spacing:.13em;color:var(--green);font-weight:800">eNOSE · QUANTITATIVE BLEND ANALYSIS</div><h1>Karigane Hojicha × Yuhi</h1><p class="muted">Unknown sample position on the A:F calibration scale</p><div class="pills"><span class="pill">Time Domain · no FFT</span><span class="pill">Same-cycle Sampling − Resting</span><span class="pill">Cycle 2–6 mean</span><span class="pill">8 sensors</span><span class="pill">PLS exploratory estimate</span></div></header>
+<section class="card"><h2>1 · Calibration composition scale</h2><p class="muted">จุดสีคือระดับสัดส่วน Blend ที่ใช้เป็น Calibration ส่วนดาวสีดำคือตำแหน่ง Unknown ตามค่า F% ที่โมเดล PLS รอบก่อนทำนายได้</p><div id="scale" class="plot"></div><div class="metrics"><div class="metric"><b>A38.7 : F61.3</b>Unknown 1</div><div class="metric"><b>A35.3 : F64.7</b>Unknown 2</div><div class="metric"><b>A52.9 : F47.1</b>Unknown 3</div></div></section>
+<section class="card"><h2>2 · Calibration reference levels</h2><table><thead><tr><th>Calibration sample</th><th>Karigane (A)</th><th>Yuhi (F)</th></tr></thead><tbody><tr><td>A90:F10</td><td>90%</td><td>10%</td></tr><tr><td>A70:F30</td><td>70%</td><td>30%</td></tr><tr><td>A50:F50</td><td>50%</td><td>50%</td></tr><tr><td>A30:F70</td><td>30%</td><td>70%</td></tr><tr><td>A10:F90</td><td>10%</td><td>90%</td></tr></tbody></table></section>
+<section class="card"><h2>3 · How to read the plot</h2><p>ตำแหน่งดาวแสดงค่า F% ที่ PLS ประเมินได้บนแกน Calibration 10–90% F ตัวอย่างเช่น Unknown 1 อยู่ระหว่างจุด A50:F50 และ A30:F70</p><div class="note"><b>Important limitation:</b> ค่าทำนายเหล่านี้เป็นผล exploratory จากโมเดลเดิม ไม่ใช่สัดส่วนที่ยืนยันแล้ว การตรวจสอบ PCA ก่อนหน้าพบว่า Unknown อยู่ห่างจากกลุ่ม Calibration ค่อนข้างมาก และตัวอย่าง Calibration กับ Unknown วัดคนละวัน จึงไม่ควรรายงานเปอร์เซ็นต์นี้เป็น quantitative result ที่ผ่าน validation</div></section>
+<footer class="muted" style="padding:10px 4px 25px">eNose Tea Research · A:F blend calibration · Preliminary visualization</footer>
+</main>
+<script>
+const levels=[{f:10,a:90,label:"A90:F10",color:"#477d9e"},{f:30,a:70,label:"A70:F30",color:"#c18d43"},{f:50,a:50,label:"A50:F50",color:"#5e8b65"},{f:70,a:30,label:"A30:F70",color:"#b96c5c"},{f:90,a:10,label:"A10:F90",color:"#8a70a5"}];
+const unknown=[{name:"Unknown 1",f:61.3,a:38.7,y:0.28},{name:"Unknown 2",f:64.7,a:35.3,y:0.52},{name:"Unknown 3",f:47.1,a:52.9,y:0.76}];
+const traces=levels.map(d=>({type:"scatter",mode:"markers+text",name:d.label,x:[d.f],y:[0],text:[d.label],textposition:"bottom center",marker:{size:15,color:d.color,line:{color:"#fff",width:1.5}},hovertemplate:d.label+"<br>Karigane "+d.a+"%<br>Yuhi "+d.f+"%<extra></extra>"}));
+traces.push({type:"scatter",mode:"markers+text",name:"Unknown estimates",x:unknown.map(d=>d.f),y:unknown.map(d=>d.y),text:unknown.map(d=>d.name+" · "+d.f.toFixed(1)+"% F"),textposition:"top center",marker:{size:17,color:"#26352d",symbol:"star",line:{color:"#fff",width:1.5}},customdata:unknown.map(d=>[d.a,d.f]),hovertemplate:"<b>%{text}</b><br>Karigane %{customdata[0]:.1f}%<br>Yuhi %{customdata[1]:.1f}%<extra></extra>"}));
+Plotly.newPlot("scale",traces,{paper_bgcolor:"#fff",plot_bgcolor:"#fff",margin:{l:35,r:25,t:28,b:75},xaxis:{title:"Yuhi (F) proportion in calibration (%)",range:[0,100],dtick:10,gridcolor:"#e8eee8",zeroline:false},yaxis:{visible:false,range:[-0.22,1.0]},legend:{orientation:"h",y:1.16},font:{family:'Inter, "Noto Sans Thai", sans-serif',color:"#34473a"},showlegend:false},{responsive:true,displaylogo:false});
+</script></body></html>
