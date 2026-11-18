@@ -17,7 +17,17 @@
 </div>
 <div class="field"><label>เลือกชุด Sensor สำหรับจำแนกชนิดชา</label><div class="preset-grid"><button type="button" class="preset" data-set="12"><b>12 Sensors</b><small>เก็บข้อมูลกว้าง</small></button><button type="button" class="preset recommended active" data-set="8"><b>8 Sensors</b><small>แนะนำ · สมดุลระหว่างจำนวนกับข้อมูล</small></button><button type="button" class="preset" data-set="5"><b>5 Sensors</b><small>ลดจำนวน Sensor</small></button><button type="button" class="preset" data-set="3"><b>3 Sensors</b><small>ชุดเล็กสำหรับทดลอง</small></button></div><div id="presetInfo" class="muted">ชุดแนะนำ 8 Sensors</div><details class="custom"><summary>ต้องการเลือก Sensor เอง? กดเพื่อปรับ Custom sensor selection</summary><div class="muted">เลือกหรือยกเลิก Sensor ได้เองอย่างน้อย 3 ตัว</div><select id="classSensors" multiple></select></details><div class="muted">ระบบคำนวณ Resting-corrected จาก Cycle 2–6 ให้ทั้ง Reference และ Unknown ด้วยวิธีเดียวกัน</div></div>
 <button id="classifyBtn" class="btn primary" disabled>จำแนก Unknown samples</button>
-<div id="classResults"></div>
+<div class="note guide-read"><b>คู่มืออ่านผล (How to read classification results)</b>
+<p><b>1) ชื่อชนิดชาที่แสดงตัวใหญ่:</b> คือชนิดที่ได้คะแนนโหวตมากที่สุดจาก Reference ที่ใกล้ที่สุด 3 ตัวอย่าง (k = 3) ไม่ใช่การยืนยันชนิดชา 100%</p>
+<p><b>2) Neighbour votes:</b> จำนวน Reference ใน 3 อันดับแรกที่เป็นแต่ละชนิด เช่น 2/3 หมายถึง 2 จาก 3 Reference เป็นชนิดนั้น (ประมาณ 66.7% ของเสียงโหวต) ส่วน 1/3 หมายถึง 1 เสียง</p>
+<p><b>3) Nearest distance:</b> ระยะห่างของ Unknown จาก Reference ที่ใกล้ที่สุด คำนวณจาก Sensor ที่เลือกหลังปรับสเกลแล้ว ค่ายิ่งต่ำหมายถึงใกล้กว่าเมื่อเทียบภายใต้ชุด Sensor และ Reference Library เดียวกัน ไม่ควรเทียบค่าระหว่างการตั้งค่า Sensor หรือ Library ที่ต่างกันโดยตรง</p>
+<p><b>4) ทำไมขึ้น Uncertain / Review?</b> ระบบจะแสดงสถานะนี้เมื่อเสียงโหวตของกลุ่มอันดับหนึ่งต่ำกว่า 67% หรือ nearest distance มากกว่า 3.5 ดังนั้นผล 2/3 (66.7%) จึงยังถูกจัดเป็น Uncertain ตามเกณฑ์ปัจจุบัน</p>
+<div class="result"><b>ตัวอย่างจากผลจริงในภาพ</b>
+<table><thead><tr><th>Unknown</th><th>ผลโหวต</th><th>Nearest distance</th><th>อ่านผลอย่างไร</th></tr></thead><tbody>
+<tr><td>Unknown_1</td><td>A30 Karikane F70 Yuhi 1/3; A50 Karikane F50 Yuhi 1/3; A10 Karikane F90 Yuhi 1/3</td><td>2.73</td><td>เสียงแบ่งเท่ากัน 3 กลุ่ม ไม่มีชนิดใดเด่น จึงยังสรุปไม่ได้</td></tr>
+<tr><td>Unknown_2</td><td>A30 Karikane F70 Yuhi 2/3; A50 Karikane F50 Yuhi 1/3</td><td>1.54</td><td>ใกล้กลุ่ม A30/F70 มากที่สุด แต่ 2/3 = 66.7% ยังต่ำกว่าเกณฑ์ 67% เลยขึ้น Uncertain / Review</td></tr>
+</tbody></table>
+<p><b>ข้อควรระวัง:</b> vote share เป็นสัดส่วนเสียงจากเพื่อนบ้าน ไม่ใช่ calibrated probability และค่า distance 3.5 เป็นเกณฑ์คัดกรองเบื้องต้นของ prototype ไม่ใช่ค่าขอบเขตที่ผ่านการ validation แล้ว หากขึ้น Uncertain ให้รายงานว่า “ยังจำแนกไม่ได้อย่างมั่นใจ” และตรวจสอบ reference/การวัดเพิ่มเติม</p></div></div><div id="classResults"></div>
 <div class="note"><b>ความหมายผลลัพธ์:</b> ระบบใช้ nearest-neighbour comparison กับ Reference Library ที่อัปโหลด โดย confidence เป็นสัดส่วนคะแนนจากเพื่อนบ้านใกล้สุด ไม่ใช่ความน่าจะเป็นที่ผ่านการสอบเทียบทางสถิติ ควรมี reference replicates หลายตัวอย่างต่อชนิดชา และควรพิจารณาระยะห่างด้วย หากตัวอย่างไม่ใกล้กับ reference ใดชัดเจน ให้จัดเป็น “ต้องตรวจสอบ / อาจเป็นชาอื่น” ไม่ควรยืนยันชนิดจากคะแนนเพียงอย่างเดียว</div>
 </div>
 </section>
