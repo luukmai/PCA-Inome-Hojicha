@@ -31,6 +31,24 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 .lh-step h3{font-size:21px;margin:0 0 8px}.lh-step p{color:#55584f}.lh-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}.lh-tile{padding:14px;background:#f8f8f3;border:1px solid var(--line);border-radius:12px}.lh-tile b{display:block;color:var(--green);font-size:20px}.lh-tile span{font-size:11px;color:var(--muted)}.lh-formula{padding:15px;background:#f2f5ee;border:1px solid #dfe7d9;border-radius:12px;font:600 16px/1.5 ui-monospace,monospace;margin:15px 0;overflow-wrap:anywhere}.lh-example{background:#faf4e9;border-left:4px solid #bd8c4b;padding:12px 15px;border-radius:0 10px 10px 0;color:#68583e;margin:15px 0}.lh-resource{display:inline-flex;margin:8px 8px 0 0;padding:9px 12px;border:1px solid #d9e3d7;border-radius:9px;color:var(--green);font-weight:750;font-size:12px}
 .lh-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:17px;margin-top:22px}.lh-actions button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 14px;color:var(--green);font-weight:750;cursor:pointer}.lh-actions button.next{background:var(--green);color:#fff}.lh-actions button:disabled{opacity:.35;cursor:not-allowed}
 @media(max-width:1000px){.lh-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:700px){.lh-cards{grid-template-columns:1fr}.lh-tiles{grid-template-columns:1fr 1fr}.lh-body{padding:14px}}
+
+/* Storytelling presentation - same original green/cream palette */
+.story-shell{max-width:1180px;margin:0 auto}.story-progress{height:4px;background:#e5ebe3;border-radius:20px;overflow:hidden;margin:10px 0 18px}.story-progress span{display:block;height:100%;background:var(--green2);width:12.5%;transition:width .35s}
+.story-slide{display:none;min-height:min(690px,calc(100vh - 180px));background:linear-gradient(135deg,#e8f0e8 0%,#fbfaf6 65%,#f3ecdf 100%);border:1px solid #dce7dc;border-radius:24px;padding:clamp(22px,4vw,54px);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.story-slide.active{display:flex;flex-direction:column;justify-content:center;animation:storyIn .45s ease both}
+@keyframes storyIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.story-slide:after{content:"";position:absolute;width:360px;height:360px;border:1px solid #c9d9c9;border-radius:50%;right:-150px;top:-170px;box-shadow:0 0 0 35px #dfeade44,0 0 0 75px #dfeade22;pointer-events:none}
+.story-kicker{font-size:11px;letter-spacing:.18em;font-weight:850;color:var(--green2);text-transform:uppercase}.story-slide h1{font-size:clamp(34px,6vw,68px);line-height:1.06;letter-spacing:-.045em;color:#244a36;max-width:850px;margin:15px 0}.story-slide h2{font-size:clamp(27px,4vw,43px);line-height:1.12;color:#294b38;max-width:850px;margin:12px 0}.story-lead{font-size:clamp(16px,2vw,21px);color:#637568;max-width:790px}.story-small{font-size:13px;color:var(--muted);max-width:800px}
+.story-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.story-chip{border:1px solid #d5e1d5;background:#ffffffb8;color:#476a50;padding:7px 12px;border-radius:30px;font-size:12px}
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:25px 0}.story-stat{padding:18px;border:1px solid #dce6da;background:#ffffffc9;border-radius:16px}.story-stat b{display:block;font-size:clamp(27px,4vw,42px);line-height:1.15;color:var(--green)}.story-stat span{font-size:12px;color:var(--muted)}
+.story-flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:26px 0}.story-node{padding:15px 10px;border-radius:13px;border:1px solid #dbe5d9;background:#ffffffd9;position:relative;min-height:96px}.story-node b{display:block;color:var(--green);font-size:13px}.story-node span{font-size:11px;color:var(--muted)}.story-node:not(:last-child):after{content:"→";position:absolute;right:-11px;top:35%;z-index:2;color:#8ba38d;font-weight:900}
+.story-visual{height:190px;border:1px solid #d8e4d7;background:#ffffffa8;border-radius:18px;position:relative;overflow:hidden;margin:22px 0}.story-wave{position:absolute;left:4%;right:4%;top:50%;height:2px;background:#d8e4d7}.story-wave:before{content:"";position:absolute;inset:-45px 0;background:linear-gradient(90deg,transparent,#5d9870,transparent);clip-path:polygon(0 55%,8% 55%,11% 35%,14% 76%,17% 50%,23% 50%,27% 10%,30% 90%,33% 50%,42% 50%,46% 30%,49% 68%,53% 50%,62% 50%,66% 15%,69% 82%,72% 50%,82% 50%,86% 33%,89% 67%,92% 50%,100% 50%);animation:waveMove 4s linear infinite}
+@keyframes waveMove{0%{transform:translateX(-3%);opacity:.55}50%{transform:translateX(3%);opacity:1}100%{transform:translateX(-3%);opacity:.55}}
+.story-orbit{position:absolute;width:115px;height:115px;border:1px solid #8fb397;border-radius:50%;left:calc(50% - 57px);top:calc(50% - 57px);animation:orbit 12s linear infinite}.story-orbit:before,.story-orbit:after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:#477d60;top:5px;left:50%;box-shadow:0 0 0 7px #477d6022}.story-orbit:after{top:auto;left:auto;bottom:5px;right:0;background:#b78a4a}.story-center{position:absolute;left:calc(50% - 34px);top:calc(50% - 34px);width:68px;height:68px;border-radius:20px;background:#315f49;color:white;display:grid;place-items:center;font-size:24px;box-shadow:0 8px 22px #315f4933}
+@keyframes orbit{to{transform:rotate(360deg)}}.story-bar{display:flex;align-items:end;gap:13px;height:170px;padding:18px 7%;border-bottom:1px solid #d6e2d5}.story-bar i{display:block;flex:1;border-radius:9px 9px 2px 2px;background:linear-gradient(#6f9c78,#315f49);animation:barRise 1.3s ease both;transform-origin:bottom}.story-bar i:nth-child(1){height:38%}.story-bar i:nth-child(2){height:70%;animation-delay:.12s}.story-bar i:nth-child(3){height:54%;animation-delay:.24s}.story-bar i:nth-child(4){height:90%;animation-delay:.36s}.story-bar i:nth-child(5){height:62%;animation-delay:.48s}.story-bar i:nth-child(6){height:78%;animation-delay:.6s}@keyframes barRise{from{transform:scaleY(.05);opacity:.2}to{transform:scaleY(1);opacity:1}}
+.story-points{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0}.story-point{padding:16px 18px;border-radius:14px;background:#ffffffc9;border:1px solid #dce6da}.story-point b{display:block;color:var(--green);margin-bottom:4px}.story-point span{font-size:12px;color:var(--muted)}
+.story-controls{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 3px}.story-controls button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 16px;color:var(--green);font-weight:750;font-size:12px}.story-controls button.primary{background:var(--green);color:white;border-color:var(--green)}.story-controls button:disabled{opacity:.35;cursor:not-allowed}.story-counter{font-size:12px;color:var(--muted)}
+@media(max-width:800px){.story-flow{grid-template-columns:repeat(3,1fr)}.story-node:nth-child(3):after{display:none}.story-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:560px){.story-grid{grid-template-columns:1fr 1fr}.story-points{grid-template-columns:1fr}.story-slide{min-height:590px;border-radius:17px}.story-flow{grid-template-columns:repeat(2,1fr)}.story-node:nth-child(2n):after{display:none}.story-node:nth-child(3):after{display:block}.story-controls button{padding:9px 11px}}
 </style></head><body>
 <div class="shell">
 <aside class="sidebar">
@@ -49,7 +67,58 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 </aside>
 <main>
 <div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div class="status">● Research dashboard</div></div>
-<section id="home" class="page">
+<section id="story" class="page active">
+ <div class="story-shell">
+  <div class="sectionhead"><div><h2>eNose Tea Research</h2><p class="sub">Interactive storytelling presentation · Research overview to PCA analysis</p></div><span class="status">PRESENTATION MODE</span></div>
+  <div class="story-progress"><span id="storyProgress"></span></div>
+  <article class="story-slide active" data-slide="0">
+   <div class="story-kicker">TEA AROMA · ELECTRONIC NOSE</div><h1>Reading the aroma fingerprint of tea</h1><p class="story-lead">From sensor signals to patterns — exploring how an electronic nose can capture and compare tea aroma profiles.</p>
+   <div class="story-visual"><div class="story-wave"></div><div class="story-orbit"></div><div class="story-center">eN</div></div>
+   <div class="story-chips"><span class="story-chip">Pure tea analysis</span><span class="story-chip">Blend studies</span><span class="story-chip">PCA visualization</span></div>
+  </article>
+  <article class="story-slide" data-slide="1">
+   <div class="story-kicker">01 · RESEARCH QUESTION</div><h2>Can sensor responses reveal differences between tea samples?</h2><p class="story-lead">The project uses an array of gas sensors to record responses from tea samples, then transforms those signals into features that can be explored using multivariate analysis.</p>
+   <div class="story-grid"><div class="story-stat"><b>10</b><span>Pure tea groups in the current PCA workflow</span></div><div class="story-stat"><b>30</b><span>Replicate observations</span></div><div class="story-stat"><b>12</b><span>G-channel variables in the full sensor set</span></div></div>
+   <p class="story-small">The aim is to explore whether aroma-response patterns differ across tea groups and whether a smaller sensor set can retain useful separation.</p>
+  </article>
+  <article class="story-slide" data-slide="2">
+   <div class="story-kicker">02 · MEASUREMENT</div><h2>Every sample becomes a time-series fingerprint</h2><p class="story-lead">The eNose records sensor responses through repeated measurement cycles. Resting and Sampling are retained separately so the background response can be corrected within the same cycle.</p>
+   <div class="story-visual"><div class="story-wave"></div></div>
+   <div class="story-points"><div class="story-point"><b>Resting · 10 s</b><span>Record the sensor baseline before sample response.</span></div><div class="story-point"><b>Sampling · 120 s</b><span>Record sensor response during sample exposure.</span></div><div class="story-point"><b>Purging · 60 s</b><span>Clear the system between measurements.</span></div><div class="story-point"><b>Flow rate · 200</b><span>Protocol setting recorded for this dataset.</span></div></div>
+   <p class="story-small">Protocol label: R10–S120–P60–F200.</p>
+  </article>
+  <article class="story-slide" data-slide="3">
+   <div class="story-kicker">03 · DATA PREPROCESSING</div><h2>From raw signal to corrected response</h2><p class="story-lead">The resting response is subtracted from the sampling response for the same sensor and the same cycle.</p>
+   <div class="story-visual" style="display:grid;place-items:center"><div style="text-align:center"><div style="font-size:clamp(19px,3vw,32px);font-weight:800;color:#315f49">Sampling − Resting</div><div style="font-size:13px;color:#728077;margin-top:8px">same sensor · same cycle</div></div></div>
+   <div class="story-points"><div class="story-point"><b>Example · G2 / Cycle 2</b><span>Sampling = 51.10 · Resting = 22.76</span></div><div class="story-point"><b>Corrected response = 28.34</b><span>Use same-cycle correction before averaging across cycles.</span></div></div>
+   <p class="story-small">Daily blank is treated as a separate QC check, not automatically subtracted from every sample.</p>
+  </article>
+  <article class="story-slide" data-slide="4">
+   <div class="story-kicker">04 · FEATURE ENGINEERING</div><h2>Keep the cycles that best represent the response</h2><p class="story-lead">After resting correction, the current workflow averages Cycle 2–6 to produce one feature value per sensor for each replicate.</p>
+   <div class="story-flow"><div class="story-node"><b>Raw data</b><span>Sampling / Resting</span></div><div class="story-node"><b>Correction</b><span>Same-cycle S − R</span></div><div class="story-node"><b>Cycle window</b><span>Average 2–6</span></div><div class="story-node"><b>Sensor set</b><span>12 / 8 / 5 / 3</span></div><div class="story-node"><b>Z-score</b><span>Scale features</span></div><div class="story-node"><b>PCA</b><span>PC1 / PC2 / PC3</span></div></div>
+   <p class="story-small">The cycle window changes how each replicate is summarized; it does not change the number of replicate observations.</p>
+  </article>
+  <article class="story-slide" data-slide="5">
+   <div class="story-kicker">05 · SENSOR REDUCTION</div><h2>Can fewer sensors preserve the fingerprint?</h2><p class="story-lead">The workflow compares sensor sets of different sizes while keeping the same observations and preprocessing criteria.</p>
+   <div class="story-grid"><div class="story-stat"><b>12</b><span>Full sensor set</span></div><div class="story-stat"><b>8</b><span>Reduced candidate set</span></div><div class="story-stat"><b>5 / 3</b><span>Smaller sensor sets</span></div></div>
+   <div class="story-visual"><div class="story-bar"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+   <p class="story-small">Compare PCA patterns and explained variance across sensor sets. A smaller set is not automatically better; evaluate separation and repeatability together.</p>
+  </article>
+  <article class="story-slide" data-slide="6">
+   <div class="story-kicker">06 · MULTIVARIATE ANALYSIS</div><h2>PCA turns sensor features into a map</h2><p class="story-lead">Z-score standardized sensor features are transformed into principal components. PC1, PC2 and PC3 provide views of the major patterns of variation.</p>
+   <div class="story-visual" style="display:grid;place-items:center"><svg viewBox="0 0 520 190" width="100%" height="100%" role="img" aria-label="Illustrative PCA axes"><g stroke="#8ca992" stroke-width="2" fill="none"><path d="M95 150 L420 150 M95 150 L95 25 M95 150 L185 45"/></g><g fill="#477d60"><circle cx="180" cy="115" r="7"/><circle cx="205" cy="95" r="7"/><circle cx="225" cy="125" r="7"/><circle cx="315" cy="75" r="7"/><circle cx="345" cy="58" r="7"/><circle cx="370" cy="88" r="7"/></g><g fill="#b78a4a"><circle cx="155" cy="82" r="7"/><circle cx="175" cy="66" r="7"/><circle cx="198" cy="79" r="7"/><circle cx="330" cy="120" r="7"/><circle cx="360" cy="112" r="7"/></g><g fill="#637568" font-size="12"><text x="425" y="154">PC1</text><text x="72" y="22">PC2</text><text x="185" y="37">PC3</text></g></svg></div>
+   <p class="story-small">Illustrative PCA concept only. Use the interactive PCA workspace for actual scores, explained variance, replicate labels and 3D rotation.</p>
+   <div class="toolbar"><button class="btn primary" onclick="showPage('pure')">Open actual Pure Tea PCA workspace ↗</button><button class="btn" onclick="showPage('blends')">Explore Blend studies ↗</button></div>
+  </article>
+  <article class="story-slide" data-slide="7">
+   <div class="story-kicker">07 · INTERPRETATION</div><h2>A useful fingerprint must be repeatable</h2><p class="story-lead">Interpret PCA patterns alongside replicate variation, explained variance, quality-control observations and the preprocessing choices used to build each model.</p>
+   <div class="story-points"><div class="story-point"><b>Group separation</b><span>Look for distances and overlap between tea groups.</span></div><div class="story-point"><b>Replicate consistency</b><span>Check whether replicates cluster or spread within a group.</span></div><div class="story-point"><b>Sensor comparison</b><span>Compare sensor sets using the same observations and preprocessing.</span></div><div class="story-point"><b>QC context</b><span>Consider blank, drift, pump, flow and heater status.</span></div></div>
+   <p class="story-small">PCA is exploratory. Visual separation alone does not establish prediction performance for unknown samples.</p>
+   <div class="toolbar"><button class="btn primary" onclick="showPage('pure')">Explore PCA results ↗</button><button class="btn" onclick="showPage('data')">Open data workspace ↗</button></div>
+  </article>
+  <div class="story-controls"><button id="storyPrev">← Previous</button><span class="story-counter" id="storyCounter">01 / 08</span><button class="primary" id="storyNext">Next chapter →</button></div>
+ </div>
+</section><section id="home" class="page">
  <header class="hero"><div class="kicker">TEA AROMA · DATA INTEGRATION</div><h1>Tea Fingerprint<br>Research Dashboard</h1><p>พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน</p><div class="chips"><span class="chip">Interactive PCA</span><span class="chip">3D / 2D visualization</span><span class="chip">Blend comparison</span><span class="chip">Data update workspace</span></div></header>
  <div class="sectionhead"><div><h2>Research at a glance</h2><p class="sub">สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้</p></div></div>
  <div class="grid">
@@ -131,7 +200,7 @@ Demo B,Demo-B,3,0.17,0.32,0.48,0.44,0.25,0.40,0.30,0.28
  <div id="learningLesson"><div class="lh-lessonhead"><button class="lh-back" id="lhBack">← กลับไปหน้าเลือกหัวข้อ</button><div class="kicker" id="lhKicker">MODULE</div><h2 id="lhTitle"></h2><p class="sub" id="lhDesc"></p></div><div class="lh-body"><div class="lh-stepnav" id="lhStepnav"></div><article class="lh-step" id="lhContent"></article><div class="lh-actions"><button id="lhPrev">← ขั้นก่อนหน้า</button><span class="muted" id="lhCount"></span><button class="next" id="lhNext">ขั้นถัดไป →</button></div></div></div>
 </section></main></div>
 <script>
-const pages=["home","pure","blends","chem","methods","data","learning"],names={home:"OVERVIEW",pure:"PURE TEA / PCA",blends:"BLEND STUDIES",chem:"GC-MS & TPC",methods:"METHODS & QC",data:"DATA UPDATE",learning:"INTERACTIVE LEARNING HUB"};
+const pages=["story","home","pure","blends","chem","methods","data","learning"],names={story:"STORY PRESENTATION",home:"OVERVIEW",pure:"PURE TEA / PCA",blends:"BLEND STUDIES",chem:"GC-MS & TPC",methods:"METHODS & QC",data:"DATA UPDATE",learning:"INTERACTIVE LEARNING HUB"};
 const modules={
 pure:{title:"Pure Tea · PCA workflow",desc:"เส้นทางประมวลผลข้อมูล Pure Tea ตั้งแต่ raw signal ถึง PCA scores",steps:[
 ["01 · Dataset","เริ่มจากข้อมูล Pure Tea 10 กลุ่มชา โดยมี 3 replicates ต่อกลุ่ม รวมเป็น 30 observations และใช้ G-channel variables 12 ช่องใน PCA workflow","<div class='lh-tiles'><div class='lh-tile'><b>10</b><span>tea groups</span></div><div class='lh-tile'><b>30</b><span>replicate observations</span></div><div class='lh-tile'><b>12</b><span>G-channel variables</span></div></div><p>หนึ่งจุดใน PCA แทนหนึ่ง replicate ไม่ใช่หนึ่ง cycle ส่วน sensor แต่ละช่องเป็นตัวแปรที่ใช้บรรยาย observation นั้น</p>"],
@@ -172,9 +241,16 @@ document.querySelectorAll(".lh-card").forEach(b=>b.onclick=()=>{lhActive=b.datas
 document.getElementById("lhBack").onclick=()=>{document.getElementById("learningLesson").classList.remove("open");document.getElementById("learningCards").style.display="grid";};
 document.getElementById("lhPrev").onclick=()=>{if(lhIndex>0){lhIndex--;lhRender()}};
 document.getElementById("lhNext").onclick=()=>{if(lhIndex<lhModules[lhActive].steps.length-1){lhIndex++;lhRender()}else document.getElementById("lhBack").click()};
+
+let storyIndex=0;const storySlides=[...document.querySelectorAll(".story-slide")];
+function renderStory(){storySlides.forEach((el,i)=>el.classList.toggle("active",i===storyIndex));document.getElementById("storyCounter").textContent=String(storyIndex+1).padStart(2,"0")+" / "+String(storySlides.length).padStart(2,"0");document.getElementById("storyProgress").style.width=((storyIndex+1)/storySlides.length*100)+"%";document.getElementById("storyPrev").disabled=storyIndex===0;document.getElementById("storyNext").textContent=storyIndex===storySlides.length-1?"Restart ↺":"Next chapter →";}
+document.getElementById("storyPrev").onclick=()=>{if(storyIndex>0){storyIndex--;renderStory()}};
+document.getElementById("storyNext").onclick=()=>{storyIndex=storyIndex===storySlides.length-1?0:storyIndex+1;renderStory()};
+document.addEventListener("keydown",e=>{if(document.getElementById("story").classList.contains("active")){if(e.key==="ArrowRight"){storyIndex=Math.min(storySlides.length-1,storyIndex+1);renderStory()}if(e.key==="ArrowLeft"){storyIndex=Math.max(0,storyIndex-1);renderStory()}}});
+
 function showPage(id){pages.forEach(p=>document.getElementById(p).classList.toggle("active",p===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("crumb").textContent="RESEARCH WORKSPACE / "+names[id];window.scrollTo({top:0,behavior:"smooth"});if(id==="data"&&window.Plotly)Plotly.Plots.resize(document.getElementById("dataPlot"));}
 document.getElementById("nav").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(b)showPage(b.dataset.page)});
-function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);if(location.hash)openInitialPageFromHash();else showPage("learning");
+function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);if(location.hash)openInitialPageFromHash();else showPage("story");
 document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.go)}));
 const $=id=>document.getElementById(id);let importedRows=[],headers=[];
 function parseCSV(txt){const lines=txt.trim().split(/\r?\n/);return lines.map(line=>{let out=[],cur="",q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++}else q=!q}else if(c===","&&!q){out.push(cur);cur=""}else cur+=c}out.push(cur);return out})}
