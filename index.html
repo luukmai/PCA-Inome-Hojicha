@@ -36,20 +36,20 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 <aside class="sidebar">
  <div class="brand"><div class="brandmark">e</div><div><b>eNose Tea Lab</b><small>RESEARCH WORKSPACE</small></div></div>
  <div><div class="navlabel">Workspace</div><nav class="nav" id="nav">
- <button class="active" data-page="home"><span class="num">01</span> ภาพรวม</button>
+ <button data-page="home"><span class="num">01</span> ภาพรวม</button>
  <button data-page="pure"><span class="num">02</span> ชา 10 ชนิด</button>
  <button data-page="blends"><span class="num">03</span> Blend studies</button>
  <button data-page="chem"><span class="num">04</span> GC-MS & TPC</button>
  <button data-page="methods"><span class="num">05</span> Methods & QC</button>
  <button data-page="data"><span class="num">06</span> จัดการข้อมูล</button>
- <button data-page="learning"><span class="num">07</span> Learning Hub</button>
+ <button class="active" data-page="learning"><span class="num">07</span> Learning Hub</button>
  <button onclick="location.href='tea-identification.html'"><span class="num">07</span> Tea identification</button>
  </nav></div>
  <div class="sidefoot">eNose · HS-SPME-GC-MS · TPC<br>Mahidol University · Tea Aroma Research</div>
 </aside>
 <main>
 <div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div class="status">● Research dashboard</div></div>
-<section id="home" class="page active">
+<section id="home" class="page">
  <header class="hero"><div class="kicker">TEA AROMA · DATA INTEGRATION</div><h1>Tea Fingerprint<br>Research Dashboard</h1><p>พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน</p><div class="chips"><span class="chip">Interactive PCA</span><span class="chip">3D / 2D visualization</span><span class="chip">Blend comparison</span><span class="chip">Data update workspace</span></div></header>
  <div class="sectionhead"><div><h2>Research at a glance</h2><p class="sub">สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้</p></div></div>
  <div class="grid">
@@ -118,7 +118,7 @@ Demo B,Demo-B,3,0.17,0.32,0.48,0.44,0.25,0.40,0.30,0.28
   <div class="card span12"><h3>03 · Choose columns and calculate PCA</h3><p class="muted">เลือกคอลัมน์กลุ่มและ sensor features ก่อนสร้าง PCA — ระบบจะ standardize แต่ละ sensor ด้วย Z-score แล้วคำนวณ PCA จากแถวที่นำเข้า</p><div class="fieldrow"><div class="field"><label>Group / colour by</label><select id="groupCol"></select></div><div class="field"><label>Label / hover</label><select id="labelCol"></select></div><div class="field"><label>Replicate / marker text</label><select id="repCol"></select></div></div><div class="field"><label>Sensor columns (เลือกหลายตัวด้วย Ctrl / Cmd)</label><select id="sensorCols" multiple size="5" style="min-width:240px;max-width:100%;border:1px solid var(--line);border-radius:9px;padding:8px"></select></div><div class="toolbar"><button class="btn primary" id="runPcaBtn">Calculate PCA</button><span class="muted" id="pcaStatus">ยังไม่ได้คำนวณ</span></div><div id="varianceCards" class="grid" style="margin:12px 0"><div class="metric span3"><b id="pc1Var">—</b><span>PC1 variance</span></div><div class="metric span3"><b id="pc2Var">—</b><span>PC2 variance</span></div><div class="metric span3"><b id="pc3Var">—</b><span>PC3 variance</span></div><div class="metric span3"><b id="pcCumVar">—</b><span>Cumulative PC1–PC3</span></div></div><div id="dataPlot" class="plot"></div><div id="dataTable" class="tablewrap"></div><div class="notice">PCA ที่คำนวณในหน้านี้เป็นผลใหม่จากข้อมูลที่อัปโหลด ไม่ได้แก้ไข dataset ที่เผยแพร่ในหน้า Pure tea หรือ Blend จนกว่าจะนำไฟล์ต้นฉบับที่ผ่าน QC มาอัปเดต</div></div>
  </div>
 </section>
-<section id="learning" class="page">
+<section id="learning" class="page active">
  <div class="sectionhead"><div><h2>eNose Research · Learning Hub</h2><p class="sub">เลือกหัวข้อจากการ์ด แล้วเรียนรู้ขั้นตอนภายในหน้า Dashboard เดียวกัน</p></div></div>
  <div class="lh-cards" id="learningCards">
  <button class="lh-card" data-module="pure"><div class="lh-cardtop"><span class="lh-icon">◉</span><span class="lh-num">MODULE 01</span></div><h3>Pure Tea · PCA workflow</h3><p>จาก raw signal, resting correction, cycle และ sensor selection ไปจนถึง PCA</p><div class="lh-tags"><span class="lh-tag">10 tea groups</span><span class="lh-tag">30 replicates</span><span class="lh-tag">12 / 8 / 5 / 3 sensors</span></div><span class="lh-enter">เข้าเรียนหัวข้อ 1 →</span></button>
@@ -174,7 +174,7 @@ document.getElementById("lhPrev").onclick=()=>{if(lhIndex>0){lhIndex--;lhRender(
 document.getElementById("lhNext").onclick=()=>{if(lhIndex<lhModules[lhActive].steps.length-1){lhIndex++;lhRender()}else document.getElementById("lhBack").click()};
 function showPage(id){pages.forEach(p=>document.getElementById(p).classList.toggle("active",p===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("crumb").textContent="RESEARCH WORKSPACE / "+names[id];window.scrollTo({top:0,behavior:"smooth"});if(id==="data"&&window.Plotly)Plotly.Plots.resize(document.getElementById("dataPlot"));}
 document.getElementById("nav").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(b)showPage(b.dataset.page)});
-function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);openInitialPageFromHash();
+function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);if(location.hash)openInitialPageFromHash();else showPage("learning");
 document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.go)}));
 const $=id=>document.getElementById(id);let importedRows=[],headers=[];
 function parseCSV(txt){const lines=txt.trim().split(/\r?\n/);return lines.map(line=>{let out=[],cur="",q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++}else q=!q}else if(c===","&&!q){out.push(cur);cur=""}else cur+=c}out.push(cur);return out})}
