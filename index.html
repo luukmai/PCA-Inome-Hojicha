@@ -61,13 +61,13 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
  <button data-page="methods"><span class="num">05</span> Methods & QC</button>
  <button data-page="data"><span class="num">06</span> จัดการข้อมูล</button>
  <button class="active" data-page="story"><span class="num">07</span> SCBT316 · Course recap</button>
- <button onclick="location.href='tea-identification.html'"><span class="num">07</span> Tea identification</button>
- <button onclick="location.href='scbt316.html'"><span class="num">08</span> SCBT316 course</button>
+ <button type="button" data-page="identify"><span class="num">08</span> Tea identification</button>
+ <button type="button" data-page="course"><span class="num">09</span> SCBT316 course</button>
  </nav></div>
  <div class="sidefoot">eNose · HS-SPME-GC-MS · TPC<br>Mahidol University · Tea Aroma Research</div>
 </aside>
 <main>
-<div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div class="status">● Research dashboard</div></div>
+<div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div style="display:flex;align-items:center;gap:10px"><div class="status" id="dashStatus">● Research dashboard</div><div class="lang-switch"><button type="button" id="dashTH" class="active">TH</button><button type="button" id="dashEN">EN</button></div></div></div>
 <section id="story" class="page active" style="padding:0;overflow:hidden">
  <iframe src="scbt316.html?v=20261127-12" title="SCBT316 Course Recap" style="display:block;width:100%;height:calc(100vh - 76px);min-height:760px;border:0;border-radius:18px;background:#f6f5ef" loading="eager" allow="autoplay; fullscreen"></iframe>
 </section><section id="home" class="page">
@@ -200,7 +200,7 @@ document.getElementById("storyPrev").onclick=()=>{if(storyIndex>0){storyIndex--;
 document.getElementById("storyNext").onclick=()=>{storyIndex=storyIndex===storySlides.length-1?0:storyIndex+1;renderStory()};
 document.addEventListener("keydown",e=>{if(document.getElementById("story").classList.contains("active")){if(e.key==="ArrowRight"){storyIndex=Math.min(storySlides.length-1,storyIndex+1);renderStory()}if(e.key==="ArrowLeft"){storyIndex=Math.max(0,storyIndex-1);renderStory()}}});
 
-function showPage(id){pages.forEach(p=>document.getElementById(p).classList.toggle("active",p===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("crumb").textContent="RESEARCH WORKSPACE / "+names[id];window.scrollTo({top:0,behavior:"smooth"});if(id==="data"&&window.Plotly)Plotly.Plots.resize(document.getElementById("dataPlot"));}
+function showPage(id){if(id==="identify"){location.href="tea-identification.html";return}if(id==="course"){location.href="scbt316.html";return}if(!pages.includes(id))return;pages.forEach(p=>{const el=document.getElementById(p);if(el)el.classList.toggle("active",p===id)});document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("crumb").textContent="RESEARCH WORKSPACE / "+(names[id]||id.toUpperCase());window.scrollTo({top:0,behavior:"smooth"});if(id==="data"&&window.Plotly){const plot=document.getElementById("dataPlot");if(plot)Plotly.Plots.resize(plot)}}
 document.getElementById("nav").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(b)showPage(b.dataset.page)});
 function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);if(location.hash)openInitialPageFromHash();else showPage("story");
 document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.go)}));
@@ -238,4 +238,35 @@ $("fileInput").addEventListener("change",async e=>{const f=e.target.files[0];if(
 const order=C.map((r,i)=>({i,val:r[i]})).sort((a,b)=>b.val-a.val),total=order.reduce((s,x)=>s+Math.max(0,x.val),0),pcs=order.slice(0,3);if(pcs.length<3)throw Error("ต้องใช้ sensor อย่างน้อย 3 ตัวเพื่อแสดง 3D PCA");return{scores:Z.map(row=>pcs.map(pc=>row.reduce((s,v,j)=>s+v*V[j][pc.i],0))),variance:pcs.map(pc=>100*pc.val/total)}}
 $("runPcaBtn").onclick=()=>{try{if(!importedRows.length)loadRows(parseCSV($("csvEditor").value));const group=$("groupCol").value,label=$("labelCol").value,rep=$("repCol").value,sensors=[...$("sensorCols").selectedOptions].map(o=>o.value);if(sensors.length<3)throw Error("เลือก sensor อย่างน้อย 3 ตัว");const valid=importedRows.map((r,i)=>({r,i,x:sensors.map(s=>Number(r[s]))})).filter(o=>o.x.every(Number.isFinite));if(valid.length<3)throw Error("มีแถวข้อมูลตัวเลขที่สมบูรณ์น้อยกว่า 3 แถว");const fit=pca(valid.map(o=>o.x)),groups=[...new Set(valid.map(o=>String(o.r[group]??"Unlabelled")))];const palette=["#276749","#4b83b8","#d69b36","#8b68ad","#d16b57","#4b9a9a","#bd7a9d","#87934b","#63758a","#bd8d50"];const traces=groups.map((g,i)=>{const ix=valid.map((o,j)=>String(o.r[group]??"Unlabelled")===g?j:-1).filter(j=>j>=0);return{type:"scatter3d",mode:"markers",name:g,x:ix.map(j=>fit.scores[j][0]),y:ix.map(j=>fit.scores[j][1]),z:ix.map(j=>fit.scores[j][2]),customdata:ix.map(j=>[valid[j].r[label],valid[j].r[rep]]),hovertemplate:"<b>%{customdata[0]}</b><br>Group: %{fullData.name}<br>Replicate: %{customdata[1]}<br>PC1 %{x:.2f}<br>PC2 %{y:.2f}<br>PC3 %{z:.2f}<extra></extra>",marker:{size:7,color:palette[i%palette.length],opacity:.88,symbol:ix.map(j=>{const v=String(valid[j].r[rep]??"").toLowerCase();return v.includes("rep1")?"circle":v.includes("rep2")?"diamond":v.includes("rep3")?"square":"circle-open"})}}});Plotly.newPlot("dataPlot",traces,{margin:{l:0,r:0,t:10,b:0},paper_bgcolor:"#fff",font:{color:"#334b3b"},legend:{orientation:"h",y:-.08},scene:{aspectmode:"cube",xaxis:{title:"PC1 ("+fit.variance[0].toFixed(2)+"%)"},yaxis:{title:"PC2 ("+fit.variance[1].toFixed(2)+"%)"},zaxis:{title:"PC3 ("+fit.variance[2].toFixed(2)+"%)"}}},{responsive:true,displaylogo:false});$("pc1Var").textContent=fit.variance[0].toFixed(2)+"%";$("pc2Var").textContent=fit.variance[1].toFixed(2)+"%";$("pc3Var").textContent=fit.variance[2].toFixed(2)+"%";$("pcCumVar").textContent=fit.variance.reduce((a,b)=>a+b,0).toFixed(2)+"%";$("pcaStatus").textContent=valid.length+" sample-replicates · "+sensors.length+" sensors · Rep1 circle / Rep2 diamond / Rep3 square · labels shown on hover";}catch(e){$("pcaStatus").textContent=e.message}};
 loadRows(parseCSV($("csvEditor").value));
-</script></body></html>
+</script>
+<style>
+.lang-switch{display:flex;gap:3px;padding:3px;background:#e7ece5;border:1px solid #dce5dc;border-radius:30px;flex-shrink:0}
+.lang-switch button{border:0;background:transparent;color:#496052;padding:6px 12px;border-radius:24px;font-size:11px;font-weight:800;cursor:pointer}
+.lang-switch button.active{background:#fff;color:#203f31;box-shadow:0 1px 4px #203f3118}
+.sidebar{min-width:0;z-index:20}.nav button{width:100%;min-width:0;cursor:pointer;position:relative;z-index:2;pointer-events:auto}
+@media(max-width:700px){
+.shell{display:flex!important;flex-direction:column!important;width:100%;min-width:0}
+.sidebar{position:relative!important;top:auto!important;width:100%!important;height:auto!important;min-height:0!important;padding:12px!important;gap:10px!important}
+.sidebar>div:nth-child(2){min-width:0;width:100%}
+.nav{display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;gap:6px!important;width:100%;padding:2px 2px 8px;scrollbar-width:thin}
+.nav button{display:flex!important;flex:0 0 auto!important;width:auto!important;white-space:nowrap!important;padding:9px 12px!important}
+.nav .num{display:inline-block!important;width:auto!important}
+.navlabel,.sidefoot{display:none!important}
+main{width:100%!important;min-width:0!important;padding:14px 12px 40px!important}
+.topline{flex-wrap:wrap}
+}
+@media(min-width:701px){.shell{grid-template-columns:250px minmax(0,1fr)!important}.sidebar{width:auto!important}}
+</style>
+<script>
+(function(){
+const dict={"ภาพรวม":"Overview","ชา 10 ชนิด":"10 tea types","จัดการข้อมูล":"Data management","กลุ่มชาในชุด pure-tea":"Tea groups in the pure-tea dataset","ชุดการทดลอง Blend":"Blend study sets","เลือกหัวข้อที่ต้องการดูจากการ์ดด้านล่าง":"Choose a topic from the cards below","สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้":"A snapshot of the datasets currently available in this dashboard","พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน":"A workspace for tea aroma analysis, bringing together eNose fingerprints, PCA, blend studies, GC-MS and TPC.","ขั้นก่อนหน้า":"Previous step","ขั้นถัดไป":"Next step","กลับไปหน้าเลือกหัวข้อ":"Back to topic selection","จบหัวข้อนี้ ✓":"Finish this topic ✓","ต้องมี header และข้อมูลอย่างน้อย 1 แถว":"The file must contain a header and at least one data row","เลือก sensor อย่างน้อย 3 ตัว":"Select at least 3 sensors"};
+const originals=new Map();const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+while(n=walker.nextNode()){if(n.nodeValue.trim())originals.set(n,n.nodeValue)}
+function apply(l){document.documentElement.lang=l;document.getElementById("dashTH").classList.toggle("active",l==="th");document.getElementById("dashEN").classList.toggle("active",l==="en");for(const [node,original] of originals){if(!node.isConnected)continue;const key=original.trim();node.nodeValue=l==="th"?original:(dict[key]?original.replace(key,dict[key]):original)}
+const labels={home:l==="en"?"Overview":"ภาพรวม",pure:l==="en"?"10 tea types":"ชา 10 ชนิด",blends:"Blend studies",chem:"GC-MS & TPC",methods:"Methods & QC",data:l==="en"?"Data management":"จัดการข้อมูล",story:"SCBT316 · Course recap",identify:"Tea identification",course:"SCBT316 course"};
+document.querySelectorAll("#nav button[data-page]").forEach(b=>{const label=labels[b.dataset.page];if(!label)return;const num=b.querySelector(".num");b.textContent="";if(num)b.append(num);b.append(document.createTextNode(" "+label))});
+document.getElementById("dashStatus").textContent=l==="en"?"● Research dashboard":"● แดชบอร์ดงานวิจัย"}
+document.getElementById("dashTH").addEventListener("click",()=>apply("th"));document.getElementById("dashEN").addEventListener("click",()=>apply("en"));
+})();
+</script>
+</body></html>
