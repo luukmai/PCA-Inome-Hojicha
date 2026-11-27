@@ -61,15 +61,15 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
  <button data-page="methods"><span class="num">05</span> Methods & QC</button>
  <button data-page="data"><span class="num">06</span> จัดการข้อมูล</button>
  <button class="active" data-page="story"><span class="num">07</span> SCBT316 · Course recap</button>
- <button type="button" data-page="identify"><span class="num">08</span> Tea identification</button>
- <button type="button" data-page="course"><span class="num">09</span> SCBT316 course</button>
+ <button onclick="location.href='tea-identification.html'"><span class="num">07</span> Tea identification</button>
+ <button onclick="location.href='scbt316.html'"><span class="num">08</span> SCBT316 course</button>
  </nav></div>
  <div class="sidefoot">eNose · HS-SPME-GC-MS · TPC<br>Mahidol University · Tea Aroma Research</div>
 </aside>
 <main>
-<div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div style="display:flex;align-items:center;gap:10px"><div class="status" id="dashStatus">● Research dashboard</div><div class="lang-switch"><button type="button" id="dashTH" class="active">TH</button><button type="button" id="dashEN">EN</button></div></div></div>
+<div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div class="status">● Research dashboard</div></div>
 <section id="story" class="page active" style="padding:0;overflow:hidden">
- <iframe src="scbt316.html?v=20261127-16" title="SCBT316 Course Recap" style="display:block;width:100%;height:calc(100vh - 76px);min-height:760px;border:0;border-radius:18px;background:#f6f5ef" loading="eager" allow="autoplay; fullscreen"></iframe>
+ <iframe src="scbt316.html?v=20261127-11" title="SCBT316 Course Recap" style="display:block;width:100%;height:calc(100vh - 76px);min-height:760px;border:0;border-radius:18px;background:#f6f5ef" loading="eager" allow="autoplay; fullscreen"></iframe>
 </section><section id="home" class="page">
  <header class="hero"><div class="kicker">TEA AROMA · DATA INTEGRATION</div><h1>Tea Fingerprint<br>Research Dashboard</h1><p>พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน</p><div class="chips"><span class="chip">Interactive PCA</span><span class="chip">3D / 2D visualization</span><span class="chip">Blend comparison</span><span class="chip">Data update workspace</span></div></header>
  <div class="sectionhead"><div><h2>Research at a glance</h2><p class="sub">สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้</p></div></div>
@@ -139,7 +139,7 @@ Demo B,Demo-B,3,0.17,0.32,0.48,0.44,0.25,0.40,0.30,0.28
   <div class="card span12"><h3>03 · Choose columns and calculate PCA</h3><p class="muted">เลือกคอลัมน์กลุ่มและ sensor features ก่อนสร้าง PCA — ระบบจะ standardize แต่ละ sensor ด้วย Z-score แล้วคำนวณ PCA จากแถวที่นำเข้า</p><div class="fieldrow"><div class="field"><label>Group / colour by</label><select id="groupCol"></select></div><div class="field"><label>Label / hover</label><select id="labelCol"></select></div><div class="field"><label>Replicate / marker text</label><select id="repCol"></select></div></div><div class="field"><label>Sensor columns (เลือกหลายตัวด้วย Ctrl / Cmd)</label><select id="sensorCols" multiple size="5" style="min-width:240px;max-width:100%;border:1px solid var(--line);border-radius:9px;padding:8px"></select></div><div class="toolbar"><button class="btn primary" id="runPcaBtn">Calculate PCA</button><span class="muted" id="pcaStatus">ยังไม่ได้คำนวณ</span></div><div id="varianceCards" class="grid" style="margin:12px 0"><div class="metric span3"><b id="pc1Var">—</b><span>PC1 variance</span></div><div class="metric span3"><b id="pc2Var">—</b><span>PC2 variance</span></div><div class="metric span3"><b id="pc3Var">—</b><span>PC3 variance</span></div><div class="metric span3"><b id="pcCumVar">—</b><span>Cumulative PC1–PC3</span></div></div><div id="dataPlot" class="plot"></div><div id="dataTable" class="tablewrap"></div><div class="notice">PCA ที่คำนวณในหน้านี้เป็นผลใหม่จากข้อมูลที่อัปโหลด ไม่ได้แก้ไข dataset ที่เผยแพร่ในหน้า Pure tea หรือ Blend จนกว่าจะนำไฟล์ต้นฉบับที่ผ่าน QC มาอัปเดต</div></div>
  </div>
 </section>
-<section id="learning" class="page">
+<section id="learning" class="page active">
  <div class="sectionhead"><div><h2>eNose Research · Learning Hub</h2><p class="sub">เลือกหัวข้อจากการ์ด แล้วเรียนรู้ขั้นตอนภายในหน้า Dashboard เดียวกัน</p></div></div>
  <div class="lh-cards" id="learningCards">
  <button class="lh-card" data-module="pure"><div class="lh-cardtop"><span class="lh-icon">◉</span><span class="lh-num">MODULE 01</span></div><h3>Pure Tea · PCA workflow</h3><p>จาก raw signal, resting correction, cycle และ sensor selection ไปจนถึง PCA</p><div class="lh-tags"><span class="lh-tag">10 tea groups</span><span class="lh-tag">30 replicates</span><span class="lh-tag">12 / 8 / 5 / 3 sensors</span></div><span class="lh-enter">เข้าเรียนหัวข้อ 1 →</span></button>
@@ -200,7 +200,7 @@ document.getElementById("storyPrev").onclick=()=>{if(storyIndex>0){storyIndex--;
 document.getElementById("storyNext").onclick=()=>{storyIndex=storyIndex===storySlides.length-1?0:storyIndex+1;renderStory()};
 document.addEventListener("keydown",e=>{if(document.getElementById("story").classList.contains("active")){if(e.key==="ArrowRight"){storyIndex=Math.min(storySlides.length-1,storyIndex+1);renderStory()}if(e.key==="ArrowLeft"){storyIndex=Math.max(0,storyIndex-1);renderStory()}}});
 
-function showPage(id){if(id==="identify"){location.href="tea-identification.html";return}if(id==="course"){location.href="scbt316.html";return}if(!pages.includes(id))return;pages.forEach(p=>{const el=document.getElementById(p);if(el)el.classList.toggle("active",p===id)});document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("crumb").textContent="RESEARCH WORKSPACE / "+(names[id]||id.toUpperCase());window.scrollTo({top:0,behavior:"smooth"});if(id==="data"&&window.Plotly){const plot=document.getElementById("dataPlot");if(plot)Plotly.Plots.resize(plot)}}
+function showPage(id){pages.forEach(p=>document.getElementById(p).classList.toggle("active",p===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("crumb").textContent="RESEARCH WORKSPACE / "+names[id];window.scrollTo({top:0,behavior:"smooth"});if(id==="data"&&window.Plotly)Plotly.Plots.resize(document.getElementById("dataPlot"));}
 document.getElementById("nav").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(b)showPage(b.dataset.page)});
 function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);if(location.hash)openInitialPageFromHash();else showPage("story");
 document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.go)}));
@@ -238,87 +238,4 @@ $("fileInput").addEventListener("change",async e=>{const f=e.target.files[0];if(
 const order=C.map((r,i)=>({i,val:r[i]})).sort((a,b)=>b.val-a.val),total=order.reduce((s,x)=>s+Math.max(0,x.val),0),pcs=order.slice(0,3);if(pcs.length<3)throw Error("ต้องใช้ sensor อย่างน้อย 3 ตัวเพื่อแสดง 3D PCA");return{scores:Z.map(row=>pcs.map(pc=>row.reduce((s,v,j)=>s+v*V[j][pc.i],0))),variance:pcs.map(pc=>100*pc.val/total)}}
 $("runPcaBtn").onclick=()=>{try{if(!importedRows.length)loadRows(parseCSV($("csvEditor").value));const group=$("groupCol").value,label=$("labelCol").value,rep=$("repCol").value,sensors=[...$("sensorCols").selectedOptions].map(o=>o.value);if(sensors.length<3)throw Error("เลือก sensor อย่างน้อย 3 ตัว");const valid=importedRows.map((r,i)=>({r,i,x:sensors.map(s=>Number(r[s]))})).filter(o=>o.x.every(Number.isFinite));if(valid.length<3)throw Error("มีแถวข้อมูลตัวเลขที่สมบูรณ์น้อยกว่า 3 แถว");const fit=pca(valid.map(o=>o.x)),groups=[...new Set(valid.map(o=>String(o.r[group]??"Unlabelled")))];const palette=["#276749","#4b83b8","#d69b36","#8b68ad","#d16b57","#4b9a9a","#bd7a9d","#87934b","#63758a","#bd8d50"];const traces=groups.map((g,i)=>{const ix=valid.map((o,j)=>String(o.r[group]??"Unlabelled")===g?j:-1).filter(j=>j>=0);return{type:"scatter3d",mode:"markers",name:g,x:ix.map(j=>fit.scores[j][0]),y:ix.map(j=>fit.scores[j][1]),z:ix.map(j=>fit.scores[j][2]),customdata:ix.map(j=>[valid[j].r[label],valid[j].r[rep]]),hovertemplate:"<b>%{customdata[0]}</b><br>Group: %{fullData.name}<br>Replicate: %{customdata[1]}<br>PC1 %{x:.2f}<br>PC2 %{y:.2f}<br>PC3 %{z:.2f}<extra></extra>",marker:{size:7,color:palette[i%palette.length],opacity:.88,symbol:ix.map(j=>{const v=String(valid[j].r[rep]??"").toLowerCase();return v.includes("rep1")?"circle":v.includes("rep2")?"diamond":v.includes("rep3")?"square":"circle-open"})}}});Plotly.newPlot("dataPlot",traces,{margin:{l:0,r:0,t:10,b:0},paper_bgcolor:"#fff",font:{color:"#334b3b"},legend:{orientation:"h",y:-.08},scene:{aspectmode:"cube",xaxis:{title:"PC1 ("+fit.variance[0].toFixed(2)+"%)"},yaxis:{title:"PC2 ("+fit.variance[1].toFixed(2)+"%)"},zaxis:{title:"PC3 ("+fit.variance[2].toFixed(2)+"%)"}}},{responsive:true,displaylogo:false});$("pc1Var").textContent=fit.variance[0].toFixed(2)+"%";$("pc2Var").textContent=fit.variance[1].toFixed(2)+"%";$("pc3Var").textContent=fit.variance[2].toFixed(2)+"%";$("pcCumVar").textContent=fit.variance.reduce((a,b)=>a+b,0).toFixed(2)+"%";$("pcaStatus").textContent=valid.length+" sample-replicates · "+sensors.length+" sensors · Rep1 circle / Rep2 diamond / Rep3 square · labels shown on hover";}catch(e){$("pcaStatus").textContent=e.message}};
 loadRows(parseCSV($("csvEditor").value));
-</script>
-<style>
-.lang-switch{display:flex;gap:3px;padding:3px;background:#e7ece5;border:1px solid #dce5dc;border-radius:30px;flex-shrink:0}
-.lang-switch button{border:0;background:transparent;color:#496052;padding:6px 12px;border-radius:24px;font-size:11px;font-weight:800;cursor:pointer}
-.lang-switch button.active{background:#fff;color:#203f31;box-shadow:0 1px 4px #203f3118}
-.sidebar{min-width:0;z-index:20}.nav button{width:100%;min-width:0;cursor:pointer;position:relative;z-index:2;pointer-events:auto}
-@media(max-width:700px){
-.shell{display:flex!important;flex-direction:column!important;width:100%;min-width:0}
-.sidebar{position:relative!important;top:auto!important;width:100%!important;height:auto!important;min-height:0!important;padding:12px!important;gap:10px!important}
-.sidebar>div:nth-child(2){min-width:0;width:100%}
-.nav{display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;gap:6px!important;width:100%;padding:2px 2px 8px;scrollbar-width:thin}
-.nav button{display:flex!important;flex:0 0 auto!important;width:auto!important;white-space:nowrap!important;padding:9px 12px!important}
-.nav .num{display:inline-block!important;width:auto!important}
-.navlabel,.sidefoot{display:none!important}
-main{width:100%!important;min-width:0!important;padding:14px 12px 40px!important}
-.topline{flex-wrap:wrap}
-}
-@media(min-width:701px){.shell{grid-template-columns:250px minmax(0,1fr)!important}.sidebar{width:auto!important}}
-</style>
-<script>
-(function(){
-const dict={
-"ภาพรวม":"Overview","ชา 10 ชนิด":"10 tea types","จัดการข้อมูล":"Data management",
-"เลือกหัวข้อที่ต้องการดูจากการ์ดด้านล่าง":"Choose a topic from the cards below",
-"สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้":"A snapshot of the datasets currently available",
-"กลุ่มชาในชุด pure-tea":"Tea groups in the pure-tea dataset","ชุดการทดลอง Blend":"Blend study sets",
-"พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน":"A workspace for tea aroma analysis, bringing together eNose fingerprints, PCA, blend studies, GC-MS and TPC.",
-"เลือก sensor อย่างน้อย 3 ตัว":"Select at least 3 sensors","ต้องมี header และข้อมูลอย่างน้อย 1 แถว":"The file must contain a header and at least one data row",
-"ขั้นก่อนหน้า":"Previous step","ขั้นถัดไป":"Next step","กลับไปหน้าเลือกหัวข้อ":"Back to topic selection",
-"ตัวอย่าง":"Sample","จำนวน":"Count","ภาพรวม":"Overview","ชา 10 ชนิด":"10 tea types",
-"แดชบอร์ดงานวิจัย":"Research dashboard"
-};
-const navNames={home:["ภาพรวม","Overview"],pure:["ชา 10 ชนิด","10 tea types"],blends:["Blend studies","Blend studies"],chem:["GC-MS & TPC","GC-MS & TPC"],methods:["Methods & QC","Methods & QC"],data:["จัดการข้อมูล","Data management"],story:["SCBT316 · Course recap","SCBT316 · Course recap"],identify:["Tea identification","Tea identification"],course:["SCBT316 course","SCBT316 course"]};
-let current="th", originals=new WeakMap();
-function saveAndTranslate(node){
- if(node.nodeType===3){if(!originals.has(node))originals.set(node,node.nodeValue);const raw=originals.get(node),key=raw.trim();if(current==="th")node.nodeValue=raw;else if(dict[key])node.nodeValue=raw.replace(key,dict[key]);}
-}
-function translateTree(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())saveAndTranslate(n);}
-function setLang(l){
- current=l;document.documentElement.lang=l;
- document.getElementById("dashTH").classList.toggle("active",l==="th");document.getElementById("dashEN").classList.toggle("active",l==="en");
- document.querySelectorAll("#nav button[data-page]").forEach(b=>{const id=b.dataset.page, pair=navNames[id];if(!pair)return;const num=b.querySelector(".num"),label=pair[l==="th"?0:1];b.textContent="";if(num)b.append(num);b.append(document.createTextNode(" "+label));});
- document.getElementById("dashStatus").textContent=l==="en"?"● Research dashboard":"● แดชบอร์ดงานวิจัย";
- translateTree(document.querySelector("main"));
- const frame=document.querySelector("#story iframe");if(frame&&frame.contentWindow)frame.contentWindow.postMessage({type:"enose-language",lang:l},"*");
-}
-document.getElementById("dashTH").addEventListener("click",()=>setLang("th"));
-document.getElementById("dashEN").addEventListener("click",()=>setLang("en"));
-new MutationObserver(ms=>{for(const m of ms){if(m.type==="childList")m.addedNodes.forEach(n=>{if(n.nodeType===1)translateTree(n);else if(n.nodeType===3)saveAndTranslate(n)});else if(m.type==="characterData")saveAndTranslate(m.target)}}).observe(document.querySelector("main"),{subtree:true,childList:true,characterData:true});
-window.addEventListener("message",e=>{if(e.data&&e.data.type==="enose-language-request")e.source.postMessage({type:"enose-language",lang:current},"*")});
-})();
-</script>
-
-<style id="navigation-hotfix">
-.sidebar{position:relative!important;z-index:9999!important;pointer-events:auto!important}
-#nav{position:relative!important;z-index:10000!important;pointer-events:auto!important}
-#nav button{position:relative!important;z-index:10001!important;pointer-events:auto!important;touch-action:manipulation;cursor:pointer}
-main>.page{position:relative}
-</style>
-<script id="navigation-hotfix-script">
-(function(){
- function routeButton(target){
-  const b=target&&target.closest?target.closest("#nav button[data-page]"):null;
-  if(!b)return;
-  const id=b.getAttribute("data-page");
-  if(id==="identify"){location.href="./tea-identification.html";return}
-  if(id==="course"){location.href="./scbt316.html";return}
-  const allowed=["story","home","pure","blends","chem","methods","data","learning"];
-  if(!allowed.includes(id))return;
-  document.querySelectorAll("main>.page").forEach(p=>p.classList.toggle("active",p.id===id));
-  document.querySelectorAll("#nav button[data-page]").forEach(x=>x.classList.toggle("active",x===b));
-  const names={story:"SCBT316 COURSE RECAP",home:"OVERVIEW",pure:"PURE TEA / PCA",blends:"BLEND STUDIES",chem:"GC-MS & TPC",methods:"METHODS & QC",data:"DATA UPDATE",learning:"INTERACTIVE LEARNING HUB"};
-  const crumb=document.getElementById("crumb");if(crumb)crumb.textContent="RESEARCH WORKSPACE / "+names[id];
-  if(id==="data"&&window.Plotly){const plot=document.getElementById("dataPlot");if(plot)Plotly.Plots.resize(plot)}
-  if(id==="story"){const frame=document.querySelector("#story iframe");if(frame&&frame.contentWindow)frame.contentWindow.postMessage({type:"enose-language",lang:document.documentElement.lang||"th"},"*")}
-  if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
-  window.scrollTo({top:0,behavior:"smooth"});
- }
- document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#nav button[data-page]");if(b){e.preventDefault();e.stopPropagation();routeButton(b)}},true);
- document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&document.activeElement&&document.activeElement.matches("#nav button[data-page]")){e.preventDefault();routeButton(document.activeElement)}});
- window.addEventListener("load",()=>{const id=(location.hash||"").slice(1);if(["story","home","pure","blends","chem","methods","data","learning"].includes(id)){const b=document.querySelector('#nav button[data-page="'+id+'"]');if(b)routeButton(b)}});
-})();
-</script>
-</body></html>
+</script></body></html>
