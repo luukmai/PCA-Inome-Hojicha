@@ -69,7 +69,7 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 <main>
 <div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div style="display:flex;align-items:center;gap:10px"><div class="status" id="dashStatus">● Research dashboard</div><div class="lang-switch"><button type="button" id="dashTH" class="active">TH</button><button type="button" id="dashEN">EN</button></div></div></div>
 <section id="story" class="page active" style="padding:0;overflow:hidden">
- <iframe src="scbt316.html?v=20261127-14" title="SCBT316 Course Recap" style="display:block;width:100%;height:calc(100vh - 76px);min-height:760px;border:0;border-radius:18px;background:#f6f5ef" loading="eager" allow="autoplay; fullscreen"></iframe>
+ <iframe src="scbt316.html?v=20261127-16" title="SCBT316 Course Recap" style="display:block;width:100%;height:calc(100vh - 76px);min-height:760px;border:0;border-radius:18px;background:#f6f5ef" loading="eager" allow="autoplay; fullscreen"></iframe>
 </section><section id="home" class="page">
  <header class="hero"><div class="kicker">TEA AROMA · DATA INTEGRATION</div><h1>Tea Fingerprint<br>Research Dashboard</h1><p>พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน</p><div class="chips"><span class="chip">Interactive PCA</span><span class="chip">3D / 2D visualization</span><span class="chip">Blend comparison</span><span class="chip">Data update workspace</span></div></header>
  <div class="sectionhead"><div><h2>Research at a glance</h2><p class="sub">สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้</p></div></div>
@@ -139,7 +139,7 @@ Demo B,Demo-B,3,0.17,0.32,0.48,0.44,0.25,0.40,0.30,0.28
   <div class="card span12"><h3>03 · Choose columns and calculate PCA</h3><p class="muted">เลือกคอลัมน์กลุ่มและ sensor features ก่อนสร้าง PCA — ระบบจะ standardize แต่ละ sensor ด้วย Z-score แล้วคำนวณ PCA จากแถวที่นำเข้า</p><div class="fieldrow"><div class="field"><label>Group / colour by</label><select id="groupCol"></select></div><div class="field"><label>Label / hover</label><select id="labelCol"></select></div><div class="field"><label>Replicate / marker text</label><select id="repCol"></select></div></div><div class="field"><label>Sensor columns (เลือกหลายตัวด้วย Ctrl / Cmd)</label><select id="sensorCols" multiple size="5" style="min-width:240px;max-width:100%;border:1px solid var(--line);border-radius:9px;padding:8px"></select></div><div class="toolbar"><button class="btn primary" id="runPcaBtn">Calculate PCA</button><span class="muted" id="pcaStatus">ยังไม่ได้คำนวณ</span></div><div id="varianceCards" class="grid" style="margin:12px 0"><div class="metric span3"><b id="pc1Var">—</b><span>PC1 variance</span></div><div class="metric span3"><b id="pc2Var">—</b><span>PC2 variance</span></div><div class="metric span3"><b id="pc3Var">—</b><span>PC3 variance</span></div><div class="metric span3"><b id="pcCumVar">—</b><span>Cumulative PC1–PC3</span></div></div><div id="dataPlot" class="plot"></div><div id="dataTable" class="tablewrap"></div><div class="notice">PCA ที่คำนวณในหน้านี้เป็นผลใหม่จากข้อมูลที่อัปโหลด ไม่ได้แก้ไข dataset ที่เผยแพร่ในหน้า Pure tea หรือ Blend จนกว่าจะนำไฟล์ต้นฉบับที่ผ่าน QC มาอัปเดต</div></div>
  </div>
 </section>
-<section id="learning" class="page active">
+<section id="learning" class="page">
  <div class="sectionhead"><div><h2>eNose Research · Learning Hub</h2><p class="sub">เลือกหัวข้อจากการ์ด แล้วเรียนรู้ขั้นตอนภายในหน้า Dashboard เดียวกัน</p></div></div>
  <div class="lh-cards" id="learningCards">
  <button class="lh-card" data-module="pure"><div class="lh-cardtop"><span class="lh-icon">◉</span><span class="lh-num">MODULE 01</span></div><h3>Pure Tea · PCA workflow</h3><p>จาก raw signal, resting correction, cycle และ sensor selection ไปจนถึง PCA</p><div class="lh-tags"><span class="lh-tag">10 tea groups</span><span class="lh-tag">30 replicates</span><span class="lh-tag">12 / 8 / 5 / 3 sensors</span></div><span class="lh-enter">เข้าเรียนหัวข้อ 1 →</span></button>
@@ -288,6 +288,37 @@ document.getElementById("dashTH").addEventListener("click",()=>setLang("th"));
 document.getElementById("dashEN").addEventListener("click",()=>setLang("en"));
 new MutationObserver(ms=>{for(const m of ms){if(m.type==="childList")m.addedNodes.forEach(n=>{if(n.nodeType===1)translateTree(n);else if(n.nodeType===3)saveAndTranslate(n)});else if(m.type==="characterData")saveAndTranslate(m.target)}}).observe(document.querySelector("main"),{subtree:true,childList:true,characterData:true});
 window.addEventListener("message",e=>{if(e.data&&e.data.type==="enose-language-request")e.source.postMessage({type:"enose-language",lang:current},"*")});
+})();
+</script>
+
+<style id="navigation-hotfix">
+.sidebar{position:relative!important;z-index:9999!important;pointer-events:auto!important}
+#nav{position:relative!important;z-index:10000!important;pointer-events:auto!important}
+#nav button{position:relative!important;z-index:10001!important;pointer-events:auto!important;touch-action:manipulation;cursor:pointer}
+main>.page{position:relative}
+</style>
+<script id="navigation-hotfix-script">
+(function(){
+ function routeButton(target){
+  const b=target&&target.closest?target.closest("#nav button[data-page]"):null;
+  if(!b)return;
+  const id=b.getAttribute("data-page");
+  if(id==="identify"){location.href="./tea-identification.html";return}
+  if(id==="course"){location.href="./scbt316.html";return}
+  const allowed=["story","home","pure","blends","chem","methods","data","learning"];
+  if(!allowed.includes(id))return;
+  document.querySelectorAll("main>.page").forEach(p=>p.classList.toggle("active",p.id===id));
+  document.querySelectorAll("#nav button[data-page]").forEach(x=>x.classList.toggle("active",x===b));
+  const names={story:"SCBT316 COURSE RECAP",home:"OVERVIEW",pure:"PURE TEA / PCA",blends:"BLEND STUDIES",chem:"GC-MS & TPC",methods:"METHODS & QC",data:"DATA UPDATE",learning:"INTERACTIVE LEARNING HUB"};
+  const crumb=document.getElementById("crumb");if(crumb)crumb.textContent="RESEARCH WORKSPACE / "+names[id];
+  if(id==="data"&&window.Plotly){const plot=document.getElementById("dataPlot");if(plot)Plotly.Plots.resize(plot)}
+  if(id==="story"){const frame=document.querySelector("#story iframe");if(frame&&frame.contentWindow)frame.contentWindow.postMessage({type:"enose-language",lang:document.documentElement.lang||"th"},"*")}
+  if(location.hash!=="#"+id)history.replaceState(null,"","#"+id);
+  window.scrollTo({top:0,behavior:"smooth"});
+ }
+ document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("#nav button[data-page]");if(b){e.preventDefault();e.stopPropagation();routeButton(b)}},true);
+ document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&document.activeElement&&document.activeElement.matches("#nav button[data-page]")){e.preventDefault();routeButton(document.activeElement)}});
+ window.addEventListener("load",()=>{const id=(location.hash||"").slice(1);if(["story","home","pure","blends","chem","methods","data","learning"].includes(id)){const b=document.querySelector('#nav button[data-page="'+id+'"]');if(b)routeButton(b)}});
 })();
 </script>
 </body></html>
