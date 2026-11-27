@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>eNose Tea Research | Research Dashboard</title>
+<title>eNose Tea Lab | Research Dashboard</title>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
@@ -52,7 +52,7 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 </style></head><body>
 <div class="shell">
 <aside class="sidebar">
- <div class="brand"><div class="brandmark">e</div><div><b>eNose Tea Research</b><small>RESEARCH WORKSPACE</small></div></div>
+ <div class="brand"><div class="brandmark">e</div><div><b>eNose Tea Lab</b><small>RESEARCH WORKSPACE</small></div></div>
  <div><div class="navlabel">Workspace</div><nav class="nav" id="nav">
  <button data-page="home"><span class="num">01</span> ภาพรวม</button>
  <button data-page="pure"><span class="num">02</span> ชา 10 ชนิด</button>
@@ -60,7 +60,7 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
  <button data-page="chem"><span class="num">04</span> GC-MS & TPC</button>
  <button data-page="methods"><span class="num">05</span> Methods & QC</button>
  <button data-page="data"><span class="num">06</span> จัดการข้อมูล</button>
- <button class="active" data-page="story"><span class="num">07</span> SCBT316 · Course recap</button>
+ <button data-page="story"><span class="num">07</span> Story presentation</button>
  <button onclick="location.href='tea-identification.html'"><span class="num">07</span> Tea identification</button>
  <button onclick="location.href='scbt316.html'"><span class="num">08</span> SCBT316 course</button>
  </nav></div>
@@ -68,8 +68,57 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 </aside>
 <main>
 <div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div class="status">● Research dashboard</div></div>
-<section id="story" class="page" style="padding:0;overflow:hidden">
- <iframe src="scbt316.html?v=20261127-11" title="SCBT316 Course Recap" style="display:block;width:100%;height:calc(100vh - 76px);min-height:760px;border:0;border-radius:18px;background:#f6f5ef" loading="eager" allow="autoplay; fullscreen"></iframe>
+<section id="story" class="page">
+ <div class="story-shell">
+  <div class="sectionhead"><div><h2>eNose Tea Research</h2><p class="sub">Interactive storytelling presentation · Research overview to PCA analysis</p></div><span class="status">PRESENTATION MODE</span></div>
+  <div class="story-progress"><span id="storyProgress"></span></div>
+  <article class="story-slide active" data-slide="0">
+   <div class="story-kicker">TEA AROMA · ELECTRONIC NOSE</div><h1>Reading the aroma fingerprint of tea</h1><p class="story-lead">From sensor signals to patterns — exploring how an electronic nose can capture and compare tea aroma profiles.</p>
+   <div class="story-visual"><div class="story-wave"></div><div class="story-orbit"></div><div class="story-center">eN</div></div>
+   <div class="story-chips"><span class="story-chip">Pure tea analysis</span><span class="story-chip">Blend studies</span><span class="story-chip">PCA visualization</span></div>
+  </article>
+  <article class="story-slide" data-slide="1">
+   <div class="story-kicker">01 · RESEARCH QUESTION</div><h2>Can sensor responses reveal differences between tea samples?</h2><p class="story-lead">The project uses an array of gas sensors to record responses from tea samples, then transforms those signals into features that can be explored using multivariate analysis.</p>
+   <div class="story-grid"><div class="story-stat"><b>10</b><span>Pure tea groups in the current PCA workflow</span></div><div class="story-stat"><b>30</b><span>Replicate observations</span></div><div class="story-stat"><b>12</b><span>G-channel variables in the full sensor set</span></div></div>
+   <p class="story-small">The aim is to explore whether aroma-response patterns differ across tea groups and whether a smaller sensor set can retain useful separation.</p>
+  </article>
+  <article class="story-slide" data-slide="2">
+   <div class="story-kicker">02 · MEASUREMENT</div><h2>Every sample becomes a time-series fingerprint</h2><p class="story-lead">The eNose records sensor responses through repeated measurement cycles. Resting and Sampling are retained separately so the background response can be corrected within the same cycle.</p>
+   <div class="story-visual"><div class="story-wave"></div></div>
+   <div class="story-points"><div class="story-point"><b>Resting · 10 s</b><span>Record the sensor baseline before sample response.</span></div><div class="story-point"><b>Sampling · 120 s</b><span>Record sensor response during sample exposure.</span></div><div class="story-point"><b>Purging · 60 s</b><span>Clear the system between measurements.</span></div><div class="story-point"><b>Flow rate · 200</b><span>Protocol setting recorded for this dataset.</span></div></div>
+   <p class="story-small">Protocol label: R10–S120–P60–F200.</p>
+  </article>
+  <article class="story-slide" data-slide="3">
+   <div class="story-kicker">03 · DATA PREPROCESSING</div><h2>From raw signal to corrected response</h2><p class="story-lead">The resting response is subtracted from the sampling response for the same sensor and the same cycle.</p>
+   <div class="story-visual" style="display:grid;place-items:center"><div style="text-align:center"><div style="font-size:clamp(19px,3vw,32px);font-weight:800;color:#315f49">Sampling − Resting</div><div style="font-size:13px;color:#728077;margin-top:8px">same sensor · same cycle</div></div></div>
+   <div class="story-points"><div class="story-point"><b>Example · G2 / Cycle 2</b><span>Sampling = 51.10 · Resting = 22.76</span></div><div class="story-point"><b>Corrected response = 28.34</b><span>Use same-cycle correction before averaging across cycles.</span></div></div>
+   <p class="story-small">Daily blank is treated as a separate QC check, not automatically subtracted from every sample.</p>
+  </article>
+  <article class="story-slide" data-slide="4">
+   <div class="story-kicker">04 · FEATURE ENGINEERING</div><h2>Keep the cycles that best represent the response</h2><p class="story-lead">After resting correction, the current workflow averages Cycle 2–6 to produce one feature value per sensor for each replicate.</p>
+   <div class="story-flow"><div class="story-node"><b>Raw data</b><span>Sampling / Resting</span></div><div class="story-node"><b>Correction</b><span>Same-cycle S − R</span></div><div class="story-node"><b>Cycle window</b><span>Average 2–6</span></div><div class="story-node"><b>Sensor set</b><span>12 / 8 / 5 / 3</span></div><div class="story-node"><b>Z-score</b><span>Scale features</span></div><div class="story-node"><b>PCA</b><span>PC1 / PC2 / PC3</span></div></div>
+   <p class="story-small">The cycle window changes how each replicate is summarized; it does not change the number of replicate observations.</p>
+  </article>
+  <article class="story-slide" data-slide="5">
+   <div class="story-kicker">05 · SENSOR REDUCTION</div><h2>Can fewer sensors preserve the fingerprint?</h2><p class="story-lead">The workflow compares sensor sets of different sizes while keeping the same observations and preprocessing criteria.</p>
+   <div class="story-grid"><div class="story-stat"><b>12</b><span>Full sensor set</span></div><div class="story-stat"><b>8</b><span>Reduced candidate set</span></div><div class="story-stat"><b>5 / 3</b><span>Smaller sensor sets</span></div></div>
+   <div class="story-visual"><div class="story-bar"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+   <p class="story-small">Compare PCA patterns and explained variance across sensor sets. A smaller set is not automatically better; evaluate separation and repeatability together.</p>
+  </article>
+  <article class="story-slide" data-slide="6">
+   <div class="story-kicker">06 · MULTIVARIATE ANALYSIS</div><h2>PCA turns sensor features into a map</h2><p class="story-lead">Z-score standardized sensor features are transformed into principal components. PC1, PC2 and PC3 provide views of the major patterns of variation.</p>
+   <div class="story-visual" style="display:grid;place-items:center"><svg viewBox="0 0 520 190" width="100%" height="100%" role="img" aria-label="Illustrative PCA axes"><g stroke="#8ca992" stroke-width="2" fill="none"><path d="M95 150 L420 150 M95 150 L95 25 M95 150 L185 45"/></g><g fill="#477d60"><circle cx="180" cy="115" r="7"/><circle cx="205" cy="95" r="7"/><circle cx="225" cy="125" r="7"/><circle cx="315" cy="75" r="7"/><circle cx="345" cy="58" r="7"/><circle cx="370" cy="88" r="7"/></g><g fill="#b78a4a"><circle cx="155" cy="82" r="7"/><circle cx="175" cy="66" r="7"/><circle cx="198" cy="79" r="7"/><circle cx="330" cy="120" r="7"/><circle cx="360" cy="112" r="7"/></g><g fill="#637568" font-size="12"><text x="425" y="154">PC1</text><text x="72" y="22">PC2</text><text x="185" y="37">PC3</text></g></svg></div>
+   <p class="story-small">Illustrative PCA concept only. Use the interactive PCA workspace for actual scores, explained variance, replicate labels and 3D rotation.</p>
+   <div class="toolbar"><button class="btn primary" onclick="showPage('pure')">Open actual Pure Tea PCA workspace ↗</button><button class="btn" onclick="showPage('blends')">Explore Blend studies ↗</button></div>
+  </article>
+  <article class="story-slide" data-slide="7">
+   <div class="story-kicker">07 · INTERPRETATION</div><h2>A useful fingerprint must be repeatable</h2><p class="story-lead">Interpret PCA patterns alongside replicate variation, explained variance, quality-control observations and the preprocessing choices used to build each model.</p>
+   <div class="story-points"><div class="story-point"><b>Group separation</b><span>Look for distances and overlap between tea groups.</span></div><div class="story-point"><b>Replicate consistency</b><span>Check whether replicates cluster or spread within a group.</span></div><div class="story-point"><b>Sensor comparison</b><span>Compare sensor sets using the same observations and preprocessing.</span></div><div class="story-point"><b>QC context</b><span>Consider blank, drift, pump, flow and heater status.</span></div></div>
+   <p class="story-small">PCA is exploratory. Visual separation alone does not establish prediction performance for unknown samples.</p>
+   <div class="toolbar"><button class="btn primary" onclick="showPage('pure')">Explore PCA results ↗</button><button class="btn" onclick="showPage('data')">Open data workspace ↗</button></div>
+  </article>
+  <div class="story-controls"><button id="storyPrev">← Previous</button><span class="story-counter" id="storyCounter">01 / 08</span><button class="primary" id="storyNext">Next chapter →</button></div>
+ </div>
 </section><section id="home" class="page active">
  <header class="hero"><div class="kicker">TEA AROMA · DATA INTEGRATION</div><h1>Tea Fingerprint<br>Research Dashboard</h1><p>พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน</p><div class="chips"><span class="chip">Interactive PCA</span><span class="chip">3D / 2D visualization</span><span class="chip">Blend comparison</span><span class="chip">Data update workspace</span></div></header>
  <div class="sectionhead"><div><h2>Research at a glance</h2><p class="sub">สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้</p></div></div>
@@ -202,7 +251,7 @@ document.addEventListener("keydown",e=>{if(document.getElementById("story").clas
 
 function showPage(id){pages.forEach(p=>document.getElementById(p).classList.toggle("active",p===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));document.getElementById("crumb").textContent="RESEARCH WORKSPACE / "+names[id];window.scrollTo({top:0,behavior:"smooth"});if(id==="data"&&window.Plotly)Plotly.Plots.resize(document.getElementById("dataPlot"));}
 document.getElementById("nav").addEventListener("click",e=>{const b=e.target.closest("button[data-page]");if(b)showPage(b.dataset.page)});
-function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);history.replaceState(null,"",location.pathname+location.search);showPage("home");
+function openInitialPageFromHash(){const id=(location.hash||"").slice(1);if(pages.includes(id))showPage(id)};window.addEventListener("hashchange",openInitialPageFromHash);if(location.hash)openInitialPageFromHash();else showPage("home");
 document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showPage(a.dataset.go)}));
 const $=id=>document.getElementById(id);let importedRows=[],headers=[];
 function parseCSV(txt){const lines=txt.trim().split(/\r?\n/);return lines.map(line=>{let out=[],cur="",q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'){if(q&&line[i+1]==='"'){cur+='"';i++}else q=!q}else if(c===","&&!q){out.push(cur);cur=""}else cur+=c}out.push(cur);return out})}
