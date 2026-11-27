@@ -6,8 +6,8 @@
 <style>
 :root{--bg:#f4f7f3;--paper:#fff;--ink:#24372b;--muted:#718076;--line:#dfe8df;--green:#315f49;--soft:#edf4ee;--gold:#b78a4a;--blue:#356fa8}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,"Noto Sans Thai",sans-serif}main{max-width:1120px;margin:auto;padding:28px 18px 60px}a{color:var(--green)}h1{font-size:clamp(27px,4vw,40px);line-height:1.2;margin:8px 0 10px;color:#244a36}h2{font-size:20px;margin:0 0 8px;color:#294b38}h3{font-size:16px;margin:0 0 6px}.muted{color:var(--muted);font-size:13px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.back{font-size:13px}.tag{display:inline-block;background:var(--soft);color:var(--green);padding:4px 10px;border-radius:30px;font-size:11px}.hero,.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;margin:14px 0}.hero{background:linear-gradient(120deg,#e8f1e8,#fff 75%)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tabs button,.btn{border:1px solid var(--line);background:white;color:var(--green);border-radius:10px;padding:10px 14px;cursor:pointer;font:inherit;font-size:13px}.tabs button.active,.btn.primary{background:var(--green);color:white;border-color:var(--green)}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.upload{border:1.5px dashed #b7cbb9;background:#f8fbf8;border-radius:14px;padding:18px;text-align:center}.upload input{max-width:100%;margin:10px 0}.status{font-size:13px;margin-top:8px;color:var(--muted)}.status.ok{color:#16724c}.status.err{color:#a43b36}.field{display:grid;gap:5px;margin:12px 0}.field label{font-size:12px;color:var(--muted)}select{border:1px solid var(--line);padding:9px;border-radius:9px;background:white;max-width:100%}select[multiple]{min-width:260px;min-height:145px}.btn:disabled{opacity:.45;cursor:not-allowed}.note{background:#fbf5e8;border:1px solid #eee1c4;border-radius:12px;padding:13px;color:#705b32;font-size:12px;line-height:1.6;margin-top:12px}.result{background:#f8fbf8;border:1px solid var(--line);border-radius:13px;padding:15px;margin:10px 0}.bar{height:12px;background:#e9eee9;border-radius:20px;overflow:hidden;margin:8px 0}.bar>div{height:100%;background:#4c8a65}.big{font-size:28px;font-weight:750;color:var(--green)}table{border-collapse:collapse;width:100%;font-size:12px;margin-top:10px}td,th{padding:9px;border-bottom:1px solid var(--line);text-align:left}th{background:#f2f6f1;color:#48624e}.hidden{display:none}.preset-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:8px 0}.preset{display:grid;gap:3px;text-align:left;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:12px;cursor:pointer;font:inherit}.preset b{font-size:17px;color:var(--green)}.preset small{font-size:11px;color:var(--muted);line-height:1.35}.preset.active{border:2px solid var(--green);background:var(--soft)}.preset.recommended:after{content:"แนะนำ";font-size:10px;color:#fff;background:var(--green);border-radius:20px;padding:2px 7px;width:max-content}.custom{margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfdfb}.custom summary{cursor:pointer;color:var(--green);font-weight:650;font-size:13px}.custom select{margin-top:8px}.pca-tabs{margin:8px 0}.pca-tabs button{font-size:12px}.pca-tabs button.active{background:var(--green);color:white}.pca-grid{stroke:#dfe8df;stroke-width:1}.pca-axis{stroke:#718076;stroke-width:1.3}.pca-label{font:12px system-ui,sans-serif;fill:#526357}.pca-point{stroke:#fff;stroke-width:1.5}.pca-unknown{stroke:#172d21;stroke-width:2}.footer{font-size:11px;color:var(--muted);margin-top:20px}@media(max-width:700px){.preset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}main{padding:18px 12px 40px}.hero,.card{padding:15px}}
-</style></head><body><main>
-<div class="top"><a class="back" href="index.html">← กลับหน้า eNose Tea Lab</a><span class="tag">Research prototype · 2026</span></div>
+</style><style>.lang-switch{display:flex;gap:3px;padding:3px;background:#e7ece5;border:1px solid #dce5dc;border-radius:30px}.lang-switch button{border:0;background:transparent;color:#496052;padding:5px 11px;border-radius:24px;font-size:11px;font-weight:800;cursor:pointer}.lang-switch button.active{background:#fff;color:#203f31;box-shadow:0 1px 4px #203f3118}</style></head><body><main>
+<div class="top"><a class="back" href="index.html">← กลับหน้า eNose Tea Lab</a><div style="display:flex;align-items:center;gap:8px"><div class="lang-switch"><button type="button" id="idTH" class="active">TH</button><button type="button" id="idEN">EN</button></div><span class="tag">Research prototype · 2026</span></div></div>
 <section class="hero"><div class="tag">eNOSE DATA ANALYSIS</div><h1>Tea Identification<br>& Blend Prediction</h1><p class="muted">อัปโหลดข้อมูล eNose เพื่อจำแนกชนิดชาที่ไม่ทราบชื่อ หรือประเมินสัดส่วน Karigane Hojicha (A) และ Yuhi (F)</p></section>
 <div class="tabs"><button class="active" data-tab="identify">1 · Identify unknown tea</button><button data-tab="blend">2 · Predict A/F blend</button><button data-tab="guide">3 · Data guide</button></div>
 <section id="identify" class="panel active">
@@ -114,4 +114,49 @@ $("classifyBtn").onclick=()=>{
 };
 $("blendFile").onchange=async e=>{try{const wb=await readWorkbook(e.target.files[0]);blendData=extractBook(wb,BLEND_SENS);const good=blendData.filter(x=>x.features);$("blendStatus").className="status ok";$("blendStatus").textContent="อ่าน "+good.length+" sheets สำเร็จ";$("blendBtn").disabled=!good.length}catch(err){$("blendStatus").className="status err";$("blendStatus").textContent=err.message}};
 $("blendBtn").onclick=()=>{let html="";blendData.filter(x=>x.features).forEach(x=>{const z=BLEND_SENS.reduce((a,s,i)=>a+((x.features[s]-M.mean[i])/M.scale[i])*M.coef[i],0),raw=50+z,A=Math.max(0,Math.min(100,raw)),F=100-A,w=raw<10||raw>90;html+='<div class="result"><h3>'+x.name+'</h3><div class="grid"><div><div class="muted">Karigane Hojicha (A)</div><div class="big">'+A.toFixed(1)+'%</div></div><div><div class="muted">Yuhi (F)</div><div class="big">'+F.toFixed(1)+'%</div></div></div><div class="bar"><div style="width:'+A+'%"></div></div><p class="muted">'+(w?"Warning: raw estimate "+raw.toFixed(1)+"% is outside calibration range 10–90%.":"Within calibration range 10–90%.")+'</p></div>'});$("blendResults").innerHTML=html};
+</script>
+<script>
+(function(){
+const dict={
+"← กลับหน้า eNose Tea Lab":"← Back to eNose Tea Research",
+"อัปโหลดข้อมูล eNose เพื่อจำแนกชนิดชาที่ไม่ทราบชื่อ หรือประเมินสัดส่วน Karigane Hojicha (A) และ Yuhi (F)":"Upload eNose data to identify unknown tea samples or estimate the Karigane Hojicha (A) / Yuhi (F) blend ratio.",
+"จำแนกชนิดชา (Tea classification)":"Tea classification",
+"ระบบจะเรียนรู้รูปแบบจาก Reference Library ที่ผู้ใช้เตรียมไว้ แล้วเปรียบเทียบกับ Unknown sample":"The model learns patterns from the supplied reference library and compares unknown samples against it.",
+"ขั้นที่ 1 · Upload reference library":"Step 1 · Upload reference library",
+"ขั้นที่ 2 · Upload unknown samples":"Step 2 · Upload unknown samples",
+"ไฟล์ Excel ที่มีหลาย Sheet":"Excel workbook with multiple sheets",
+"ไฟล์ Excel ของตัวอย่างที่ไม่ทราบชนิด":"Excel workbook containing unknown samples",
+"หนึ่ง Sheet = หนึ่งตัวอย่าง / replicate · ตั้งชื่อ Sheet ให้ขึ้นต้นด้วยชื่อชนิดชา เช่น Hikari_Rep1":"One sheet = one sample/replicate. Start each sheet name with the tea type, e.g. Hikari_Rep1.",
+"หนึ่ง Sheet = หนึ่ง Unknown sample · ชื่อ Sheet ใช้เป็นรหัสตัวอย่างได้":"One sheet = one unknown sample. Use the sheet name as the sample ID.",
+"ยังไม่ได้อัปโหลด Reference Library":"Reference library not uploaded yet","ยังไม่ได้อัปโหลด Unknown":"Unknown samples not uploaded yet",
+"เลือกชุด Sensor สำหรับจำแนกชนิดชา":"Select sensors for tea identification",
+"เก็บข้อมูลกว้าง":"Broad sensor coverage","แนะนำ · สมดุลระหว่างจำนวนกับข้อมูล":"Recommended · balanced sensor set","ลดจำนวน Sensor":"Reduced sensor set","ชุดเล็กสำหรับทดลอง":"Minimal experimental set",
+"ชุดแนะนำ 8 Sensors":"Recommended set: 8 sensors","ต้องการเลือก Sensor เอง? กดเพื่อปรับ Custom sensor selection":"Choose sensors manually · Custom sensor selection",
+"เลือกหรือยกเลิก Sensor ได้เองอย่างน้อย 3 ตัว":"Select or deselect sensors manually (minimum 3).",
+"ระบบคำนวณ Resting-corrected จาก Cycle 2–6 ให้ทั้ง Reference และ Unknown ด้วยวิธีเดียวกัน":"Resting-corrected responses are calculated from Cycles 2–6 for both reference and unknown samples using the same method.",
+"จำแนก Unknown samples":"Classify unknown samples",
+"คู่มืออ่านผล (How to read classification results)":"How to read classification results",
+"ชื่อชนิดชาที่แสดงตัวใหญ่:":"Predicted tea type:",
+"ทำไมขึ้น Uncertain / Review?":"Why does the result show Uncertain / Review?",
+"ตัวอย่างจากผลจริงในภาพ":"Examples from actual results",
+"ผลโหวต":"Voting result","อ่านผลอย่างไร":"How to interpret",
+"ข้อควรระวัง:":"Caution:",
+"ทำนายสัดส่วน Karigane Hojicha / Yuhi":"Predict Karigane Hojicha / Yuhi blend ratio",
+"อัปโหลดไฟล์":"Upload file","คำนวณ":"Calculate","แสดง Reference ตามโมเดล PCA Calibration เดิม":"Display references from the original PCA calibration model",
+"กราฟ 3 มิติ: PC1 × PC2 × PC3 · ลากเพื่อหมุนกราฟ และซูมเพื่อดูตำแหน่งแต่ละตัวอย่าง":"3D plot: PC1 × PC2 × PC3 · Drag to rotate and zoom to inspect sample positions",
+"การแสดง Reference":"Reference display",
+"แสดงทุกตัวอย่าง (Individual replicates)":"Show all samples (individual replicates)",
+"แสดงค่าเฉลี่ยของแต่ละชนิดชา (Mean per class)":"Show the mean for each tea class",
+"เลือกชุด Sensor":"Select sensor set",
+"แนะนำ":"Recommended"
+};
+let lang="th";const originals=new WeakMap();
+function translateNode(n){if(n.nodeType!==3)return;if(!originals.has(n))originals.set(n,n.nodeValue);const raw=originals.get(n),key=raw.trim();n.nodeValue=lang==="th"?raw:(dict[key]?raw.replace(key,dict[key]):raw)}
+function scan(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())translateNode(n)}
+function setLang(l){lang=l;document.documentElement.lang=l;document.getElementById("idTH").classList.toggle("active",l==="th");document.getElementById("idEN").classList.toggle("active",l==="en");scan(document.querySelector("main"))}
+document.getElementById("idTH").onclick=()=>setLang("th");document.getElementById("idEN").onclick=()=>setLang("en");
+new MutationObserver(ms=>ms.forEach(m=>{if(m.type==="childList")m.addedNodes.forEach(n=>{if(n.nodeType===1)scan(n);else translateNode(n)});else translateNode(m.target)})).observe(document.querySelector("main"),{subtree:true,childList:true,characterData:true});
+window.addEventListener("message",e=>{if(e.data&&e.data.type==="enose-language"&&(e.data.lang==="th"||e.data.lang==="en"))setLang(e.data.lang)});
+window.parent.postMessage({type:"enose-language-request"},"*");
+})();
 </script></body></html>
