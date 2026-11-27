@@ -69,7 +69,7 @@ h2{font-size:23px;letter-spacing:-.02em;margin:0 0 5px;color:#294b38}h3{font-siz
 <main>
 <div class="topline"><div class="crumb" id="crumb">RESEARCH WORKSPACE / OVERVIEW</div><div style="display:flex;align-items:center;gap:10px"><div class="status" id="dashStatus">● Research dashboard</div><div class="lang-switch"><button type="button" id="dashTH" class="active">TH</button><button type="button" id="dashEN">EN</button></div></div></div>
 <section id="story" class="page active" style="padding:0;overflow:hidden">
- <iframe src="scbt316.html?v=20261127-12" title="SCBT316 Course Recap" style="display:block;width:100%;height:calc(100vh - 76px);min-height:760px;border:0;border-radius:18px;background:#f6f5ef" loading="eager" allow="autoplay; fullscreen"></iframe>
+ <iframe src="scbt316.html?v=20261127-14" title="SCBT316 Course Recap" style="display:block;width:100%;height:calc(100vh - 76px);min-height:760px;border:0;border-radius:18px;background:#f6f5ef" loading="eager" allow="autoplay; fullscreen"></iframe>
 </section><section id="home" class="page">
  <header class="hero"><div class="kicker">TEA AROMA · DATA INTEGRATION</div><h1>Tea Fingerprint<br>Research Dashboard</h1><p>พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน</p><div class="chips"><span class="chip">Interactive PCA</span><span class="chip">3D / 2D visualization</span><span class="chip">Blend comparison</span><span class="chip">Data update workspace</span></div></header>
  <div class="sectionhead"><div><h2>Research at a glance</h2><p class="sub">สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้</p></div></div>
@@ -259,14 +259,35 @@ main{width:100%!important;min-width:0!important;padding:14px 12px 40px!important
 </style>
 <script>
 (function(){
-const dict={"ภาพรวม":"Overview","ชา 10 ชนิด":"10 tea types","จัดการข้อมูล":"Data management","กลุ่มชาในชุด pure-tea":"Tea groups in the pure-tea dataset","ชุดการทดลอง Blend":"Blend study sets","เลือกหัวข้อที่ต้องการดูจากการ์ดด้านล่าง":"Choose a topic from the cards below","สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้":"A snapshot of the datasets currently available in this dashboard","พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน":"A workspace for tea aroma analysis, bringing together eNose fingerprints, PCA, blend studies, GC-MS and TPC.","ขั้นก่อนหน้า":"Previous step","ขั้นถัดไป":"Next step","กลับไปหน้าเลือกหัวข้อ":"Back to topic selection","จบหัวข้อนี้ ✓":"Finish this topic ✓","ต้องมี header และข้อมูลอย่างน้อย 1 แถว":"The file must contain a header and at least one data row","เลือก sensor อย่างน้อย 3 ตัว":"Select at least 3 sensors"};
-const originals=new Map();const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
-while(n=walker.nextNode()){if(n.nodeValue.trim())originals.set(n,n.nodeValue)}
-function apply(l){document.documentElement.lang=l;document.getElementById("dashTH").classList.toggle("active",l==="th");document.getElementById("dashEN").classList.toggle("active",l==="en");for(const [node,original] of originals){if(!node.isConnected)continue;const key=original.trim();node.nodeValue=l==="th"?original:(dict[key]?original.replace(key,dict[key]):original)}
-const labels={home:l==="en"?"Overview":"ภาพรวม",pure:l==="en"?"10 tea types":"ชา 10 ชนิด",blends:"Blend studies",chem:"GC-MS & TPC",methods:"Methods & QC",data:l==="en"?"Data management":"จัดการข้อมูล",story:"SCBT316 · Course recap",identify:"Tea identification",course:"SCBT316 course"};
-document.querySelectorAll("#nav button[data-page]").forEach(b=>{const label=labels[b.dataset.page];if(!label)return;const num=b.querySelector(".num");b.textContent="";if(num)b.append(num);b.append(document.createTextNode(" "+label))});
-document.getElementById("dashStatus").textContent=l==="en"?"● Research dashboard":"● แดชบอร์ดงานวิจัย"}
-document.getElementById("dashTH").addEventListener("click",()=>apply("th"));document.getElementById("dashEN").addEventListener("click",()=>apply("en"));
+const dict={
+"ภาพรวม":"Overview","ชา 10 ชนิด":"10 tea types","จัดการข้อมูล":"Data management",
+"เลือกหัวข้อที่ต้องการดูจากการ์ดด้านล่าง":"Choose a topic from the cards below",
+"สรุปขอบเขตข้อมูลที่มีอยู่ใน dashboard ตอนนี้":"A snapshot of the datasets currently available",
+"กลุ่มชาในชุด pure-tea":"Tea groups in the pure-tea dataset","ชุดการทดลอง Blend":"Blend study sets",
+"พื้นที่รวมผลการวิเคราะห์กลิ่นชา ตั้งแต่ eNose fingerprint, PCA, การทดลองชาเบลนด์ ไปจนถึง GC-MS และ TPC จัดหน้าใหม่ให้เลือกดูเป็นส่วน ๆ ไม่ปนกัน":"A workspace for tea aroma analysis, bringing together eNose fingerprints, PCA, blend studies, GC-MS and TPC.",
+"เลือก sensor อย่างน้อย 3 ตัว":"Select at least 3 sensors","ต้องมี header และข้อมูลอย่างน้อย 1 แถว":"The file must contain a header and at least one data row",
+"ขั้นก่อนหน้า":"Previous step","ขั้นถัดไป":"Next step","กลับไปหน้าเลือกหัวข้อ":"Back to topic selection",
+"ตัวอย่าง":"Sample","จำนวน":"Count","ภาพรวม":"Overview","ชา 10 ชนิด":"10 tea types",
+"แดชบอร์ดงานวิจัย":"Research dashboard"
+};
+const navNames={home:["ภาพรวม","Overview"],pure:["ชา 10 ชนิด","10 tea types"],blends:["Blend studies","Blend studies"],chem:["GC-MS & TPC","GC-MS & TPC"],methods:["Methods & QC","Methods & QC"],data:["จัดการข้อมูล","Data management"],story:["SCBT316 · Course recap","SCBT316 · Course recap"],identify:["Tea identification","Tea identification"],course:["SCBT316 course","SCBT316 course"]};
+let current="th", originals=new WeakMap();
+function saveAndTranslate(node){
+ if(node.nodeType===3){if(!originals.has(node))originals.set(node,node.nodeValue);const raw=originals.get(node),key=raw.trim();if(current==="th")node.nodeValue=raw;else if(dict[key])node.nodeValue=raw.replace(key,dict[key]);}
+}
+function translateTree(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())saveAndTranslate(n);}
+function setLang(l){
+ current=l;document.documentElement.lang=l;
+ document.getElementById("dashTH").classList.toggle("active",l==="th");document.getElementById("dashEN").classList.toggle("active",l==="en");
+ document.querySelectorAll("#nav button[data-page]").forEach(b=>{const id=b.dataset.page, pair=navNames[id];if(!pair)return;const num=b.querySelector(".num"),label=pair[l==="th"?0:1];b.textContent="";if(num)b.append(num);b.append(document.createTextNode(" "+label));});
+ document.getElementById("dashStatus").textContent=l==="en"?"● Research dashboard":"● แดชบอร์ดงานวิจัย";
+ translateTree(document.querySelector("main"));
+ const frame=document.querySelector("#story iframe");if(frame&&frame.contentWindow)frame.contentWindow.postMessage({type:"enose-language",lang:l},"*");
+}
+document.getElementById("dashTH").addEventListener("click",()=>setLang("th"));
+document.getElementById("dashEN").addEventListener("click",()=>setLang("en"));
+new MutationObserver(ms=>{for(const m of ms){if(m.type==="childList")m.addedNodes.forEach(n=>{if(n.nodeType===1)translateTree(n);else if(n.nodeType===3)saveAndTranslate(n)});else if(m.type==="characterData")saveAndTranslate(m.target)}}).observe(document.querySelector("main"),{subtree:true,childList:true,characterData:true});
+window.addEventListener("message",e=>{if(e.data&&e.data.type==="enose-language-request")e.source.postMessage({type:"enose-language",lang:current},"*")});
 })();
 </script>
 </body></html>
